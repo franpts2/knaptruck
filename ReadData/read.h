@@ -8,4 +8,6 @@
 
 void readPallets(const std::string &filename);
 
+void readTrucks(const std::string &filename);
+
 #endif //READ_H

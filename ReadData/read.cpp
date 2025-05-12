@@ -12,7 +12,7 @@ void readPallets(const std::string &filename) {
     // skip the header line
     std::getline(file, line);
 
-    std::cout << filename << ": \n";
+    //std::cout << filename << ": \n";
 
     while (std::getline(file, line)) {
         std::stringstream ss(line);
@@ -22,7 +22,7 @@ void readPallets(const std::string &filename) {
         std::getline(ss, weight, ',');
         std::getline(ss, profit, ',');
 
-        std::cout << pallet << weight << profit<< std::endl;
+        //std::cout << pallet << " "  << weight << " " << profit<< std::endl;
     }
 
 
@@ -40,12 +40,16 @@ void readTrucks(const std::string &filename) {
     // skip the header line
     std::getline(file, line);
 
+    //std::cout << filename << ": \n";
+
     while (std::getline(file, line)) {
         std::stringstream ss(line);
         std::string capacity, pallets;
 
         std::getline(ss, capacity, ',');
         std::getline(ss, pallets, ',');
+
+        //std::cout << capacity << " "  << pallets << std::endl;
     }
 
     file.close();
