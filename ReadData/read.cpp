@@ -1,10 +1,5 @@
 #include "read.h"
 
-#include <iostream>
-#include <fstream>
-#include <climits>
-#include <sstream>
-
 
 void readPallets(const std::string &filename) {
     std::ifstream file(filename);
@@ -17,6 +12,8 @@ void readPallets(const std::string &filename) {
     // skip the header line
     std::getline(file, line);
 
+    std::cout << filename << ": \n";
+
     while (std::getline(file, line)) {
         std::stringstream ss(line);
         std::string pallet, weight, profit;
@@ -24,7 +21,10 @@ void readPallets(const std::string &filename) {
         std::getline(ss, pallet, ',');
         std::getline(ss, weight, ',');
         std::getline(ss, profit, ',');
+
+        std::cout << pallet << weight << profit<< std::endl;
     }
+
 
     file.close();
 }
