@@ -11,9 +11,11 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
     for (unsigned int i = 1; i <= n; i++)
         table[i][0] = 0;
 
-    for (unsigned int i = 1; i <= n; i++) {
+    for (unsigned int i = 0; i <= n; i++) {
         for (unsigned int w = 1; w <= capacity; w++) {
-            if(w < weights[i]) {
+            if (i == 0|| w == 0)
+                table[i][w] = 0;
+            else if(w < weights[i]) {
                 table[i][w] = table[i - 1][w]; // item does not fit
             }
             else {
@@ -47,6 +49,13 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
 
     if(remainingWeight > 0) {
         usedItems[0] = true;
+    }
+
+    for (unsigned int i = 0; i <= n; i++) {
+        for (unsigned int w = 0; w <= capacity; w++) {
+            std::cout << table[i][w] << " ";
+        }
+        std::cout << std::endl;
     }
 
     return table[n-1][capacity];
