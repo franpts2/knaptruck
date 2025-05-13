@@ -1,0 +1,3 @@
+/Users/gabrielademattosbarbozadasilva/CLionProjects/DA2425_PROJ2/build/CMakeFiles/DA2425_PROJ2.dir
+/Users/gabrielademattosbarbozadasilva/CLionProjects/DA2425_PROJ2/build/CMakeFiles/edit_cache.dir
+/Users/gabrielademattosbarbozadasilva/CLionProjects/DA2425_PROJ2/build/CMakeFiles/rebuild_cache.dir
