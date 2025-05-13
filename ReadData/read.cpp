@@ -1,18 +1,18 @@
 #include "read.h"
 
 
-void readPallets(const std::string &filename) {
+unsigned int readPallets(const std::string &filename, std::vector<unsigned int> &pallets, std::vector<unsigned int> &weights, std::vector<unsigned int> &profits) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << filename << std::endl;
-        return;
+        return 0;
     }
 
     std::string line;
     // skip the header line
     std::getline(file, line);
 
-    //std::cout << filename << ": \n";
+    unsigned int index = 0;
 
     while (std::getline(file, line)) {
         std::stringstream ss(line);
@@ -22,14 +22,18 @@ void readPallets(const std::string &filename) {
         std::getline(ss, weight, ',');
         std::getline(ss, profit, ',');
 
-        //std::cout << pallet << " "  << weight << " " << profit<< std::endl;
+        pallets.push_back(std::stoi(pallet));
+        weights.push_back(std::stoi(weight));
+        profits.push_back(std::stoi(profit));
+
+        ++index;
     }
 
-
     file.close();
+    return index;
 }
 
-void readTrucks(const std::string &filename) {
+void readTrucks(const std::string &filename, unsigned int *trucksAndPallets) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << filename << std::endl;
@@ -40,8 +44,6 @@ void readTrucks(const std::string &filename) {
     // skip the header line
     std::getline(file, line);
 
-    //std::cout << filename << ": \n";
-
     while (std::getline(file, line)) {
         std::stringstream ss(line);
         std::string capacity, pallets;
@@ -49,8 +51,10 @@ void readTrucks(const std::string &filename) {
         std::getline(ss, capacity, ',');
         std::getline(ss, pallets, ',');
 
-        //std::cout << capacity << " "  << pallets << std::endl;
+        trucksAndPallets[0] = std::stoi(capacity);
+        trucksAndPallets[1] = std::stoi(pallets);
     }
 
     file.close();
+    return;
 }
