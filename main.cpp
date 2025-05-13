@@ -5,7 +5,7 @@
 int main() {
 
     unsigned int trucksAndPallets[2];
-    readTrucks("datasets-extra/TruckAndPallets_05.csv", trucksAndPallets);
+    readTrucks("datasets-extra/TruckAndPallets_10.csv", trucksAndPallets);
 
     const unsigned int n = trucksAndPallets[1];
 
@@ -13,7 +13,7 @@ int main() {
     unsigned int weights[n];
     unsigned int profits[n];
 
-    readPallets("datasets-extra/Pallets_05.csv", pallets, weights, profits);
+    readPallets("datasets-extra/Pallets_10.csv", pallets, weights, profits);
 
     bool usedItems[n];
     unsigned int finalProfit = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
