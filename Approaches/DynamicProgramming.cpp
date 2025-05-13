@@ -3,55 +3,42 @@
 unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, bool usedItems[]) {
     unsigned int table[n + 1][capacity + 1];
 
-    // first row
-    for (unsigned int i = 0; i <= capacity; i++)
-        table[0][i] = (i >= weights[0]) ? profits[0] : 0;
-
-    // capacity 0
-    for (unsigned int i = 1; i <= n; i++)
+    // Initialize table: first row and first column to 0
+    for (unsigned int i = 0; i <= n; i++)
         table[i][0] = 0;
+    for (unsigned int w = 0; w <= capacity; w++)
+        table[0][w] = 0;
 
-    for (unsigned int i = 0; i <= n; i++) {
+    // Fill table
+    for (unsigned int i = 1; i <= n; i++) {
         for (unsigned int w = 1; w <= capacity; w++) {
-            if (i == 0|| w == 0)
-                table[i][w] = 0;
-            else if(w < weights[i]) {
-                table[i][w] = table[i - 1][w]; // item does not fit
-            }
-            else {
-                unsigned int value = table[i - 1][weights[i]] + profits[i];
-                if(value > table[i - 1][w]) {
+            if (weights[i-1] > w) {
+                table[i][w] = table[i-1][w];
+            } else {
+                unsigned int value = table[i-1][w - weights[i-1]] + profits[i-1];
+                if (value > table[i-1][w]) {
                     table[i][w] = value;
-                }
-                else {
-                    table[i][w] = table[i - 1][w];
+                } else {
+                    table[i][w] = table[i-1][w];
                 }
             }
         }
     }
 
-    //backtracking to determine which items were used
-    for(unsigned int i = 0; i < n; i++) {
+    // Backtracking to determine which items were used
+    for (unsigned int i = 0; i < n; i++) {
         usedItems[i] = false;
     }
-    unsigned int remainingWeight = capacity;
-    unsigned int curItem = n - 1;
-    for(unsigned int i = n - 1; i > 0; i--) {
-
-        if(remainingWeight == 0) break;
-
-        if(table[i][remainingWeight] != table[i-1][remainingWeight]) {
-            usedItems[i] = true;
-            remainingWeight -= weights[i];
-            curItem--;
+    unsigned int w = capacity;
+    for (int i = n; i > 0; i--) {
+        if (table[i][w] != table[i-1][w]) {
+            usedItems[i-1] = true;
+            w -= weights[i-1];
         }
     }
 
-    if(remainingWeight > 0) {
-        usedItems[0] = true;
-    }
+    // Optional: print table for debugging
 
-    // to print table
     for (unsigned int i = 0; i <= n; i++) {
         for (unsigned int w = 0; w <= capacity; w++) {
             std::cout << table[i][w] << " ";
@@ -59,5 +46,6 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
         std::cout << std::endl;
     }
 
-    return table[n-1][capacity];
+
+    return table[n][capacity];
 }
