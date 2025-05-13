@@ -17,9 +17,9 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
                 table[i][w] = table[i - 1][w]; // item does not fit
             }
             else {
-                unsigned int profitUsingItemI = table[i - 1][w - weights[i]] + profits[i];
-                if(profitUsingItemI > table[i - 1][w]) {
-                    table[i][w] = profitUsingItemI;
+                unsigned int value = table[i - 1][w - weights[i]] + profits[i];
+                if(value > table[i - 1][w]) {
+                    table[i][w] = value;
                 }
                 else {
                     table[i][w] = table[i - 1][w];
@@ -35,17 +35,16 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
     unsigned int remainingWeight = capacity;
     unsigned int curItem = n - 1;
     for(unsigned int i = n - 1; i > 0; i--) {
-        // Stop earlier of the all the items have already been added to the solution
+
         if(remainingWeight == 0) break;
 
-        // An item is used if not including reduces the total value for a knapsack of the same size
         if(table[i][remainingWeight] != table[i-1][remainingWeight]) {
             usedItems[i] = true;
             remainingWeight -= weights[i];
             curItem--;
         }
     }
-    // If remainingWeight > 0, then the first item is used
+
     if(remainingWeight > 0) {
         usedItems[0] = true;
     }

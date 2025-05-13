@@ -5,7 +5,7 @@
 int main() {
 
     unsigned int trucksAndPallets[2];
-    readTrucks("datasets-extra/TruckAndPallets_05.csv", trucksAndPallets);
+    readTrucks("datasets-extra/TruckAndPallets_07.csv", trucksAndPallets);
 
     const unsigned int n = trucksAndPallets[1];
 
@@ -13,24 +13,24 @@ int main() {
     unsigned int weights[n];
     unsigned int profits[n];
 
-    readPallets("datasets-extra/Pallets_05.csv", pallets, weights, profits);
+    readPallets("datasets-extra/Pallets_07.csv", pallets, weights, profits);
 
     bool usedItems[n];
-    unsigned int finalWeight = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
+    unsigned int finalProfit = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
 
 
     // to see if it's working
-    std::cout << "Final Weight: " << finalWeight << std::endl;
+    std::cout << "Final profit: " << finalProfit << std::endl;
     std::cout << "Used Items: ";
     for (unsigned int i = 0; i < n; i++) {
         if (usedItems[i]) {
             std::cout << pallets[i] << " ";
         }
     }
+    std::cout << "\nCapacity: " << trucksAndPallets[0] << ", Pallets: " << trucksAndPallets[1] << std::endl;
     for (unsigned int i = 0; i < n; i++) {
         std::cout << "Pallet: " << pallets[i] << ", Weight: " << weights[i] << ", Profit: " << profits[i] << std::endl;
     }
-    std::cout << "Capacity: " << trucksAndPallets[0] << ", Pallets: " << trucksAndPallets[1] << std::endl;
 
 
     return 0;
