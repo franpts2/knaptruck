@@ -18,6 +18,8 @@ int main() {
     bool usedItems[n];
     unsigned int finalWeight = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
 
+
+    // to see if it's working
     std::cout << "Final Weight: " << finalWeight << std::endl;
     std::cout << "Used Items: ";
     for (unsigned int i = 0; i < n; i++) {
@@ -25,9 +27,6 @@ int main() {
             std::cout << pallets[i] << " ";
         }
     }
-
-
-    // to see if it's working
     for (unsigned int i = 0; i < n; i++) {
         std::cout << "Pallet: " << pallets[i] << ", Weight: " << weights[i] << ", Profit: " << profits[i] << std::endl;
     }
