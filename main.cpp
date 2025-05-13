@@ -4,17 +4,18 @@
 
 int main() {
 
-    std::vector<unsigned int> pallets;
-    std::vector<unsigned int> weights;
-    std::vector<unsigned int> profits;
-
     unsigned int trucksAndPallets[2];
-
-    unsigned int n = readPallets("datasets-extra/Pallets_05.csv", pallets, weights, profits);
     readTrucks("datasets-extra/TruckAndPallets_05.csv", trucksAndPallets);
 
-    bool usedItems[n] = {false};
+    unsigned int n = trucksAndPallets[1];
 
+    unsigned int pallets[n];
+    unsigned int weights[n];
+    unsigned int profits[n];
+
+    readPallets("datasets-extra/Pallets_05.csv", pallets, weights, profits);
+
+    bool usedItems[n] = {false};
     unsigned int finalWeight = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
 
 

@@ -1,6 +1,6 @@
 #include "DynamicProgramming.h"
 
-unsigned int knapsackDP(std::vector<unsigned int> &profits, std::vector<unsigned int> &weights, unsigned int n, unsigned int capacity, bool usedItems[]) {
+unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, bool usedItems[]) {
     unsigned int table[n + 1][capacity + 1];
 
     // first row

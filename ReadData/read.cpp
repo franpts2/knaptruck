@@ -1,11 +1,11 @@
 #include "read.h"
 
 
-unsigned int readPallets(const std::string &filename, std::vector<unsigned int> &pallets, std::vector<unsigned int> &weights, std::vector<unsigned int> &profits) {
+void readPallets(const std::string &filename,unsigned int pallets[], unsigned int weights[], unsigned int profits[]) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << filename << std::endl;
-        return 0;
+        return;
     }
 
     std::string line;
@@ -22,15 +22,15 @@ unsigned int readPallets(const std::string &filename, std::vector<unsigned int> 
         std::getline(ss, weight, ',');
         std::getline(ss, profit, ',');
 
-        pallets.push_back(std::stoi(pallet));
-        weights.push_back(std::stoi(weight));
-        profits.push_back(std::stoi(profit));
+        pallets[index] = std::stoi(pallet);
+        weights[index] = std::stoi(weight);
+        profits[index] = std::stoi(pallet);
 
         ++index;
     }
 
     file.close();
-    return index;
+    return;
 }
 
 void readTrucks(const std::string &filename, unsigned int *trucksAndPallets) {
