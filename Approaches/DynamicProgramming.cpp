@@ -1,8 +1,9 @@
 #include "DynamicProgramming.h"
 
-unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, bool usedItems[]) {
+unsigned int knapsackDP(std::vector<unsigned int> &profits, std::vector<unsigned int> &weights, unsigned int n, unsigned int capacity, bool usedItems[]) {
     unsigned int table[n + 1][capacity + 1];
 
+    // first row
     for (unsigned int i = 0; i <= capacity; i++)
         table[0][i] = (i >= weights[0]) ? profits[0] : 0;
 
@@ -27,10 +28,19 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
         }
     }
 
+    //backtracking to determine which items were used
     for (unsigned int i = 1; i <= n; i++)
       usedItems[i] = false;
 
+    unsigned int w = capacity;
+    for (unsigned int i = n; i > 0 && w > 0; i--) {
+        if (table[i][w] != table[i - 1][w]) {
+            usedItems[i - 1] = true; // Item i-1 is used
+            w -= weights[i - 1];
+        } else {
+            usedItems[i - 1] = false;
+        }
+    }
 
-
-    return 0;
+    return table[n][capacity];
 }
