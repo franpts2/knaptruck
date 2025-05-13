@@ -7,7 +7,7 @@ int main() {
     unsigned int trucksAndPallets[2];
     readTrucks("datasets-extra/TruckAndPallets_05.csv", trucksAndPallets);
 
-    unsigned int n = trucksAndPallets[1];
+    const unsigned int n = trucksAndPallets[1];
 
     unsigned int pallets[n];
     unsigned int weights[n];
@@ -15,8 +15,16 @@ int main() {
 
     readPallets("datasets-extra/Pallets_05.csv", pallets, weights, profits);
 
-    bool usedItems[n] = {false};
+    bool usedItems[n];
     unsigned int finalWeight = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
+
+    std::cout << "Final Weight: " << finalWeight << std::endl;
+    std::cout << "Used Items: ";
+    for (unsigned int i = 0; i < n; i++) {
+        if (usedItems[i]) {
+            std::cout << pallets[i] << " ";
+        }
+    }
 
 
     // to see if it's working
