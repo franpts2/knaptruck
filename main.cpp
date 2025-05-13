@@ -20,14 +20,14 @@ int main() {
 
 
     // to see if it's working
-    /*std::cout << "Final profit: " << finalProfit << std::endl;
+    std::cout << "Final profit: " << finalProfit << std::endl;
     std::cout << "Used Items: ";
     for (unsigned int i = 0; i < n; i++) {
         if (usedItems[i]) {
             std::cout << pallets[i] << " ";
         }
     }
-    std::cout << "\nCapacity: " << trucksAndPallets[0] << ", Pallets: " << trucksAndPallets[1] << std::endl;
+    /*std::cout << "\nCapacity: " << trucksAndPallets[0] << ", Pallets: " << trucksAndPallets[1] << std::endl;
     for (unsigned int i = 0; i < n; i++) {
         std::cout << "Pallet: " << pallets[i] << ", Weight: " << weights[i] << ", Profit: " << profits[i] << std::endl;
     }*/

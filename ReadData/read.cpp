@@ -24,7 +24,7 @@ void readPallets(const std::string &filename,unsigned int pallets[], unsigned in
 
         pallets[index] = std::stoi(pallet);
         weights[index] = std::stoi(weight);
-        profits[index] = std::stoi(pallet);
+        profits[index] = std::stoi(profit);
 
         ++index;
     }
