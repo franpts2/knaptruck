@@ -18,6 +18,7 @@ int main() {
     readPallets("datasets-extra/Pallets_05.csv", pallets, weights, profits);
 
 
+    // dynamic programming (i'll move this later)
     bool usedItems[n];
     unsigned int finalProfit = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
 
@@ -30,10 +31,6 @@ int main() {
             std::cout << pallets[i] << " ";
         }
     }
-    /*std::cout << "\nCapacity: " << trucksAndPallets[0] << ", Pallets: " << trucksAndPallets[1] << std::endl;
-    for (unsigned int i = 0; i < n; i++) {
-        std::cout << "Pallet: " << pallets[i] << ", Weight: " << weights[i] << ", Profit: " << profits[i] << std::endl;
-    }*/
 
 
     switch (optionsMenu()) {
