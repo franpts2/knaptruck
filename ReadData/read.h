@@ -7,7 +7,7 @@
 #include <climits>
 #include <sstream>
 
-unsigned int readPallets(const std::string &filename, std::vector<unsigned int> &pallets, std::vector<unsigned int> &weights, std::vector<unsigned int> &profits);
+void readPallets(const std::string &filename,unsigned int pallets[], unsigned int weights[], unsigned int profits[]);
 
 void readTrucks(const std::string &filename, unsigned int *trucksAndPallets);
 

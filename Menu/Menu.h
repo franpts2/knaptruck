@@ -36,8 +36,7 @@ int optionsMenu();
  * @param capacity Truck's maximum weight capacity
  */
 template<class T>
-void handleMenuOption(int option, std::vector<unsigned int>& pallets, int capacity);
-
+void handleMenuOption(int option, unsigned int pallets[], int capacity);
 /**
  * @brief Displays information about the program and input formats
  * @param pallets Reference to vector of pallets (maintains context)
@@ -48,7 +47,7 @@ void handleMenuOption(int option, std::vector<unsigned int>& pallets, int capaci
  * - Interactive mode instructions (console input)
  * - Program usage examples
  */
-void optionShowInfoMenu(std::vector<unsigned int>& pallets, int capacity);
+void optionShowInfoMenu(unsigned int pallets[], int capacity);
 
 
 #endif //MENU_H

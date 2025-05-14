@@ -1,11 +1,11 @@
 #include "read.h"
 
 
-unsigned int readPallets(const std::string &filename, std::vector<unsigned int> &pallets, std::vector<unsigned int> &weights, std::vector<unsigned int> &profits) {
+void readPallets(const std::string &filename,unsigned int pallets[], unsigned int weights[], unsigned int profits[]) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << filename << std::endl;
-        return 0;
+        return;
     }
 
     std::string line;
@@ -15,6 +15,8 @@ unsigned int readPallets(const std::string &filename, std::vector<unsigned int> 
     unsigned int index = 0;
 
     while (std::getline(file, line)) {
+
+      	try {
         std::stringstream ss(line);
         std::string pallet, weight, profit;
 
@@ -22,15 +24,24 @@ unsigned int readPallets(const std::string &filename, std::vector<unsigned int> 
         std::getline(ss, weight, ',');
         std::getline(ss, profit, ',');
 
-        pallets.push_back(std::stoi(pallet));
-        weights.push_back(std::stoi(weight));
-        profits.push_back(std::stoi(profit));
+        pallets[index] = std::stoi(pallet);
+        weights[index] = std::stoi(weight);
+        profits[index] = std::stoi(profit);
 
         ++index;
+        }
+        catch (const std::invalid_argument &e) {
+            std::cerr << "Invalid data in line: " << line << std::endl;
+            continue; // Skip this line and continue with the next one
+        }
+        catch (const std::out_of_range &e) {
+            std::cerr << "Data out of range in line: " << line << std::endl;
+            continue; // Skip this line and continue with the next one
+        }
     }
 
     file.close();
-    return index;
+    return;
 }
 
 void readTrucks(const std::string &filename, unsigned int *trucksAndPallets) {

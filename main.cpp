@@ -2,23 +2,36 @@
 
 #include "Menu/Menu.h"
 #include "ReadData/read.h"
+#include "Approaches/DynamicProgramming.h"
 
 int main() {
 
-    std::vector<unsigned int> pallets;
-    std::vector<unsigned int> weights;
-    std::vector<unsigned int> profits;
-
     unsigned int trucksAndPallets[2];
+    readTrucks("datasets-extra/TruckAndPallets_05.csv", trucksAndPallets);
 
-    unsigned int n = readPallets("datasets/Pallets_01.csv", pallets, weights, profits);
-    readTrucks("datasets/TruckAndPallets_01.csv", trucksAndPallets);
+    const unsigned int n = trucksAndPallets[1];
 
-    // // to see if it's working
-    // for (unsigned int i = 0; i < n; i++) {
-    //     std::cout << "Pallet: " << pallets[i] << ", Weight: " << weights[i] << ", Profit: " << profits[i] << std::endl;
-    // }
-    // std::cout << "Capacity: " << trucksAndPallets[0] << ", Pallets: " << trucksAndPallets[1] << std::endl;
+    unsigned int pallets[n];
+    unsigned int weights[n];
+    unsigned int profits[n];
+
+    readPallets("datasets-extra/Pallets_05.csv", pallets, weights, profits);
+
+
+    // dynamic programming (i'll move this later)
+    bool usedItems[n];
+    unsigned int finalProfit = knapsackDP(profits, weights, n, trucksAndPallets[0], usedItems);
+
+
+    // to see if it's working
+    std::cout << "Final profit: " << finalProfit << std::endl;
+    std::cout << "Used Items: ";
+    for (unsigned int i = 0; i < n; i++) {
+        if (usedItems[i]) {
+            std::cout << pallets[i] << " ";
+        }
+    }
+
 
     switch (optionsMenu()) {
         case 1:

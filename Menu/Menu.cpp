@@ -40,7 +40,7 @@ int optionsMenu() {
     return i;
 }
 
-void handleMenuOption(int option, vector<unsigned int>& pallets, int capacity) {
+void handleMenuOption(int option, unsigned int pallets[], int capacity) {
     switch (option) {
         case 1:
             //optionExhaustiveSearch(pallets, capacity);
@@ -69,7 +69,7 @@ void handleMenuOption(int option, vector<unsigned int>& pallets, int capacity) {
 }
 
 //should be vector<Pallet> pallets
-void optionShowInfoMenu(vector<unsigned int>& pallets, int capacity) {
+void optionShowInfoMenu(unsigned int pallets[], int capacity) {
     cout << endl << "=============================================\n";
     cout << "       TRUCK PACKING - INPUT INFORMATION       \n";
     cout << "=============================================\n\n";
