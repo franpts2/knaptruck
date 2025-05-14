@@ -15,6 +15,8 @@ void readPallets(const std::string &filename,unsigned int pallets[], unsigned in
     unsigned int index = 0;
 
     while (std::getline(file, line)) {
+
+      	try {
         std::stringstream ss(line);
         std::string pallet, weight, profit;
 
@@ -27,6 +29,15 @@ void readPallets(const std::string &filename,unsigned int pallets[], unsigned in
         profits[index] = std::stoi(profit);
 
         ++index;
+        }
+        catch (const std::invalid_argument &e) {
+            std::cerr << "Invalid data in line: " << line << std::endl;
+            continue; // Skip this line and continue with the next one
+        }
+        catch (const std::out_of_range &e) {
+            std::cerr << "Data out of range in line: " << line << std::endl;
+            continue; // Skip this line and continue with the next one
+        }
     }
 
     file.close();
