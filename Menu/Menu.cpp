@@ -43,7 +43,7 @@ int optionsMenu() {
 void handleMenuOption(int option, unsigned int pallets[], int capacity) {
     switch (option) {
         case 1:
-            //optionExhaustiveSearch(pallets, capacity);
+            optionExhaustiveSearch(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 2:
             //optionDynamicProgramming(pallets, capacity);
@@ -112,4 +112,28 @@ void optionShowInfoMenu(unsigned int pallets[], int capacity) {
 
     int option = optionsMenu();
     handleMenuOption(option, pallets, capacity);
+}
+
+void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
+                           unsigned int profits[], unsigned int n,
+                           unsigned int capacity, unsigned int max_pallets) {
+    std::cout << "\nRunning Exhaustive Search Algorithm...\n";
+    std::cout << "Truck capacity: " << capacity << "\n";
+    std::cout << "Max pallets allowed: " << max_pallets << "\n";
+    std::cout << "Number of available pallets: " << n << "\n\n";
+
+    // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Run the algorithm
+    BFSol solution = knapsackBF(profits, weights, n, capacity, max_pallets);
+
+    // Stop timer
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    std::cout << "Algorithm execution time: " << duration.count() << "ms\n";
+
+    // Output the results
+    OutputExhaustiveSolution(pallets, weights, profits, n, solution);
 }

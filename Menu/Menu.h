@@ -6,6 +6,8 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include "../Approaches/Exhaustive.h"
+#include "../InputOutput/Output.h"
 
 /**
  * @file Menu.h
@@ -49,5 +51,18 @@ void handleMenuOption(int option, unsigned int pallets[], int capacity);
  */
 void optionShowInfoMenu(unsigned int pallets[], int capacity);
 
+
+/**
+ * @brief Handles the exhaustive search algorithm option
+ * @param pallets Array of pallet IDs
+ * @param weights Array of pallet weights
+ * @param profits Array of pallet profits
+ * @param n Number of pallets
+ * @param capacity Truck capacity
+ * @param max_pallets Maximum number of pallets allowed
+ */
+void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
+                           unsigned int profits[], unsigned int n,
+                           unsigned int capacity, unsigned int max_pallets);
 
 #endif //MENU_H
