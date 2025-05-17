@@ -32,13 +32,17 @@ int optionsMenu();
 
 /**
  * @brief Handles the selected menu option
- * @tparam T Type parameter (for potential future templating)
  * @param option The selected menu option (1-7)
- * @param pallets Reference to vector of pallets to optimize
+ * @param pallets Array of pallet IDs
+ * @param weights Array of pallet weights
+ * @param profits Array of pallet profits
+ * @param n Number of pallets
  * @param capacity Truck's maximum weight capacity
+ * @param max_pallets Maximum number of pallets allowed
  */
-template<class T>
-void handleMenuOption(int option, unsigned int pallets[], int capacity);
+void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[],
+                     unsigned int profits[], unsigned int n,
+                     int capacity, unsigned int max_pallets);
 /**
  * @brief Displays information about the program and input formats
  * @param pallets Reference to vector of pallets (maintains context)

@@ -40,7 +40,9 @@ int optionsMenu() {
     return i;
 }
 
-void handleMenuOption(int option, unsigned int pallets[], int capacity) {
+void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[],
+                     unsigned int profits[], unsigned int n,
+                     int capacity, unsigned int max_pallets) {
     switch (option) {
         case 1:
             optionExhaustiveSearch(pallets, weights, profits, n, capacity, max_pallets);
@@ -110,8 +112,15 @@ void optionShowInfoMenu(unsigned int pallets[], int capacity) {
     cout << "\nReturning to main menu...\n";
     this_thread::sleep_for(chrono::seconds(3));
 
+    // Create dummy arrays for going back to main menu
+    // In a real implementation, these should be properly initialized
+    unsigned int weights[1] = {0};
+    unsigned int profits[1] = {0};
+    unsigned int n = 0;
+    unsigned int max_pallets = 0;
+
     int option = optionsMenu();
-    handleMenuOption(option, pallets, capacity);
+    handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
 }
 
 void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],

@@ -1,11 +1,26 @@
 #include <iostream>
 
 #include "Menu/Menu.h"
+#include "Menu/MenuTesting.h"
 #include "ReadData/read.h"
 #include "Approaches/DynamicProgramming.h"
 
 int main() {
-
+    std::cout << "Choose mode:" << std::endl;
+    std::cout << "1. Normal Mode (Regular Menu)" << std::endl;
+    std::cout << "2. Testing Mode (Dataset Testing Menu)" << std::endl;
+    std::cout << "Option: ";
+    
+    int modeChoice;
+    std::cin >> modeChoice;
+    
+    if (modeChoice == 2) {
+        // Run the testing menu for datasets 1-10
+        runTestingMenu();
+        return 0;
+    }
+    
+    // Original code for normal mode
     unsigned int trucksAndPallets[2];
     readTrucks("datasets-extra/TruckAndPallets_05.csv", trucksAndPallets);
 
@@ -31,39 +46,14 @@ int main() {
             std::cout << pallets[i] << " ";
         }
     }
+    std::cout << std::endl;
 
-
-    switch (optionsMenu()) {
-        case 1:
-            std::cout << "Running Exhaustive Search Algorithm..." << std::endl << std::endl;
-            //optionExhaustiveSearch(pallets, capacity);
-            break;
-        case 2:
-            std::cout << "Running Dynamic Programming Approach..." << std::endl << std::endl;
-            //optionDynamicProgramming(pallets, capacity);
-            break;
-        case 3:
-            std::cout << "Running Approximation Algorithm..." << std::endl << std::endl;
-            //optionApproximation(pallets, capacity);
-            break;
-        case 4:
-            std::cout << "Running Linear Integer Programming..." << std::endl << std::endl;
-            //optionLinearProgramming(pallets, capacity);
-            break;
-        case 5:
-            std::cout << "Comparing All Algorithms..." << std::endl << std::endl;
-            //optionCompareAllAlgorithms(pallets, capacity);
-            break;
-        case 6:
-            optionShowInfoMenu(pallets, trucksAndPallets[0]);
-            break;
-        case 7:
-            std::cout << "Exiting..." << std::endl;
-            return 0;
-        default:
-            std::cout << "Invalid option selected!" << std::endl;
-            break;
-    }
+    // Get user menu selection and handle it with the updated function
+    int option = optionsMenu();
+    // Maximum number of pallets that can be loaded
+    // For simplicity, we're using n here, but this could be adjusted based on requirements
+    unsigned int max_pallets = n; 
+    handleMenuOption(option, pallets, weights, profits, n, trucksAndPallets[0], max_pallets);
 
     return 0;
 }
