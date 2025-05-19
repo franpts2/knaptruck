@@ -2,16 +2,59 @@
 #include "../ReadData/read.h"
 #include "../InputOutput/Output.h"
 #include "../Approaches/Exhaustive.h"
+#include "../Approaches/DynamicProgramming.h"
 #include <iostream>
 #include <string>
 #include <chrono>
 #include <iomanip>
+#include <vector>
+
+// Enum for algorithm types
+enum AlgorithmType {
+    BRUTE_FORCE = 1,
+    DYNAMIC_PROGRAMMING = 2
+};
+
+// Struct for Dynamic Programming solution (added to match with BFSol)
+struct DPSol {
+    unsigned int total_profit;
+    unsigned int total_weight;
+    unsigned int pallet_count;
+    std::vector<bool> used_pallets;
+};
+
+int algorithmSelectionMenu() {
+    int choice;
+    
+    std::cout << "\n=====================================================" << std::endl;
+    std::cout << "               ALGORITHM SELECTION MENU" << std::endl;
+    std::cout << "=====================================================" << std::endl;
+    std::cout << "Please select an algorithm to test:" << std::endl;
+    std::cout << "  1. Brute Force" << std::endl;
+    std::cout << "  2. Dynamic Programming" << std::endl;
+    std::cout << "=====================================================" << std::endl;
+    std::cout << "Enter your choice (1-2): ";
+    
+    // Input validation to ensure a number between 1-2 is entered
+    do {
+        std::cin >> choice;
+        if (std::cin.fail() || choice < 1 || choice > 2) {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "Invalid input! Please enter a number between 1 and 2: ";
+        } else {
+            break;
+        }
+    } while (true);
+    
+    return choice;
+}
 
 int datasetSelectionMenu() {
     int choice;
     
     std::cout << "\n=====================================================" << std::endl;
-    std::cout << "          BRUTE FORCE ALGORITHM TESTING MENU" << std::endl;
+    std::cout << "                DATASET SELECTION MENU" << std::endl;
     std::cout << "=====================================================" << std::endl;
     std::cout << "Please select a dataset number (1-10):" << std::endl;
     std::cout << "  Datasets 1-4:  Standard datasets" << std::endl;
@@ -123,16 +166,124 @@ bool runBruteForceOnDataset(int datasetNumber) {
     return true;
 }
 
+// Wrapper function for the DP algorithm to match our UI structure
+DPSol runDPAlgorithm(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity) {
+    DPSol solution;
+    solution.used_pallets.resize(n);
+    
+    // Create a boolean array for the DP algorithm since std::vector<bool>::data() isn't accessible
+    bool* usedItems = new bool[n]();
+    
+    // Call the actual DP algorithm implementation
+    solution.total_profit = knapsackDP(profits, weights, n, capacity, usedItems);
+    
+    // Copy the results from the boolean array to our vector
+    for (unsigned int i = 0; i < n; i++) {
+        solution.used_pallets[i] = usedItems[i];
+    }
+    
+    // Calculate total weight and pallet count based on used_pallets
+    solution.total_weight = 0;
+    solution.pallet_count = 0;
+    
+    for (unsigned int i = 0; i < n; i++) {
+        if (solution.used_pallets[i]) {
+            solution.total_weight += weights[i];
+            solution.pallet_count++;
+        }
+    }
+    
+    // Clean up
+    delete[] usedItems;
+    
+    return solution;
+}
+
+bool runDynamicProgrammingOnDataset(int datasetNumber) {
+    std::cout << "\nLoading dataset " << datasetNumber << "..." << std::endl;
+    
+    // Get file paths
+    std::string truckFilePath = getDatasetPath(datasetNumber, false);
+    std::string palletFilePath = getDatasetPath(datasetNumber, true);
+    
+    std::cout << "Using files:\n- " << palletFilePath << "\n- " << truckFilePath << std::endl;
+    
+    // Read truck capacity and number of pallets
+    unsigned int trucksAndPallets[2];
+    readTrucks(truckFilePath, trucksAndPallets);
+    
+    const unsigned int capacity = trucksAndPallets[0];
+    const unsigned int n = trucksAndPallets[1];
+    
+    // Read pallets data
+    unsigned int pallets[n];
+    unsigned int weights[n];
+    unsigned int profits[n];
+    readPallets(palletFilePath, pallets, weights, profits);
+    
+    // Display dataset information
+    std::cout << "\n-------------------------------------" << std::endl;
+    std::cout << "Dataset #" << datasetNumber << " Information:" << std::endl;
+    std::cout << "- Truck capacity: " << capacity << std::endl;
+    std::cout << "- Number of pallets: " << n << std::endl;
+    std::cout << "-------------------------------------" << std::endl;
+    
+    std::cout << "\nPallets available:" << std::endl;
+    std::cout << std::setw(10) << "ID" << std::setw(10) << "Weight" << std::setw(10) << "Profit" << std::endl;
+    for (unsigned int i = 0; i < n; i++) {
+        std::cout << std::setw(10) << pallets[i] << std::setw(10) << weights[i] << std::setw(10) << profits[i] << std::endl;
+    }
+    
+    std::cout << "\nRunning dynamic programming algorithm..." << std::endl;
+    
+    // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    // Run the dynamic programming algorithm
+    DPSol solution = runDPAlgorithm(profits, weights, n, capacity);
+    
+    // End timer
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    std::cout << "\n-------------------------------------" << std::endl;
+    std::cout << "Dynamic Programming Solution Results:" << std::endl;
+    std::cout << "- Total profit: " << solution.total_profit << std::endl;
+    std::cout << "- Total weight: " << solution.total_weight << std::endl;
+    std::cout << "- Number of pallets used: " << solution.pallet_count << std::endl;
+    std::cout << "- Execution time: " << duration.count() << " ms" << std::endl;
+    
+    // Display selected pallets
+    std::cout << "\nSelected pallets:" << std::endl;
+    std::cout << std::setw(10) << "ID" << std::setw(10) << "Weight" << std::setw(10) << "Profit" << std::endl;
+    for (unsigned int i = 0; i < n; i++) {
+        if (solution.used_pallets[i]) {
+            std::cout << std::setw(10) << pallets[i] << std::setw(10) << weights[i] << std::setw(10) << profits[i] << std::endl;
+        }
+    }
+    
+    return true;
+}
+
 int runTestingMenu() {
     bool continueRunning = true;
     char choice;
     
     while (continueRunning) {
-        // Display menu and get dataset selection
+        // Display algorithm selection menu
+        int algorithmChoice = algorithmSelectionMenu();
+        
+        // Display dataset selection menu and get dataset selection
         int datasetNumber = datasetSelectionMenu();
         
-        // Run brute force on selected dataset
-        bool success = runBruteForceOnDataset(datasetNumber);
+        bool success = false;
+        
+        // Run the selected algorithm on the chosen dataset
+        if (algorithmChoice == BRUTE_FORCE) {
+            success = runBruteForceOnDataset(datasetNumber);
+        } else if (algorithmChoice == DYNAMIC_PROGRAMMING) {
+            success = runDynamicProgrammingOnDataset(datasetNumber);
+        }
         
         if (!success) {
             std::cout << "Error processing dataset " << datasetNumber << ". Please try again." << std::endl;
@@ -147,6 +298,6 @@ int runTestingMenu() {
         }
     }
     
-    std::cout << "\nThank you for testing the Brute Force algorithm!" << std::endl;
+    std::cout << "\nThank you for testing the algorithms!" << std::endl;
     return 0;
 }
