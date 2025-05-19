@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <iomanip> // For std::setw
 
 using namespace std;
 
@@ -48,7 +49,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
             optionExhaustiveSearch(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 2:
-            //optionDynamicProgramming(pallets, capacity);
+            optionDynamicProgramming(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 3:
             //optionApproximation(pallets, capacity);
@@ -60,7 +61,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
             //optionCompareAllAlgorithms(pallets, capacity);
             break;
         case 6:
-            //optionShowInfoMenu(pallets, capacity);
+            optionShowInfoMenu(pallets, capacity);
             break;
         case 7:
             cout << "Exiting..." << endl;
@@ -145,4 +146,44 @@ void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
 
     // Output the results
     OutputExhaustiveSolution(pallets, weights, profits, n, solution);
+}
+
+void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
+                             unsigned int profits[], unsigned int n,
+                             unsigned int capacity, unsigned int max_pallets) {
+    std::cout << "\nRunning Dynamic Programming Algorithm...\n";
+    std::cout << "Truck capacity: " << capacity << "\n";
+    std::cout << "Number of available pallets: " << n << "\n\n";
+
+    // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    // Create an array to track which items are used
+    bool* usedItems = new bool[n]();
+    
+    // Run the algorithm
+    unsigned int totalProfit = knapsackDP(profits, weights, n, capacity, usedItems);
+    
+    // Calculate total weight and number of used pallets
+    unsigned int totalWeight = 0;
+    unsigned int palletCount = 0;
+    
+    for (unsigned int i = 0; i < n; i++) {
+        if (usedItems[i]) {
+            totalWeight += weights[i];
+            palletCount++;
+        }
+    }
+    
+    // Stop timer
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Use the OutputDynamicProgramming function to display results
+    OutputDynamicProgramming(pallets, weights, profits, n, 
+                             totalProfit, totalWeight, palletCount, 
+                             usedItems, duration.count());
+    
+    // Clean up
+    delete[] usedItems;
 }
