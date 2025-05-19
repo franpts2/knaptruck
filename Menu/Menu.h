@@ -83,4 +83,17 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
                              unsigned int capacity, unsigned int max_pallets);
 
+/**
+ * @brief Allows the user to interactively input pallet data
+ * 
+ * Prompts the user for:
+ * 1. Truck capacity (max weight)
+ * 2. Number of pallets to enter
+ * 3. Data for each pallet in format "palletID weight profit"
+ * 
+ * @return A pointer to an array containing [capacity, n, max_pallets, 
+ *         followed by flattened arrays of pallets, weights, and profits]
+ */
+unsigned int* interactiveDataEntry();
+
 #endif //MENU_H
