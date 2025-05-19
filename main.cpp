@@ -6,6 +6,11 @@
 #include "Approaches/DynamicProgramming.h"
 
 int main() {
+    std::cout << std::endl << "Hello user!" << std::endl;
+    std::cout << "Welcome to the Truck Packing Optimization Tool!" << std::endl << std::endl;
+    std::cout << "This tool helps solve the knapsack problem for logistics optimization." << std::endl;
+    
+
     std::cout << "Choose mode:" << std::endl;
     std::cout << "1. Normal Mode (Regular Menu)" << std::endl;
     std::cout << "2. Testing Mode (Dataset Testing Menu)" << std::endl;

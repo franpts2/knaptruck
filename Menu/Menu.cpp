@@ -10,10 +10,6 @@
 using namespace std;
 
 int optionsMenu() {
-    cout << endl << "Hello user!" << endl;
-    cout << "Welcome to the Truck Packing Optimization Tool!" << endl << endl;
-    cout << "This tool helps solve the knapsack problem for logistics optimization." << endl;
-    
     cout << endl << "Loading options..." << endl;
     cout.flush();
     this_thread::sleep_for(chrono::seconds(1));
@@ -242,35 +238,43 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
 }
 
 unsigned int* interactiveDataEntry() {
+    int inputCapacity, inputNumPallets, inputMaxPallets; // Using signed int for initial input
+    int inputPalletID, inputWeight, inputProfit; // Using signed int for pallet data
     unsigned int capacity, numPallets, maxPallets;
     
     cout << "\n=============================================\n";
     cout << "            INTERACTIVE DATA ENTRY           \n";
     cout << "=============================================\n\n";
     
-    // Get truck capacity
+    // Get truck capacity with improved validation
     cout << "Enter truck capacity (maximum weight): ";
-    while(!(cin >> capacity) || capacity <= 0) {
+    while(!(cin >> inputCapacity) || inputCapacity <= 0) {
         cout << "Invalid input. Please enter a positive number: ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
+    capacity = static_cast<unsigned int>(inputCapacity); // Safe conversion after validation
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer after successful read
     
-    // Get number of pallets to enter
+    // Get number of pallets to enter with improved validation
     cout << "Enter the number of pallets: ";
-    while(!(cin >> numPallets) || numPallets <= 0) {
+    while(!(cin >> inputNumPallets) || inputNumPallets <= 0) {
         cout << "Invalid input. Please enter a positive number: ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
+    numPallets = static_cast<unsigned int>(inputNumPallets); // Safe conversion after validation
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer after successful read
     
-    // Get max pallets allowed (optional, defaults to number of pallets)
+    // Get max pallets allowed with improved validation
     cout << "Enter maximum number of pallets allowed (or 0 for no limit): ";
-    while(!(cin >> maxPallets)) {
+    while(!(cin >> inputMaxPallets) || inputMaxPallets < 0) {
         cout << "Invalid input. Please enter a non-negative number: ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
+    maxPallets = static_cast<unsigned int>(inputMaxPallets); // Safe conversion after validation
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer after successful read
     
     if (maxPallets == 0 || maxPallets > numPallets) {
         maxPallets = numPallets;  // No limit or limit exceeds available pallets
@@ -292,12 +296,30 @@ unsigned int* interactiveDataEntry() {
     
     for (unsigned int i = 0; i < numPallets; i++) {
         cout << "Pallet #" << (i+1) << ": ";
-        while(!(cin >> pallets[i] >> weights[i] >> profits[i]) || 
-              weights[i] <= 0 || profits[i] < 0) {
-            cout << "Invalid input. Please use format 'palletID weight profit' with positive values: ";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        bool validInput = false;
+        
+        while (!validInput) {
+            if (cin >> inputPalletID >> inputWeight >> inputProfit) {
+                if (inputPalletID < 0) {
+                    cout << "Invalid input. Pallet ID must be non-negative: ";
+                } else if (inputWeight <= 0) {
+                    cout << "Invalid input. Weight must be positive: ";
+                } else if (inputProfit < 0) {
+                    cout << "Invalid input. Profit must be non-negative: ";
+                } else {
+                    // All inputs valid
+                    pallets[i] = static_cast<unsigned int>(inputPalletID);
+                    weights[i] = static_cast<unsigned int>(inputWeight);
+                    profits[i] = static_cast<unsigned int>(inputProfit);
+                    validInput = true;
+                }
+            } else {
+                cout << "Invalid input. Please use format 'palletID weight profit': ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
         }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer after successful read
     }
     
     cout << "\nData entry complete!\n";
