@@ -8,6 +8,7 @@
 #include <thread>
 #include "../Approaches/Exhaustive.h"
 #include "../Approaches/DynamicProgramming.h"  // Adding include for DynamicProgramming
+#include "../Approaches/Backtracking.h"  // Adding include for Backtracking
 #include "../InputOutput/Output.h"
 
 /**
@@ -18,22 +19,23 @@
 
 /**
  * @brief Displays the main menu and gets user selection
- * @return Selected menu option (1-7)
+ * @return Selected menu option (1-8)
  *
  * Menu options:
  * 1. Exhaustive Search Algorithm
  * 2. Dynamic Programming Approach
- * 3. Approximation Algorithm
- * 4. Linear Integer Programming
- * 5. Compare All Algorithms
- * 6. Info & Instructions
- * 7. Exit
+ * 3. Backtracking Approach
+ * 4. Approximation Algorithm
+ * 5. Linear Integer Programming
+ * 6. Compare All Algorithms
+ * 7. Info & Instructions
+ * 8. Exit
  */
 int optionsMenu();
 
 /**
  * @brief Handles the selected menu option
- * @param option The selected menu option (1-7)
+ * @param option The selected menu option (1-8)
  * @param pallets Array of pallet IDs
  * @param weights Array of pallet weights
  * @param profits Array of pallet profits
@@ -82,6 +84,19 @@ void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
 void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
                              unsigned int capacity, unsigned int max_pallets);
+
+/**
+ * @brief Handles the backtracking algorithm option
+ * @param pallets Array of pallet IDs
+ * @param weights Array of pallet weights
+ * @param profits Array of pallet profits
+ * @param n Number of pallets
+ * @param capacity Truck capacity
+ * @param max_pallets Maximum number of pallets allowed
+ */
+void optionBacktracking(unsigned int pallets[], unsigned int weights[],
+                     unsigned int profits[], unsigned int n,
+                     unsigned int capacity, unsigned int max_pallets);
 
 /**
  * @brief Allows the user to interactively input pallet data

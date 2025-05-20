@@ -22,18 +22,19 @@ int optionsMenu() {
     do {
         cout << "1: Exhaustive Search Algorithm" << endl;
         cout << "2: Dynamic Programming Approach" << endl;
-        cout << "3: Approximation Algorithm" << endl;
-        cout << "4: Linear Integer Programming" << endl;
-        cout << "5: Compare All Algorithms" << endl;
-        cout << "6: Info & Instructions" << endl;
-        cout << "7: Change Input Data" << endl;
-        cout << "8: Exit" << endl;
+        cout << "3: Backtracking Approach" << endl;
+        cout << "4: Approximation Algorithm" << endl;
+        cout << "5: Linear Integer Programming" << endl;
+        cout << "6: Compare All Algorithms" << endl;
+        cout << "7: Info & Instructions" << endl;
+        cout << "8: Change Input Data" << endl;
+        cout << "9: Exit" << endl;
         cout << "Option: ";
         cin >> i;
         cout << endl;
 
-        if (i < 1 || i > 8) cout << "Invalid input. Please choose 1-8." << endl;
-    } while (i < 1 || i > 8);
+        if (i < 1 || i > 9) cout << "Invalid input. Please choose 1-9." << endl;
+    } while (i < 1 || i > 9);
 
     return i;
 }
@@ -49,18 +50,21 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
             optionDynamicProgramming(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 3:
-            //optionApproximation(pallets, capacity);
+            optionBacktracking(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 4:
-            //optionLinearProgramming(pallets, capacity);
+            //optionApproximation(pallets, capacity);
             break;
         case 5:
-            //optionCompareAllAlgorithms(pallets, capacity);
+            //optionLinearProgramming(pallets, capacity);
             break;
         case 6:
-            optionShowInfoMenu(pallets, capacity);
+            //optionCompareAllAlgorithms(pallets, capacity);
             break;
         case 7:
+            optionShowInfoMenu(pallets, capacity);
+            break;
+        case 8:
             // Change Input Data option
             {
                 unsigned int* data = interactiveDataEntry();
@@ -82,7 +86,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
                 delete[] data;
             }
             break;
-        case 8:
+        case 9:
             cout << "Exiting..." << endl;
             exit(0);
         default:
@@ -90,7 +94,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
     }
     
     // Return to menu with the same data after algorithm execution
-    if (option >= 1 && option <= 5) {
+    if (option >= 1 && option <= 6) {
         cout << "\nReturning to menu with the same data...\n";
         this_thread::sleep_for(chrono::seconds(1));
         int next_option = optionsMenu();
@@ -235,6 +239,43 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
     
     // Clean up
     delete[] usedItems;
+}
+
+void optionBacktracking(unsigned int pallets[], unsigned int weights[],
+                        unsigned int profits[], unsigned int n,
+                        unsigned int capacity, unsigned int max_pallets) {
+    std::cout << "\nRunning Backtracking Algorithm...\n";
+    std::cout << "Truck capacity: " << capacity << "\n";
+    std::cout << "Max pallets allowed: " << max_pallets << "\n";
+    std::cout << "Number of available pallets: " << n << "\n\n";
+
+    // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Run the algorithm
+    BTSol solution = knapsackBT(profits, weights, n, capacity, max_pallets);
+
+    // Stop timer
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    std::cout << "Algorithm execution time: " << duration.count() << "ms\n";
+
+    // Display the results
+    std::cout << "\n-------------------------------------" << std::endl;
+    std::cout << "Backtracking Solution Results:" << std::endl;
+    std::cout << "- Total profit: " << solution.total_profit << std::endl;
+    std::cout << "- Total weight: " << solution.total_weight << std::endl;
+    std::cout << "- Number of pallets used: " << solution.pallet_count << std::endl;
+    
+    // Display selected pallets
+    std::cout << "\nSelected pallets:" << std::endl;
+    std::cout << std::setw(10) << "ID" << std::setw(10) << "Weight" << std::setw(10) << "Profit" << std::endl;
+    for (unsigned int i = 0; i < n; i++) {
+        if (solution.used_pallets[i]) {
+            std::cout << std::setw(10) << pallets[i] << std::setw(10) << weights[i] << std::setw(10) << profits[i] << std::endl;
+        }
+    }
 }
 
 unsigned int* interactiveDataEntry() {

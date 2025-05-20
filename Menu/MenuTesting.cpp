@@ -3,6 +3,7 @@
 #include "../InputOutput/Output.h"
 #include "../Approaches/Exhaustive.h"
 #include "../Approaches/DynamicProgramming.h"
+#include "../Approaches/Backtracking.h"
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -12,7 +13,8 @@
 // Enum for algorithm types
 enum AlgorithmType {
     BRUTE_FORCE = 1,
-    DYNAMIC_PROGRAMMING = 2
+    DYNAMIC_PROGRAMMING = 2,
+    BACKTRACKING = 3
 };
 
 // Struct for Dynamic Programming solution (added to match with BFSol)
@@ -32,16 +34,17 @@ int algorithmSelectionMenu() {
     std::cout << "Please select an algorithm to test:" << std::endl;
     std::cout << "  1. Brute Force" << std::endl;
     std::cout << "  2. Dynamic Programming" << std::endl;
+    std::cout << "  3. Backtracking" << std::endl;
     std::cout << "=====================================================" << std::endl;
-    std::cout << "Enter your choice (1-2): ";
+    std::cout << "Enter your choice (1-3): ";
     
-    // Input validation to ensure a number between 1-2 is entered
+    // Input validation to ensure a number between 1-3 is entered
     do {
         std::cin >> choice;
-        if (std::cin.fail() || choice < 1 || choice > 2) {
+        if (std::cin.fail() || choice < 1 || choice > 3) {
             std::cin.clear();
             std::cin.ignore(10000, '\n');
-            std::cout << "Invalid input! Please enter a number between 1 and 2: ";
+            std::cout << "Invalid input! Please enter a number between 1 and 3: ";
         } else {
             break;
         }
@@ -265,6 +268,72 @@ bool runDynamicProgrammingOnDataset(int datasetNumber) {
     return true;
 }
 
+bool runBacktrackingOnDataset(int datasetNumber) {
+    std::cout << "\nLoading dataset " << datasetNumber << "..." << std::endl;
+    
+    // Get file paths
+    std::string truckFilePath = getDatasetPath(datasetNumber, false);
+    std::string palletFilePath = getDatasetPath(datasetNumber, true);
+    
+    std::cout << "Using files:\n- " << palletFilePath << "\n- " << truckFilePath << std::endl;
+    
+    // Read truck capacity and number of pallets
+    unsigned int trucksAndPallets[2];
+    readTrucks(truckFilePath, trucksAndPallets);
+    
+    const unsigned int capacity = trucksAndPallets[0];
+    const unsigned int n = trucksAndPallets[1];
+    
+    // Read pallets data
+    unsigned int pallets[n];
+    unsigned int weights[n];
+    unsigned int profits[n];
+    readPallets(palletFilePath, pallets, weights, profits);
+    
+    // Display dataset information
+    std::cout << "\n-------------------------------------" << std::endl;
+    std::cout << "Dataset #" << datasetNumber << " Information:" << std::endl;
+    std::cout << "- Truck capacity: " << capacity << std::endl;
+    std::cout << "- Number of pallets: " << n << std::endl;
+    std::cout << "-------------------------------------" << std::endl;
+    
+    std::cout << "\nPallets available:" << std::endl;
+    std::cout << std::setw(10) << "ID" << std::setw(10) << "Weight" << std::setw(10) << "Profit" << std::endl;
+    for (unsigned int i = 0; i < n; i++) {
+        std::cout << std::setw(10) << pallets[i] << std::setw(10) << weights[i] << std::setw(10) << profits[i] << std::endl;
+    }
+    
+    std::cout << "\nRunning backtracking algorithm..." << std::endl;
+    
+    // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    // Run the backtracking algorithm
+    BTSol solution = knapsackBT(profits, weights, n, capacity, n);
+    
+    // End timer
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    std::cout << "\n-------------------------------------" << std::endl;
+    std::cout << "Backtracking Solution Results:" << std::endl;
+    std::cout << "- Total profit: " << solution.total_profit << std::endl;
+    std::cout << "- Total weight: " << solution.total_weight << std::endl;
+    std::cout << "- Number of pallets used: " << solution.pallet_count << std::endl;
+    std::cout << "- Execution time: " << duration.count() << " ms" << std::endl;
+    
+    // Display selected pallets
+    std::cout << "\nSelected pallets:" << std::endl;
+    std::cout << std::setw(10) << "ID" << std::setw(10) << "Weight" << std::setw(10) << "Profit" << std::endl;
+    for (unsigned int i = 0; i < n; i++) {
+        if (solution.used_pallets[i]) {
+            std::cout << std::setw(10) << pallets[i] << std::setw(10) << weights[i] << std::setw(10) << profits[i] << std::endl;
+        }
+    }
+    
+    return true;
+}
+
 int runTestingMenu() {
     bool continueRunning = true;
     char choice;
@@ -283,6 +352,8 @@ int runTestingMenu() {
             success = runBruteForceOnDataset(datasetNumber);
         } else if (algorithmChoice == DYNAMIC_PROGRAMMING) {
             success = runDynamicProgrammingOnDataset(datasetNumber);
+        } else if (algorithmChoice == BACKTRACKING) {
+            success = runBacktrackingOnDataset(datasetNumber);
         }
         
         if (!success) {
