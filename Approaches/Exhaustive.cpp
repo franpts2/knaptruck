@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <iostream>
 
 /**
  * @brief Brute-force pallet loading algorithm
@@ -31,14 +32,18 @@ BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
     // Initialize progress bar
     ProgressBar progress(total_iterations);
     unsigned long long iteration_count = 0;
+    bool user_cancelled = false;
 
     // Generate all possible subsets (2^n possibilities)
     while (true) {
         // Update progress bar every 1000 iterations to reduce overhead
         if (iteration_count % 1000 == 0) {
-            // Only show progress bar if the operation is taking significant time
+            // Update returns false if user pressed escape
             if (progress.shouldShow()) {
-                progress.update(iteration_count);
+                if (!progress.update(iteration_count)) {
+                    user_cancelled = true;
+                    break;
+                }
             }
         }
         iteration_count++;
@@ -83,7 +88,17 @@ BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
     }
 
     // Complete the progress bar if it was shown
-    progress.complete();
+    if (!user_cancelled) {
+        progress.complete();
+    }
+    
+    // If user cancelled, return an empty solution
+    if (user_cancelled) {
+        std::cout << "\nOperation cancelled by user. Returning to menu." << std::endl;
+        
+        // Clear the best solution to indicate cancellation
+        best_solution = {0, 0, 0, std::vector<bool>(n, false)};
+    }
 
     return best_solution;
 }

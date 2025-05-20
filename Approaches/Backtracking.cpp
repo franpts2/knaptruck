@@ -16,7 +16,7 @@
 static unsigned long long g_nodes_visited = 0;
 static unsigned long long g_total_nodes = 0;
 static ProgressBar* g_progress = nullptr;
-static bool g_skip_progress_bar = false;
+static bool g_user_cancelled = false;
 
 /**
  * @brief Helper function for backtracking algorithm
@@ -39,13 +39,20 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
                   unsigned int curCount, std::vector<bool> &curItems, 
                   BTSol &bestSolution) {
     
+    // If user cancelled, stop recursion
+    if (g_user_cancelled) {
+        return;
+    }
+    
     // Increment the number of nodes visited for progress tracking
     g_nodes_visited++;
     
-    // Update progress bar every 10000 recursive calls to avoid too much overhead
-    if (g_progress != nullptr && g_nodes_visited % 10000 == 0) {
-        if (g_progress->shouldShow()) {
-            g_progress->update(g_nodes_visited);
+    // Check for cancellation
+    if (g_nodes_visited % 10000 == 0 && g_progress != nullptr) {
+        // Update returns false if user pressed escape
+        if (!g_progress->update(g_nodes_visited)) {
+            g_user_cancelled = true;
+            return;
         }
     }
     
@@ -115,14 +122,30 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
     
     // Reset and initialize global progress tracking variables
     g_nodes_visited = 0;
-    g_skip_progress_bar = false;
+    g_user_cancelled = false;
     
     // Only for extremely large datasets (like dataset 6 with 4000+ pallets)
     if (n > 1000) {
-        std::cout << "\nThis will take a while (not even the progress bar wanted to be here)." << std::endl;
-        std::cout << "Go grab a coffee or something! ☕" << std::endl;
-        g_skip_progress_bar = true;
-        g_progress = nullptr;  // Don't use progress bar for very large datasets
+        // Create a hidden progress bar for cancellation detection
+        ProgressBar hiddenProgress(1, true);
+        g_progress = &hiddenProgress;
+        
+        // Show the coffee message
+        hiddenProgress.showLargeDatasetMessage();
+        
+        // Call the recursive function to start backtracking
+        knapsackBTRec(
+            profits, weights, n,
+            0,
+            max_weight, max_pallets,
+            0, 0, 0,
+            curItems,
+            bestSolution
+        );
+        
+        if (!g_user_cancelled) {
+            std::cout << "\nFinished! Hope you enjoyed your coffee! ☕" << std::endl;
+        }
     } else {
         // For normal datasets, use the standard estimation
         g_total_nodes = static_cast<unsigned long long>(std::pow(2, n)) * 2;
@@ -130,23 +153,29 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
         // Create a progress bar
         ProgressBar progress(g_total_nodes);
         g_progress = &progress;
+        
+        // Call the recursive function to start backtracking
+        knapsackBTRec(
+            profits, weights, n,
+            0,
+            max_weight, max_pallets,
+            0, 0, 0,
+            curItems,
+            bestSolution
+        );
+        
+        // Finalize progress bar if it was shown
+        if (!g_user_cancelled) {
+            g_progress->complete();
+        }
     }
     
-    // Call the recursive function to start backtracking
-    knapsackBTRec(
-        profits, weights, n,
-        0,
-        max_weight, max_pallets,
-        0, 0, 0,
-        curItems,
-        bestSolution
-    );
-    
-    // Finalize progress bar if it was shown
-    if (!g_skip_progress_bar && g_progress != nullptr) {
-        g_progress->complete();
-    } else if (g_skip_progress_bar) {
-        std::cout << "\nFinished! Hope you enjoyed your coffee! ☕" << std::endl;
+    // If user cancelled, return an empty solution
+    if (g_user_cancelled) {
+        std::cout << "\nOperation cancelled by user. Returning to menu." << std::endl;
+        
+        // Clear the best solution to indicate cancellation
+        bestSolution = {0, 0, 0, std::vector<bool>(n, false)};
     }
     
     // Reset global pointer
