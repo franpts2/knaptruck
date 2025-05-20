@@ -14,4 +14,5 @@ add_executable(DA2425_PROJ2
         Approaches/Backtracking.cpp
         InputOutput/Input.cpp
         InputOutput/Output.cpp
+        InputOutput/ProgressBar.cpp
 )

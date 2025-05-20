@@ -4,9 +4,16 @@
  */
 
 #include "Backtracking.h"
+#include "../InputOutput/ProgressBar.h"
 #include <vector>
 #include <algorithm>
 #include <climits>
+#include <cmath>
+
+// Global variables to track progress (used only in the backtracking algorithm)
+static unsigned long long g_nodes_visited = 0;
+static unsigned long long g_total_nodes = 0;
+static ProgressBar* g_progress = nullptr;
 
 /**
  * @brief Helper function for backtracking algorithm
@@ -28,6 +35,16 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
                   unsigned int curWeight, unsigned int curProfit, 
                   unsigned int curCount, std::vector<bool> &curItems, 
                   BTSol &bestSolution) {
+    
+    // Increment the number of nodes visited for progress tracking
+    g_nodes_visited++;
+    
+    // Update progress bar every 10000 recursive calls to avoid too much overhead
+    if (g_progress != nullptr && g_nodes_visited % 10000 == 0) {
+        if (g_progress->shouldShow()) {
+            g_progress->update(g_nodes_visited);
+        }
+    }
     
     // Base case: we've processed all items
     if (curIndex == n) {
@@ -93,6 +110,17 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
     // Initialize the current items array
     std::vector<bool> curItems(n, false);
     
+    // Reset and initialize global progress tracking variables
+    g_nodes_visited = 0;
+    
+    // Estimate total nodes using a simplified formula (this is just an approximation)
+    // For backtracking, it's hard to know the exact number in advance, so we use 2^n as a worst-case estimate
+    g_total_nodes = static_cast<unsigned long long>(std::pow(2, n)) * 2;
+    
+    // Create a progress bar
+    ProgressBar progress(g_total_nodes);
+    g_progress = &progress;
+    
     // Call the recursive function to start backtracking
     knapsackBTRec(
         profits, weights, n,
@@ -102,6 +130,12 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
         curItems,
         bestSolution
     );
+    
+    // Finalize progress bar if it was shown
+    progress.complete();
+    
+    // Reset global pointer
+    g_progress = nullptr;
     
     return bestSolution;
 }

@@ -4,10 +4,11 @@
  */
 
 #include "Exhaustive.h"
+#include "../InputOutput/ProgressBar.h"
 #include <vector>
 #include <algorithm>
 #include <climits>
-
+#include <cmath>
 
 /**
  * @brief Brute-force pallet loading algorithm
@@ -24,8 +25,24 @@ BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
     BFSol best_solution = {0, 0, 0, std::vector<bool>(n, false)};
     std::vector<bool> current(n, false);
 
+    // Calculate total number of iterations (2^n)
+    unsigned long long total_iterations = 1ULL << n; 
+    
+    // Initialize progress bar
+    ProgressBar progress(total_iterations);
+    unsigned long long iteration_count = 0;
+
     // Generate all possible subsets (2^n possibilities)
     while (true) {
+        // Update progress bar every 1000 iterations to reduce overhead
+        if (iteration_count % 1000 == 0) {
+            // Only show progress bar if the operation is taking significant time
+            if (progress.shouldShow()) {
+                progress.update(iteration_count);
+            }
+        }
+        iteration_count++;
+
         // Calculate current subset's properties
         unsigned int current_weight = 0;
         unsigned int current_profit = 0;
@@ -64,6 +81,9 @@ BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
 
         current[i] = true;
     }
+
+    // Complete the progress bar if it was shown
+    progress.complete();
 
     return best_solution;
 }
