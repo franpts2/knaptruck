@@ -7,9 +7,11 @@
 #define OUTPUT_H
 
 #include "../Approaches/Exhaustive.h"
+#include "../Approaches/Backtracking.h"
 #include <vector>
 
 struct BFSol;
+struct BTSol;
 
 /**
  * @brief Displays the exhaustive search solution
@@ -40,5 +42,18 @@ void OutputDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                              unsigned int totalProfit, unsigned int totalWeight, 
                              unsigned int palletCount, const bool usedItems[],
                              long long executionTime);
+
+/**
+ * @brief Displays the backtracking solution
+ * @param pallets Array of pallet IDs
+ * @param weights Array of pallet weights
+ * @param profits Array of pallet profits
+ * @param n Number of pallets
+ * @param solution The solution to display
+ * @param executionTime Execution time in milliseconds
+ */
+void OutputBacktracking(unsigned int pallets[], unsigned int weights[],
+                       unsigned int profits[], unsigned int n,
+                       const BTSol &solution, long long executionTime);
 
 #endif // OUTPUT_H

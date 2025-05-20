@@ -259,23 +259,8 @@ void optionBacktracking(unsigned int pallets[], unsigned int weights[],
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-    std::cout << "Algorithm execution time: " << duration.count() << "ms\n";
-
-    // Display the results
-    std::cout << "\n-------------------------------------" << std::endl;
-    std::cout << "Backtracking Solution Results:" << std::endl;
-    std::cout << "- Total profit: " << solution.total_profit << std::endl;
-    std::cout << "- Total weight: " << solution.total_weight << std::endl;
-    std::cout << "- Number of pallets used: " << solution.pallet_count << std::endl;
-    
-    // Display selected pallets
-    std::cout << "\nSelected pallets:" << std::endl;
-    std::cout << std::setw(10) << "ID" << std::setw(10) << "Weight" << std::setw(10) << "Profit" << std::endl;
-    for (unsigned int i = 0; i < n; i++) {
-        if (solution.used_pallets[i]) {
-            std::cout << std::setw(10) << pallets[i] << std::setw(10) << weights[i] << std::setw(10) << profits[i] << std::endl;
-        }
-    }
+    // Use the OutputBacktracking function to display results
+    OutputBacktracking(pallets, weights, profits, n, solution, duration.count());
 }
 
 unsigned int* interactiveDataEntry() {
