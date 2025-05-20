@@ -20,10 +20,11 @@ struct BTSol;
  * @param profits Array of pallet profits
  * @param n Number of pallets
  * @param solution The solution to display
+ * @param executionTime Execution time in milliseconds
  */
 void OutputExhaustiveSolution(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
-                             const BFSol &solution);
+                             const BFSol &solution, double executionTime);
 
 /**
  * @brief Displays the dynamic programming solution
@@ -41,7 +42,7 @@ void OutputDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
                              unsigned int totalProfit, unsigned int totalWeight, 
                              unsigned int palletCount, const bool usedItems[],
-                             long long executionTime);
+                             double executionTime);
 
 /**
  * @brief Displays the backtracking solution
@@ -54,6 +55,6 @@ void OutputDynamicProgramming(unsigned int pallets[], unsigned int weights[],
  */
 void OutputBacktracking(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
-                       const BTSol &solution, long long executionTime);
+                       const BTSol &solution, double executionTime);
 
 #endif // OUTPUT_H

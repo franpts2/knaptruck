@@ -11,12 +11,13 @@
 
 void OutputExhaustiveSolution(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
-                             const BFSol &solution) {
+                             const BFSol &solution, double executionTime) {
     std::cout << "\n=========== EXHAUSTIVE SEARCH RESULTS ===========\n";
     std::cout << "Total profit: " << solution.total_profit << "\n";
     std::cout << "Total weight: " << solution.total_weight << " / "
               << (solution.total_weight > solution.total_profit ? "OVERLOAD!" : "OK") << "\n";
-    std::cout << "Pallets used: " << solution.pallet_count << " / " << n << "\n\n";
+    std::cout << "Pallets used: " << solution.pallet_count << " / " << n << "\n";
+    std::cout << "Execution time: " << std::fixed << std::setprecision(3) << executionTime << " ms\n\n";
 
     std::cout << "Selected pallets:\n";
     std::cout << std::setw(10) << "Pallet ID"
@@ -44,12 +45,12 @@ void OutputDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
                              unsigned int totalProfit, unsigned int totalWeight, 
                              unsigned int palletCount, const bool usedItems[],
-                             long long executionTime) {
+                             double executionTime) {
     std::cout << "\n=========== DYNAMIC PROGRAMMING RESULTS ===========\n";
     std::cout << "Total profit: " << totalProfit << "\n";
     std::cout << "Total weight: " << totalWeight << "\n";
     std::cout << "Pallets used: " << palletCount << " / " << n << "\n";
-    std::cout << "Execution time: " << executionTime << " ms\n\n";
+    std::cout << "Execution time: " << std::fixed << std::setprecision(3) << executionTime << " ms\n\n";
 
     std::cout << "Selected pallets:\n";
     std::cout << std::setw(10) << "Pallet ID"
@@ -75,12 +76,12 @@ void OutputDynamicProgramming(unsigned int pallets[], unsigned int weights[],
 
 void OutputBacktracking(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
-                       const BTSol &solution, long long executionTime) {
+                       const BTSol &solution, double executionTime) {
     std::cout << "\n=========== BACKTRACKING RESULTS ===========\n";
     std::cout << "Total profit: " << solution.total_profit << "\n";
     std::cout << "Total weight: " << solution.total_weight << "\n";
     std::cout << "Pallets used: " << solution.pallet_count << " / " << n << "\n";
-    std::cout << "Execution time: " << executionTime << " ms\n\n";
+    std::cout << "Execution time: " << std::fixed << std::setprecision(3) << executionTime << " ms\n\n";
 
     std::cout << "Selected pallets:\n";
     std::cout << std::setw(10) << "Pallet ID"

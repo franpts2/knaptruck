@@ -193,12 +193,10 @@ void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-    std::cout << "Algorithm execution time: " << duration.count() << "ms\n";
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     // Output the results
-    OutputExhaustiveSolution(pallets, weights, profits, n, solution);
+    OutputExhaustiveSolution(pallets, weights, profits, n, solution, duration.count() / 1000.0);
 }
 
 void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
@@ -230,12 +228,12 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
     
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     
     // Use the OutputDynamicProgramming function to display results
     OutputDynamicProgramming(pallets, weights, profits, n, 
                              totalProfit, totalWeight, palletCount, 
-                             usedItems, duration.count());
+                             usedItems, duration.count() / 1000.0);
     
     // Clean up
     delete[] usedItems;
@@ -257,10 +255,10 @@ void optionBacktracking(unsigned int pallets[], unsigned int weights[],
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
     // Use the OutputBacktracking function to display results
-    OutputBacktracking(pallets, weights, profits, n, solution, duration.count());
+    OutputBacktracking(pallets, weights, profits, n, solution, duration.count() / 1000.0);
 }
 
 unsigned int* interactiveDataEntry() {
