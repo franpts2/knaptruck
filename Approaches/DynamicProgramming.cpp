@@ -1,8 +1,14 @@
 #include "DynamicProgramming.h"
 #include "../InputOutput/ProgressBar.h"
+#include <vector>
 
 unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, bool usedItems[]) {
+    /*    
     unsigned int table[n + 1][capacity + 1];
+    */
+    
+    // Use dynamic memory allocation (heap) instead of stack allocation
+    std::vector<std::vector<unsigned int>> table(n + 1, std::vector<unsigned int>(capacity + 1, 0));
 
     // Initialize progress bar - total operations is roughly n*capacity
     unsigned long long total_operations = (unsigned long long)(n) * capacity;
@@ -10,10 +16,13 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
     unsigned long long current_operation = 0;
 
     // Initialize table: first row and first column to 0
+    /*    
     for (unsigned int i = 0; i <= n; i++)
         table[i][0] = 0;
     for (unsigned int w = 0; w <= capacity; w++)
         table[0][w] = 0;
+    */
+    // (already initialized to 0 by the vector constructor)
 
     // Fill table
     for (unsigned int i = 1; i <= n; i++) {
@@ -56,8 +65,6 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
         }
     }
 
-    // Removed debug printing of the table as it can be overwhelming for large datasets
-    // Only keeping the actual result
-
+    // Return the maximum profit
     return table[n][capacity];
 }

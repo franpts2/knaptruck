@@ -9,11 +9,14 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <limits>
+#include <iostream>
 
 // Global variables to track progress (used only in the backtracking algorithm)
 static unsigned long long g_nodes_visited = 0;
 static unsigned long long g_total_nodes = 0;
 static ProgressBar* g_progress = nullptr;
+static bool g_skip_progress_bar = false;
 
 /**
  * @brief Helper function for backtracking algorithm
@@ -112,14 +115,22 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
     
     // Reset and initialize global progress tracking variables
     g_nodes_visited = 0;
+    g_skip_progress_bar = false;
     
-    // Estimate total nodes using a simplified formula (this is just an approximation)
-    // For backtracking, it's hard to know the exact number in advance, so we use 2^n as a worst-case estimate
-    g_total_nodes = static_cast<unsigned long long>(std::pow(2, n)) * 2;
-    
-    // Create a progress bar
-    ProgressBar progress(g_total_nodes);
-    g_progress = &progress;
+    // Only for extremely large datasets (like dataset 6 with 4000+ pallets)
+    if (n > 1000) {
+        std::cout << "\nThis will take a while (not even the progress bar wanted to be here)." << std::endl;
+        std::cout << "Go grab a coffee or something! ☕" << std::endl;
+        g_skip_progress_bar = true;
+        g_progress = nullptr;  // Don't use progress bar for very large datasets
+    } else {
+        // For normal datasets, use the standard estimation
+        g_total_nodes = static_cast<unsigned long long>(std::pow(2, n)) * 2;
+        
+        // Create a progress bar
+        ProgressBar progress(g_total_nodes);
+        g_progress = &progress;
+    }
     
     // Call the recursive function to start backtracking
     knapsackBTRec(
@@ -132,7 +143,11 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
     );
     
     // Finalize progress bar if it was shown
-    progress.complete();
+    if (!g_skip_progress_bar && g_progress != nullptr) {
+        g_progress->complete();
+    } else if (g_skip_progress_bar) {
+        std::cout << "\nFinished! Hope you enjoyed your coffee! ☕" << std::endl;
+    }
     
     // Reset global pointer
     g_progress = nullptr;
