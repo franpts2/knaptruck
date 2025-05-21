@@ -6,11 +6,12 @@
 #include "../Approaches/Exhaustive.h"
 #include "../Approaches/DynamicProgramming.h"
 #include "../Approaches/Backtracking.h"
+#include "../Approaches/Greedy.h"
 #include "../ReadData/read.h"
 
 /**
  * @brief Displays the algorithm selection menu and gets user choice
- * @return Selected algorithm number (1-3)
+ * @return Selected algorithm number (1-4)
  */
 int algorithmSelectionMenu();
 
@@ -48,6 +49,19 @@ bool runBacktrackingOnDataset(int datasetNumber);
  * @return The file path as a string
  */
 std::string getDatasetPath(int datasetNumber, bool isPalletFile);
+
+/**
+ * @brief Displays submenu for approximation algorithm options
+ * @return Selected approximation option (1-3)
+ */
+int approximationSubmenuTesting();
+
+/**
+ * @brief Loads the specified dataset and runs the selected approximation algorithm
+ * @param datasetNumber The dataset number (1-10) chosen by the user
+ * @return True if successful, false otherwise
+ */
+bool runApproximationOnDataset(int datasetNumber);
 
 /**
  * @brief Test menu main function to run the testing interface
