@@ -210,7 +210,29 @@ GreedySol knapsackGreedyMaximum(unsigned int profits[], unsigned int weights[],
     GreedySol profit_solution = knapsackGreedyProfit(profits, weights, n, max_weight, max_pallets);
 
     // Compare the solutions and choose the better one
-    if (ratio_solution.total_profit >= profit_solution.total_profit)
+    if (ratio_solution.total_profit > profit_solution.total_profit)
+    {
+        ratio_solution.approach_name = "Maximum (Weight-to-Profit Ratio Selected)";
+        return ratio_solution;
+    }
+    else if (profit_solution.total_profit > ratio_solution.total_profit)
+    {
+        profit_solution.approach_name = "Maximum (Biggest Profit Values Selected)";
+        return profit_solution;
+    }
+    // Profits are equal, check pallet count
+    if (ratio_solution.pallet_count < profit_solution.pallet_count)
+    {
+        ratio_solution.approach_name = "Maximum (Weight-to-Profit Ratio Selected)";
+        return ratio_solution;
+    }
+    else if (profit_solution.pallet_count < ratio_solution.pallet_count)
+    {
+        profit_solution.approach_name = "Maximum (Biggest Profit Values Selected)";
+        return profit_solution;
+    }
+    // Pallet counts are also equal, check total weight
+    if (ratio_solution.total_weight <= profit_solution.total_weight)
     {
         ratio_solution.approach_name = "Maximum (Weight-to-Profit Ratio Selected)";
         return ratio_solution;

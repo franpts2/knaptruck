@@ -388,12 +388,12 @@ GreedySol runGreedyRatio(unsigned int profits[], unsigned int weights[], unsigne
 
 GreedySol runGreedyProfit(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, unsigned int max_pallets)
 {
-    // return knapsackGreedyProfit(profits, weights, n, capacity, max_pallets);
+    return knapsackGreedyProfit(profits, weights, n, capacity, max_pallets);
 }
 
 GreedySol runGreedyMaximum(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, unsigned int max_pallets)
 {
-    // return knapsackGreedyMaximum(profits, weights, n, capacity, max_pallets);
+    return knapsackGreedyMaximum(profits, weights, n, capacity, max_pallets);
 }
 
 bool runApproximationOnDataset(int datasetNumber)
