@@ -111,4 +111,6 @@ void optionBacktracking(unsigned int pallets[], unsigned int weights[],
  */
 unsigned int* interactiveDataEntry();
 
+int approximationSubmenu();
+
 #endif //MENU_H

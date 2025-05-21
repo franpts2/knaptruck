@@ -58,14 +58,14 @@ int main() {
     else {
         // Original code for normal mode with default dataset
         unsigned int trucksAndPallets[2];
-        readTrucks("datasets/TruckAndPallets_01.csv", trucksAndPallets);
+        readTrucks("../datasets/TruckAndPallets_01.csv", trucksAndPallets);
 
         const unsigned int n = trucksAndPallets[1];
         unsigned int pallets[n];
         unsigned int weights[n];
         unsigned int profits[n];
 
-        readPallets("datasets/Pallets_01.csv", pallets, weights, profits);
+        readPallets("../datasets/Pallets_01.csv", pallets, weights, profits);
 
         // Get user menu selection and handle it
         int option = optionsMenu();

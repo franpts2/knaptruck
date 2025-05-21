@@ -23,7 +23,7 @@ int optionsMenu() {
         cout << "1: Exhaustive Search Algorithm" << endl;
         cout << "2: Dynamic Programming Approach" << endl;
         cout << "3: Backtracking Approach" << endl;
-        cout << "4: Approximation Algorithm" << endl;
+        cout << "4: Approximation Algorithm (Greedy Approach)" << endl;
         cout << "5: Linear Integer Programming" << endl;
         cout << "6: Compare All Algorithms" << endl;
         cout << "7: Info & Instructions" << endl;
@@ -53,7 +53,27 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
             optionBacktracking(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 4:
-            //optionApproximation(pallets, capacity);
+            {
+                int subOption = approximationSubmenu();
+                switch (subOption) {
+                    case 1:
+                        //optionGreedyRatio(pallets, weights, profits, n, capacity, max_pallets);
+                        break;
+                    case 2:
+                        //optionGreedyProfit(pallets, weights, profits, n, capacity, max_pallets);
+                        break;
+                    case 3:
+                        //optionGreedyMaximum(pallets, weights, profits, n, capacity, max_pallets);
+                        break;
+                    case 4:
+                        // Return to main menu
+                        {
+                            int next_option = optionsMenu();
+                            handleMenuOption(next_option, pallets, weights, profits, n, capacity, max_pallets);
+                        }
+                        break;
+                }
+            }
             break;
         case 5:
             //optionLinearProgramming(pallets, capacity);
@@ -362,4 +382,26 @@ unsigned int* interactiveDataEntry() {
     cout << "--------------------------------\n";
     
     return result;
+}
+
+int approximationSubmenu() {
+    cout << endl << "=============================================\n";
+    cout << "       APPROXIMATION ALGORITHM OPTIONS       \n";
+    cout << "=============================================\n\n";
+    
+    int choice;
+    do {
+        cout << "1: Greedy A (Weight-to-Profit Ratio)" << endl;
+        cout << "2: Greedy B (Biggest Profit Values)" << endl;
+        cout << "3: Maximum of Both Approaches" << endl;
+        cout << "4: Back to Main Menu" << endl;
+        cout << "Option: ";
+        cin >> choice;
+        cout << endl;
+        
+        if (choice < 1 || choice > 4) 
+            cout << "Invalid input. Please choose 1-4." << endl;
+    } while (choice < 1 || choice > 4);
+    
+    return choice;
 }

@@ -14,7 +14,8 @@
 enum AlgorithmType {
     BRUTE_FORCE = 1,
     DYNAMIC_PROGRAMMING = 2,
-    BACKTRACKING = 3
+    BACKTRACKING = 3,
+    APPROXIMATION = 4
 };
 
 // Struct for Dynamic Programming solution (added to match with BFSol)
@@ -35,13 +36,14 @@ int algorithmSelectionMenu() {
     std::cout << "  1. Brute Force" << std::endl;
     std::cout << "  2. Dynamic Programming" << std::endl;
     std::cout << "  3. Backtracking" << std::endl;
+    std::cout << "  4. Approximation Algorithm" << std::endl;
     std::cout << "=====================================================" << std::endl;
     std::cout << "Enter your choice (1-3): ";
     
     // Input validation to ensure a number between 1-3 is entered
     do {
         std::cin >> choice;
-        if (std::cin.fail() || choice < 1 || choice > 3) {
+        if (std::cin.fail() || choice < 1 || choice > 4) {
             std::cin.clear();
             std::cin.ignore(10000, '\n');
             std::cout << "Invalid input! Please enter a number between 1 and 3: ";
