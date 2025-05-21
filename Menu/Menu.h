@@ -11,6 +11,10 @@
 #include "../Approaches/Backtracking.h"  // Adding include for Backtracking
 #include "../InputOutput/Output.h"
 
+
+void mainMenu();
+void datasetSelectionAndRun();
+
 /**
  * @file Menu.h
  * @brief Header file for the Truck Packing Optimization menu system
@@ -45,7 +49,7 @@ int optionsMenu();
  */
 void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[],
                      unsigned int profits[], unsigned int n,
-                     int capacity, unsigned int max_pallets);
+                     int capacity);
 /**
  * @brief Displays information about the program and input formats
  * @param pallets Reference to vector of pallets (maintains context)
@@ -56,7 +60,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
  * - Interactive mode instructions (console input)
  * - Program usage examples
  */
-void optionShowInfoMenu(unsigned int pallets[], int capacity);
+void optionShowInfoMenu();
 
 
 /**
@@ -70,7 +74,7 @@ void optionShowInfoMenu(unsigned int pallets[], int capacity);
  */
 void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
                            unsigned int profits[], unsigned int n,
-                           unsigned int capacity, unsigned int max_pallets);
+                           unsigned int capacity);
 
 /**
  * @brief Handles the dynamic programming algorithm option
@@ -83,7 +87,7 @@ void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
  */
 void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
-                             unsigned int capacity, unsigned int max_pallets);
+                             unsigned int capacity);
 
 /**
  * @brief Handles the backtracking algorithm option
@@ -96,7 +100,7 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
  */
 void optionBacktracking(unsigned int pallets[], unsigned int weights[],
                      unsigned int profits[], unsigned int n,
-                     unsigned int capacity, unsigned int max_pallets);
+                     unsigned int capacity);
 
 /**
  * @brief Allows the user to interactively input pallet data
@@ -110,5 +114,19 @@ void optionBacktracking(unsigned int pallets[], unsigned int weights[],
  *         followed by flattened arrays of pallets, weights, and profits]
  */
 unsigned int* interactiveDataEntry();
+
+int approximationSubmenu();
+
+void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
+                       unsigned int profits[], unsigned int n,
+                       unsigned int capacity);
+
+void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
+                        unsigned int profits[], unsigned int n,
+                        unsigned int capacity);
+
+void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
+                         unsigned int profits[], unsigned int n,
+                         unsigned int capacity);
 
 #endif //MENU_H

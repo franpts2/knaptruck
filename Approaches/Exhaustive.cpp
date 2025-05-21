@@ -17,12 +17,10 @@
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return BFSol containing optimal loading
  */
 BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
-                                      unsigned int n, unsigned int max_weight,
-                                      unsigned int max_pallets) {
+                                      unsigned int n, unsigned int max_weight) {
     BFSol best_solution = {0, 0, 0, std::vector<bool>(n, false)};
     std::vector<bool> current(n, false);
 
@@ -62,7 +60,7 @@ BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
         }
 
         // Check if this is a valid and better solution
-        if (current_weight <= max_weight && current_count <= max_pallets) {
+        if (current_weight <= max_weight) {
 
             if (current_profit > best_solution.total_profit ||
                (current_profit == best_solution.total_profit &&

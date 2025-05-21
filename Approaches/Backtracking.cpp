@@ -25,7 +25,6 @@ static bool g_user_cancelled = false;
  * @param n Number of pallets
  * @param curIndex Current index of pallet being considered
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @param curWeight Current accumulated weight
  * @param curProfit Current accumulated profit
  * @param curCount Current count of pallets
@@ -34,10 +33,9 @@ static bool g_user_cancelled = false;
  */
 void knapsackBTRec(unsigned int profits[], unsigned int weights[],
                   unsigned int n, unsigned int curIndex,
-                  unsigned int max_weight, unsigned int max_pallets,
-                  unsigned int curWeight, unsigned int curProfit, 
-                  unsigned int curCount, std::vector<bool> &curItems, 
-                  BTSol &bestSolution) {
+                  unsigned int max_weight, unsigned int curWeight, 
+                  unsigned int curProfit, unsigned int curCount, 
+                  std::vector<bool> &curItems, BTSol &bestSolution) {
     
     // If user cancelled, stop recursion
     if (g_user_cancelled) {
@@ -73,12 +71,12 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
     }
     
     // Try including the current pallet
-    if (curWeight + weights[curIndex] <= max_weight && curCount + 1 <= max_pallets) {
+    if (curWeight + weights[curIndex] <= max_weight) {
         curItems[curIndex] = true;
         knapsackBTRec(
             profits, weights, n, 
             curIndex + 1, 
-            max_weight, max_pallets,
+            max_weight,
             curWeight + weights[curIndex], 
             curProfit + profits[curIndex],
             curCount + 1,
@@ -92,7 +90,7 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
     knapsackBTRec(
         profits, weights, n, 
         curIndex + 1, 
-        max_weight, max_pallets,
+        max_weight,
         curWeight, 
         curProfit,
         curCount,
@@ -107,12 +105,10 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return BTSol containing optimal loading
  */
 BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
-                unsigned int n, unsigned int max_weight,
-                unsigned int max_pallets) {
+                unsigned int n, unsigned int max_weight) {
     
     // Initialize the best solution
     BTSol bestSolution = {0, 0, 0, std::vector<bool>(n, false)};
@@ -137,7 +133,7 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
         knapsackBTRec(
             profits, weights, n,
             0,
-            max_weight, max_pallets,
+            max_weight,
             0, 0, 0,
             curItems,
             bestSolution
@@ -158,7 +154,7 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
         knapsackBTRec(
             profits, weights, n,
             0,
-            max_weight, max_pallets,
+            max_weight,
             0, 0, 0,
             curItems,
             bestSolution

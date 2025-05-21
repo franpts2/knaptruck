@@ -23,11 +23,9 @@ struct BFSol {
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return BFSol containing optimal loading
  */
 BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
-                                      unsigned int n, unsigned int max_weight,
-                                      unsigned int max_pallets);
+                                      unsigned int n, unsigned int max_weight);
 
 #endif // EXHAUSTIVE_H
