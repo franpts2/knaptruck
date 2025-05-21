@@ -7,6 +7,7 @@
 #include <iomanip>                // For std::setw
 #include <limits>                 // For std::numeric_limits
 #include "../Approaches/Greedy.h" // Add Greedy.h include
+#include "../ReadData/read.h"
 
 using namespace std;
 
@@ -130,6 +131,111 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
         int next_option = optionsMenu();
         handleMenuOption(next_option, pallets, weights, profits, n, capacity, max_pallets);
     }
+}
+
+// Unified entry point for the menu system
+void mainMenu()
+{
+    while (true)
+    {
+        cout << endl;
+        cout << "=============================================" << endl;
+        cout << "         TRUCK PACKING MAIN MENU" << endl;
+        cout << "=============================================" << endl;
+        cout << "1. Enter pallet data interactively" << endl;
+        cout << "2. Use predefined dataset" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Option: ";
+        int mainChoice;
+        cin >> mainChoice;
+        if (mainChoice == 1)
+        {
+            unsigned int *data = interactiveDataEntry();
+            unsigned int capacity = data[0];
+            unsigned int n = data[1];
+            unsigned int max_pallets = data[2];
+            unsigned int *pallets = &data[3];
+            unsigned int *weights = &data[3 + n];
+            unsigned int *profits = &data[3 + 2 * n];
+            int option = optionsMenu();
+            handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+            delete[] data;
+        }
+        else if (mainChoice == 2)
+        {
+            datasetSelectionAndRun();
+        }
+        else if (mainChoice == 3)
+        {
+            cout << "Exiting..." << endl;
+            exit(0);
+        }
+        else
+        {
+            cout << "Invalid input. Please choose 1-3." << endl;
+        }
+    }
+}
+
+// Dataset selection and algorithm run
+void datasetSelectionAndRun()
+{
+    // Dataset selection menu
+    int datasetNumber;
+    while (true)
+    {
+        cout << endl;
+        cout << "=============================================" << endl;
+        cout << "           DATASET SELECTION MENU" << endl;
+        cout << "=============================================" << endl;
+        cout << "Please select a dataset number (1-10):" << endl;
+        cout << "  Datasets 1-4:  Standard datasets" << endl;
+        cout << "  Datasets 5-10: Extra datasets" << endl;
+        cout << "=============================================" << endl;
+        cout << "Enter dataset number (1-10): ";
+        cin >> datasetNumber;
+        if (cin.fail() || datasetNumber < 1 || datasetNumber > 10)
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Invalid input! Please enter a number between 1 and 10." << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
+    // Build file paths
+    string basePath = (datasetNumber >= 1 && datasetNumber <= 4) ? "datasets/" : "datasets-extra/";
+    string formattedNumber = (datasetNumber < 10) ? ("0" + to_string(datasetNumber)) : to_string(datasetNumber);
+    string truckFile = "../" + basePath + "TruckAndPallets_" + formattedNumber + ".csv";
+    string palletFile = "../" + basePath + "Pallets_" + formattedNumber + ".csv";
+    // Read truck and pallet data
+    unsigned int trucksAndPallets[2];
+    readTrucks(truckFile, trucksAndPallets);
+    unsigned int capacity = trucksAndPallets[0];
+    unsigned int n = trucksAndPallets[1];
+    unsigned int *pallets = new unsigned int[n];
+    unsigned int *weights = new unsigned int[n];
+    unsigned int *profits = new unsigned int[n];
+    readPallets(palletFile, pallets, weights, profits);
+    unsigned int max_pallets = n;
+    // Show dataset info
+    cout << endl
+         << "Loaded dataset " << datasetNumber << ":\n";
+    cout << "Truck capacity: " << capacity << endl;
+    cout << "Number of pallets: " << n << endl;
+    cout << setw(10) << "ID" << setw(10) << "Weight" << setw(10) << "Profit" << endl;
+    for (unsigned int i = 0; i < n; i++)
+    {
+        cout << setw(10) << pallets[i] << setw(10) << weights[i] << setw(10) << profits[i] << endl;
+    }
+    // Proceed to algorithm selection
+    int option = optionsMenu();
+    handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+    delete[] pallets;
+    delete[] weights;
+    delete[] profits;
 }
 
 // should be vector<Pallet> pallets

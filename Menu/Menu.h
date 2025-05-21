@@ -11,6 +11,10 @@
 #include "../Approaches/Backtracking.h"  // Adding include for Backtracking
 #include "../InputOutput/Output.h"
 
+
+void mainMenu();
+void datasetSelectionAndRun();
+
 /**
  * @file Menu.h
  * @brief Header file for the Truck Packing Optimization menu system
