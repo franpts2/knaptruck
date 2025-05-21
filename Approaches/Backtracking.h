@@ -24,7 +24,6 @@ struct BTSol {
  * @param n Number of pallets
  * @param curIndex Current index of pallet being considered
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @param curWeight Current accumulated weight
  * @param curProfit Current accumulated profit
  * @param curCount Current count of pallets
@@ -33,10 +32,9 @@ struct BTSol {
  */
 void knapsackBTRec(unsigned int profits[], unsigned int weights[],
                   unsigned int n, unsigned int curIndex,
-                  unsigned int max_weight, unsigned int max_pallets,
-                  unsigned int curWeight, unsigned int curProfit, 
-                  unsigned int curCount, std::vector<bool> &curItems, 
-                  BTSol &bestSolution);
+                  unsigned int max_weight, unsigned int curWeight, 
+                  unsigned int curProfit, unsigned int curCount, 
+                  std::vector<bool> &curItems, BTSol &bestSolution);
 
 /**
  * @brief Backtracking pallet loading algorithm
@@ -44,11 +42,9 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return BTSol containing optimal loading
  */
 BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
-                unsigned int n, unsigned int max_weight,
-                unsigned int max_pallets);
+                unsigned int n, unsigned int max_weight);
 
 #endif // BACKTRACKING_H

@@ -20,8 +20,7 @@
  * @return GreedySol containing the solution
  */
 GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
-                              unsigned int n, unsigned int max_weight,
-                              unsigned int max_pallets)
+                              unsigned int n, unsigned int max_weight)
 {
     GreedySol solution;
     solution.total_profit = 0;
@@ -75,8 +74,7 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
         unsigned int idx = items[i].first;
 
         // Check if adding this item exceeds capacity or max pallets
-        if (solution.total_weight + weights[idx] <= max_weight &&
-            solution.pallet_count < max_pallets)
+        if (solution.total_weight + weights[idx] <= max_weight)
         {
             // Add item to solution
             solution.used_pallets[idx] = true;
@@ -110,12 +108,10 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return GreedySol containing the solution
  */
 GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
-                               unsigned int n, unsigned int max_weight,
-                               unsigned int max_pallets)
+                               unsigned int n, unsigned int max_weight)
 {
     GreedySol solution;
     solution.total_profit = 0;
@@ -159,8 +155,7 @@ GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
         unsigned int idx = items[i].first;
 
         // Check if adding this item exceeds capacity or max pallets
-        if (solution.total_weight + weights[idx] <= max_weight &&
-            solution.pallet_count < max_pallets)
+        if (solution.total_weight + weights[idx] <= max_weight)
         {
             // Add item to solution
             solution.used_pallets[idx] = true;
@@ -194,20 +189,18 @@ GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return GreedySol containing the better solution
  */
 GreedySol knapsackGreedyMaximum(unsigned int profits[], unsigned int weights[],
-                                unsigned int n, unsigned int max_weight,
-                                unsigned int max_pallets)
+                                unsigned int n, unsigned int max_weight)
 {
     std::cout << "Running Ratio-based Greedy algorithm...\n";
     // Run the ratio-based greedy algorithm
-    GreedySol ratio_solution = knapsackGreedyRatio(profits, weights, n, max_weight, max_pallets);
+    GreedySol ratio_solution = knapsackGreedyRatio(profits, weights, n, max_weight);
 
     std::cout << "\nRunning Profit-based Greedy algorithm...\n";
     // Run the profit-based greedy algorithm
-    GreedySol profit_solution = knapsackGreedyProfit(profits, weights, n, max_weight, max_pallets);
+    GreedySol profit_solution = knapsackGreedyProfit(profits, weights, n, max_weight);
 
     // Compare the solutions and choose the better one
     if (ratio_solution.total_profit > profit_solution.total_profit)

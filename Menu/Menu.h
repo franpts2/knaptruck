@@ -49,7 +49,7 @@ int optionsMenu();
  */
 void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[],
                      unsigned int profits[], unsigned int n,
-                     int capacity, unsigned int max_pallets);
+                     int capacity);
 /**
  * @brief Displays information about the program and input formats
  * @param pallets Reference to vector of pallets (maintains context)
@@ -74,7 +74,7 @@ void optionShowInfoMenu();
  */
 void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
                            unsigned int profits[], unsigned int n,
-                           unsigned int capacity, unsigned int max_pallets);
+                           unsigned int capacity);
 
 /**
  * @brief Handles the dynamic programming algorithm option
@@ -87,7 +87,7 @@ void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
  */
 void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                              unsigned int profits[], unsigned int n,
-                             unsigned int capacity, unsigned int max_pallets);
+                             unsigned int capacity);
 
 /**
  * @brief Handles the backtracking algorithm option
@@ -100,7 +100,7 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
  */
 void optionBacktracking(unsigned int pallets[], unsigned int weights[],
                      unsigned int profits[], unsigned int n,
-                     unsigned int capacity, unsigned int max_pallets);
+                     unsigned int capacity);
 
 /**
  * @brief Allows the user to interactively input pallet data
@@ -119,14 +119,14 @@ int approximationSubmenu();
 
 void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
-                       unsigned int capacity, unsigned int max_pallets);
+                       unsigned int capacity);
 
 void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
                         unsigned int profits[], unsigned int n,
-                        unsigned int capacity, unsigned int max_pallets);
+                        unsigned int capacity);
 
 void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
                          unsigned int profits[], unsigned int n,
-                         unsigned int capacity, unsigned int max_pallets);
+                         unsigned int capacity);
 
 #endif //MENU_H

@@ -32,12 +32,12 @@ void mainMenu()
             unsigned int *data = interactiveDataEntry();
             unsigned int capacity = data[0];
             unsigned int n = data[1];
-            unsigned int max_pallets = data[2];
+            // unsigned int max_pallets = data[2];
             unsigned int *pallets = &data[3];
             unsigned int *weights = &data[3 + n];
             unsigned int *profits = &data[3 + 2 * n];
             int option = optionsMenu();
-            handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+            handleMenuOption(option, pallets, weights, profits, n, capacity);
             delete[] data;
         }
         else if (mainChoice == 2)
@@ -96,18 +96,18 @@ int optionsMenu()
 
 void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[],
                       unsigned int profits[], unsigned int n,
-                      int capacity, unsigned int max_pallets)
+                      int capacity)
 {
     switch (option)
     {
     case 1:
-        optionExhaustiveSearch(pallets, weights, profits, n, capacity, max_pallets);
+        optionExhaustiveSearch(pallets, weights, profits, n, capacity);
         break;
     case 2:
-        optionDynamicProgramming(pallets, weights, profits, n, capacity, max_pallets);
+        optionDynamicProgramming(pallets, weights, profits, n, capacity);
         break;
     case 3:
-        optionBacktracking(pallets, weights, profits, n, capacity, max_pallets);
+        optionBacktracking(pallets, weights, profits, n, capacity);
         break;
     case 4:
     {
@@ -115,19 +115,19 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
         switch (subOption)
         {
         case 1:
-            optionGreedyRatio(pallets, weights, profits, n, capacity, max_pallets);
+            optionGreedyRatio(pallets, weights, profits, n, capacity);
             break;
         case 2:
-            optionGreedyProfit(pallets, weights, profits, n, capacity, max_pallets);
+            optionGreedyProfit(pallets, weights, profits, n, capacity);
             break;
         case 3:
-            optionGreedyMaximum(pallets, weights, profits, n, capacity, max_pallets);
+            optionGreedyMaximum(pallets, weights, profits, n, capacity);
             break;
         case 4:
             // Return to main menu
             {
                 int next_option = optionsMenu();
-                handleMenuOption(next_option, pallets, weights, profits, n, capacity, max_pallets);
+                handleMenuOption(next_option, pallets, weights, profits, n, capacity);
             }
             break;
         }
@@ -156,7 +156,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
         cout << "\nReturning to menu with the same data...\n";
         this_thread::sleep_for(chrono::seconds(1));
         int next_option = optionsMenu();
-        handleMenuOption(next_option, pallets, weights, profits, n, capacity, max_pallets);
+        handleMenuOption(next_option, pallets, weights, profits, n, capacity);
     }
 }
 
@@ -202,7 +202,7 @@ void datasetSelectionAndRun()
     unsigned int *weights = new unsigned int[n];
     unsigned int *profits = new unsigned int[n];
     readPallets(palletFile, pallets, weights, profits);
-    unsigned int max_pallets = n;
+
     // Show dataset info
     cout << endl
          << "Loaded dataset " << datasetNumber << ":\n";
@@ -215,7 +215,7 @@ void datasetSelectionAndRun()
     }
     // Proceed to algorithm selection
     int option = optionsMenu();
-    handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+    handleMenuOption(option, pallets, weights, profits, n, capacity);
     delete[] pallets;
     delete[] weights;
     delete[] profits;
@@ -257,10 +257,7 @@ void optionShowInfoMenu()
         unsigned int weights[1] = {0};
         unsigned int profits[1] = {0};
         unsigned int n = 0;
-        unsigned int max_pallets = 0;
 
-        // int option = optionsMenu();
-        // handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
         mainMenu();
     }
     else if (choice == 2)
@@ -280,9 +277,7 @@ void optionShowInfoMenu()
         unsigned int weights[1] = {0};
         unsigned int profits[1] = {0};
         unsigned int n = 0;
-        unsigned int max_pallets = 0;
-        // int option = optionsMenu();
-        // handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+       
         mainMenu();
     }
     else
@@ -295,28 +290,24 @@ void optionShowInfoMenu()
         unsigned int weights[1] = {0};
         unsigned int profits[1] = {0};
         unsigned int n = 0;
-        unsigned int max_pallets = 0;
 
         mainMenu();
-        // int option = optionsMenu();
-        // handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
     }
 }
 
 void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
                             unsigned int profits[], unsigned int n,
-                            unsigned int capacity, unsigned int max_pallets)
+                            unsigned int capacity)
 {
     std::cout << "\nRunning Exhaustive Search Algorithm...\n";
     std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Max pallets allowed: " << max_pallets << "\n";
     std::cout << "Number of available pallets: " << n << "\n\n";
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
 
     // Run the algorithm
-    BFSol solution = knapsackBF(profits, weights, n, capacity, max_pallets);
+    BFSol solution = knapsackBF(profits, weights, n, capacity);
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
@@ -328,7 +319,7 @@ void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
 
 void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
                               unsigned int profits[], unsigned int n,
-                              unsigned int capacity, unsigned int max_pallets)
+                              unsigned int capacity)
 {
     std::cout << "\nRunning Dynamic Programming Algorithm...\n";
     std::cout << "Truck capacity: " << capacity << "\n";
@@ -371,18 +362,17 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
 
 void optionBacktracking(unsigned int pallets[], unsigned int weights[],
                         unsigned int profits[], unsigned int n,
-                        unsigned int capacity, unsigned int max_pallets)
+                        unsigned int capacity)
 {
     std::cout << "\nRunning Backtracking Algorithm...\n";
     std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Max pallets allowed: " << max_pallets << "\n";
     std::cout << "Number of available pallets: " << n << "\n\n";
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
 
     // Run the algorithm
-    BTSol solution = knapsackBT(profits, weights, n, capacity, max_pallets);
+    BTSol solution = knapsackBT(profits, weights, n, capacity);
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
@@ -394,18 +384,17 @@ void optionBacktracking(unsigned int pallets[], unsigned int weights[],
 
 void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
-                       unsigned int capacity, unsigned int max_pallets)
+                       unsigned int capacity)
 {
     std::cout << "\nRunning Greedy Algorithm (Weight-to-Profit Ratio)...\n";
     std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Max pallets allowed: " << max_pallets << "\n";
     std::cout << "Number of available pallets: " << n << "\n\n";
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
 
     // Run the algorithm
-    GreedySol solution = knapsackGreedyRatio(profits, weights, n, capacity, max_pallets);
+    GreedySol solution = knapsackGreedyRatio(profits, weights, n, capacity);
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
@@ -417,18 +406,17 @@ void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
 
 void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
                         unsigned int profits[], unsigned int n,
-                        unsigned int capacity, unsigned int max_pallets)
+                        unsigned int capacity)
 {
     std::cout << "\nRunning Greedy Algorithm (Biggest Profit Values)...\n";
     std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Max pallets allowed: " << max_pallets << "\n";
     std::cout << "Number of available pallets: " << n << "\n\n";
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
 
     // Run the algorithm
-    GreedySol solution = knapsackGreedyProfit(profits, weights, n, capacity, max_pallets);
+    GreedySol solution = knapsackGreedyProfit(profits, weights, n, capacity);
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
@@ -440,18 +428,17 @@ void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
 
 void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
                          unsigned int profits[], unsigned int n,
-                         unsigned int capacity, unsigned int max_pallets)
+                         unsigned int capacity)
 {
     std::cout << "\nRunning Greedy Algorithm (Maximum of Both Approaches)...\n";
     std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Max pallets allowed: " << max_pallets << "\n";
     std::cout << "Number of available pallets: " << n << "\n\n";
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
 
     // Run the algorithm
-    GreedySol solution = knapsackGreedyMaximum(profits, weights, n, capacity, max_pallets);
+    GreedySol solution = knapsackGreedyMaximum(profits, weights, n, capacity);
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
@@ -463,9 +450,9 @@ void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
 
 unsigned int *interactiveDataEntry()
 {
-    int inputCapacity, inputNumPallets, inputMaxPallets; // Using signed int for initial input
+    int inputCapacity, inputNumPallets; // Using signed int for initial input
     int inputPalletID, inputWeight, inputProfit;         // Using signed int for pallet data
-    unsigned int capacity, numPallets, maxPallets;
+    unsigned int capacity, numPallets;
 
     cout << "\n=============================================\n";
     cout << "            INTERACTIVE DATA ENTRY           \n";
@@ -493,33 +480,18 @@ unsigned int *interactiveDataEntry()
     numPallets = static_cast<unsigned int>(inputNumPallets); // Safe conversion after validation
     cin.ignore(numeric_limits<streamsize>::max(), '\n');     // Clear input buffer after successful read
 
-    // Get max pallets allowed with improved validation
-    cout << "Enter maximum number of pallets allowed (or 0 for no limit): ";
-    while (!(cin >> inputMaxPallets) || inputMaxPallets < 0)
-    {
-        cout << "Invalid input. Please enter a non-negative number: ";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
-    maxPallets = static_cast<unsigned int>(inputMaxPallets); // Safe conversion after validation
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');     // Clear input buffer after successful read
-
-    if (maxPallets == 0 || maxPallets > numPallets)
-    {
-        maxPallets = numPallets; // No limit or limit exceeds available pallets
-    }
 
     // Allocate memory for the result array
     // Format: [capacity, numPallets, maxPallets, pallets..., weights..., profits...]
-    unsigned int *result = new unsigned int[3 + 3 * numPallets];
+    unsigned int *result = new unsigned int[2 + 3 * numPallets];
     result[0] = capacity;
     result[1] = numPallets;
-    result[2] = maxPallets;
+    // result[2] = maxPallets;
 
     // Arrays to hold pallet IDs, weights, and profits
-    unsigned int *pallets = &result[3];
-    unsigned int *weights = &result[3 + numPallets];
-    unsigned int *profits = &result[3 + 2 * numPallets];
+    unsigned int *pallets = &result[2];
+    unsigned int *weights = &result[2 + numPallets];
+    unsigned int *profits = &result[2 + 2 * numPallets];
 
     cout << "\nEnter pallet data in the format 'palletID weight profit':\n";
 
@@ -567,7 +539,6 @@ unsigned int *interactiveDataEntry()
     cout << "Summary:\n";
     cout << "- Truck capacity: " << capacity << "\n";
     cout << "- Number of pallets: " << numPallets << "\n";
-    cout << "- Max pallets allowed: " << maxPallets << "\n\n";
 
     cout << "Pallet Data:\n";
     cout << setw(10) << "ID" << setw(10) << "Weight" << setw(10) << "Profit" << "\n";

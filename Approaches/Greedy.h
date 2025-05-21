@@ -26,12 +26,10 @@ struct GreedySol
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return GreedySol containing the solution
  */
 GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
-                              unsigned int n, unsigned int max_weight,
-                              unsigned int max_pallets);
+                              unsigned int n, unsigned int max_weight);
 
 /**
  * @brief Greedy approximation using profit values
@@ -39,12 +37,10 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return GreedySol containing the solution
  */
 GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
-                               unsigned int n, unsigned int max_weight,
-                               unsigned int max_pallets);
+                               unsigned int n, unsigned int max_weight);
 
 /**
  * @brief Runs both greedy approximations and returns the better solution
@@ -52,11 +48,9 @@ GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return GreedySol containing the better solution
  */
 GreedySol knapsackGreedyMaximum(unsigned int profits[], unsigned int weights[],
-                                unsigned int n, unsigned int max_weight,
-                                unsigned int max_pallets);
+                                unsigned int n, unsigned int max_weight);
 
 #endif // GREEDY_H
