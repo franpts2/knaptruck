@@ -12,6 +12,7 @@ add_executable(DA2425_PROJ2
         Approaches/DynamicProgramming.cpp
         Approaches/Exhaustive.cpp
         Approaches/Backtracking.cpp
+        Approaches/Greedy.cpp
         InputOutput/Input.cpp
         InputOutput/Output.cpp
         InputOutput/ProgressBar.cpp

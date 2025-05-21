@@ -113,4 +113,8 @@ unsigned int* interactiveDataEntry();
 
 int approximationSubmenu();
 
+void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
+                       unsigned int profits[], unsigned int n,
+                       unsigned int capacity, unsigned int max_pallets);
+
 #endif //MENU_H

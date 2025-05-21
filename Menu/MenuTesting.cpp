@@ -29,14 +29,14 @@ struct DPSol
 };
 
 // Struct for Greedy Approximation solution
-struct GreedySol
-{
-    unsigned int total_profit;
-    unsigned int total_weight;
-    unsigned int pallet_count;
-    std::vector<bool> used_pallets;
-    std::string approach_name; // To track which greedy approach was used
-};
+// struct GreedySol
+// {
+//     unsigned int total_profit;
+//     unsigned int total_weight;
+//     unsigned int pallet_count;
+//     std::vector<bool> used_pallets;
+//     std::string approach_name; // To track which greedy approach was used
+// };
 
 int algorithmSelectionMenu()
 {
@@ -380,52 +380,20 @@ bool runBacktrackingOnDataset(int datasetNumber)
     return true;
 }
 
-// Wrapper functions for different greedy algorithms (placeholders for now)
+// Wrapper functions for different greedy algorithms
 GreedySol runGreedyRatio(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, unsigned int max_pallets)
 {
-    GreedySol solution;
-    solution.total_profit = 0;
-    solution.total_weight = 0;
-    solution.pallet_count = 0;
-    solution.used_pallets.resize(n, false);
-    solution.approach_name = "Weight-to-Profit Ratio";
-
-    // TODO: Implement the actual Weight-to-Profit Ratio greedy algorithm
-
-    return solution;
+    return knapsackGreedyRatio(profits, weights, n, capacity, max_pallets);
 }
 
 GreedySol runGreedyProfit(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, unsigned int max_pallets)
 {
-    GreedySol solution;
-    solution.total_profit = 0;
-    solution.total_weight = 0;
-    solution.pallet_count = 0;
-    solution.used_pallets.resize(n, false);
-    solution.approach_name = "Biggest Profit Values";
-
-    // TODO: Implement the actual Biggest Profit Values greedy algorithm
-
-    return solution;
+    // return knapsackGreedyProfit(profits, weights, n, capacity, max_pallets);
 }
 
 GreedySol runGreedyMaximum(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, unsigned int max_pallets)
 {
-    // Run both greedy approaches
-    GreedySol ratioSolution = runGreedyRatio(profits, weights, n, capacity, max_pallets);
-    GreedySol profitSolution = runGreedyProfit(profits, weights, n, capacity, max_pallets);
-
-    // Compare and return the solution with higher profit
-    if (ratioSolution.total_profit >= profitSolution.total_profit)
-    {
-        ratioSolution.approach_name = "Maximum (Weight-to-Profit Ratio)";
-        return ratioSolution;
-    }
-    else
-    {
-        profitSolution.approach_name = "Maximum (Biggest Profit Values)";
-        return profitSolution;
-    }
+    // return knapsackGreedyMaximum(profits, weights, n, capacity, max_pallets);
 }
 
 bool runApproximationOnDataset(int datasetNumber)
