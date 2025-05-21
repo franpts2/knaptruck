@@ -60,7 +60,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
  * - Interactive mode instructions (console input)
  * - Program usage examples
  */
-void optionShowInfoMenu(unsigned int pallets[], int capacity);
+void optionShowInfoMenu();
 
 
 /**
@@ -120,5 +120,13 @@ int approximationSubmenu();
 void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
                        unsigned int capacity, unsigned int max_pallets);
+
+void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
+                        unsigned int profits[], unsigned int n,
+                        unsigned int capacity, unsigned int max_pallets);
+
+void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
+                         unsigned int profits[], unsigned int n,
+                         unsigned int capacity, unsigned int max_pallets);
 
 #endif //MENU_H

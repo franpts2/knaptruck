@@ -11,6 +11,55 @@
 
 using namespace std;
 
+// Unified entry point for the menu system
+void mainMenu()
+{
+    while (true)
+    {
+        cout << endl;
+        cout << "========================================" << endl;
+        cout << "         TRUCK PACKING MENU" << endl;
+        cout << "========================================" << endl;
+        cout << "1. Enter pallet data interactively" << endl;
+        cout << "2. Use predefined dataset" << endl;
+        cout << "3: Info & Instructions" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Option: ";
+        int mainChoice;
+        cin >> mainChoice;
+        if (mainChoice == 1)
+        {
+            unsigned int *data = interactiveDataEntry();
+            unsigned int capacity = data[0];
+            unsigned int n = data[1];
+            unsigned int max_pallets = data[2];
+            unsigned int *pallets = &data[3];
+            unsigned int *weights = &data[3 + n];
+            unsigned int *profits = &data[3 + 2 * n];
+            int option = optionsMenu();
+            handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+            delete[] data;
+        }
+        else if (mainChoice == 2)
+        {
+            datasetSelectionAndRun();
+        }
+        else if (mainChoice == 3)
+        {
+            optionShowInfoMenu();
+        }
+        else if (mainChoice == 4)
+        {
+            cout << "Exiting..." << endl;
+            exit(0);
+        }
+        else
+        {
+            cout << "Invalid input. Please choose 1-3." << endl;
+        }
+    }
+}
+
 int optionsMenu()
 {
     cout << endl
@@ -18,9 +67,9 @@ int optionsMenu()
     cout.flush();
     this_thread::sleep_for(chrono::seconds(1));
 
-    cout << "----------------------------------------------" << endl;
-    cout << "          TRUCK PACKING OPTIMIZATION" << endl;
-    cout << "----------------------------------------------" << endl
+    cout << "==============================================" << endl;
+    cout << "     TRUCK PACKING OPTIMIZATION ALGORITHMS    " << endl;
+    cout << "==============================================" << endl
          << endl;
 
     int i;
@@ -32,16 +81,15 @@ int optionsMenu()
         cout << "4: Approximation Algorithm (Greedy Approach)" << endl;
         cout << "5: Linear Integer Programming" << endl;
         cout << "6: Compare All Algorithms" << endl;
-        cout << "7: Info & Instructions" << endl;
-        cout << "8: Change Input Data" << endl;
-        cout << "9: Exit" << endl;
+        cout << "7: Change Input Data" << endl;
+        cout << "8: Exit" << endl;
         cout << "Option: ";
         cin >> i;
         cout << endl;
 
-        if (i < 1 || i > 9)
+        if (i < 1 || i > 8)
             cout << "Invalid input. Please choose 1-9." << endl;
-    } while (i < 1 || i > 9);
+    } while (i < 1 || i > 8);
 
     return i;
 }
@@ -70,10 +118,10 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
             optionGreedyRatio(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 2:
-            // optionGreedyProfit(pallets, weights, profits, n, capacity, max_pallets);
+            optionGreedyProfit(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 3:
-            // optionGreedyMaximum(pallets, weights, profits, n, capacity, max_pallets);
+            optionGreedyMaximum(pallets, weights, profits, n, capacity, max_pallets);
             break;
         case 4:
             // Return to main menu
@@ -92,31 +140,10 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
         // optionCompareAllAlgorithms(pallets, capacity);
         break;
     case 7:
-        optionShowInfoMenu(pallets, capacity);
+        cout << "\nReturning to the main menu...\n";
+        mainMenu();
         break;
     case 8:
-        // Change Input Data option
-        {
-            unsigned int *data = interactiveDataEntry();
-
-            // Extract data and call menu again with new data
-            unsigned int new_capacity = data[0];
-            unsigned int new_n = data[1];
-            unsigned int new_max_pallets = data[2];
-
-            // Extract arrays
-            unsigned int *new_pallets = &data[3];
-            unsigned int *new_weights = &data[3 + new_n];
-            unsigned int *new_profits = &data[3 + 2 * new_n];
-
-            int next_option = optionsMenu();
-            handleMenuOption(next_option, new_pallets, new_weights, new_profits, new_n, new_capacity, new_max_pallets);
-
-            // Clean up allocated memory
-            delete[] data;
-        }
-        break;
-    case 9:
         cout << "Exiting..." << endl;
         exit(0);
     default:
@@ -130,50 +157,6 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
         this_thread::sleep_for(chrono::seconds(1));
         int next_option = optionsMenu();
         handleMenuOption(next_option, pallets, weights, profits, n, capacity, max_pallets);
-    }
-}
-
-// Unified entry point for the menu system
-void mainMenu()
-{
-    while (true)
-    {
-        cout << endl;
-        cout << "=============================================" << endl;
-        cout << "         TRUCK PACKING MAIN MENU" << endl;
-        cout << "=============================================" << endl;
-        cout << "1. Enter pallet data interactively" << endl;
-        cout << "2. Use predefined dataset" << endl;
-        cout << "3. Exit" << endl;
-        cout << "Option: ";
-        int mainChoice;
-        cin >> mainChoice;
-        if (mainChoice == 1)
-        {
-            unsigned int *data = interactiveDataEntry();
-            unsigned int capacity = data[0];
-            unsigned int n = data[1];
-            unsigned int max_pallets = data[2];
-            unsigned int *pallets = &data[3];
-            unsigned int *weights = &data[3 + n];
-            unsigned int *profits = &data[3 + 2 * n];
-            int option = optionsMenu();
-            handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
-            delete[] data;
-        }
-        else if (mainChoice == 2)
-        {
-            datasetSelectionAndRun();
-        }
-        else if (mainChoice == 3)
-        {
-            cout << "Exiting..." << endl;
-            exit(0);
-        }
-        else
-        {
-            cout << "Invalid input. Please choose 1-3." << endl;
-        }
     }
 }
 
@@ -239,7 +222,7 @@ void datasetSelectionAndRun()
 }
 
 // should be vector<Pallet> pallets
-void optionShowInfoMenu(unsigned int pallets[], int capacity)
+void optionShowInfoMenu()
 {
     cout << endl
          << "=============================================\n";
@@ -276,30 +259,31 @@ void optionShowInfoMenu(unsigned int pallets[], int capacity)
         unsigned int n = 0;
         unsigned int max_pallets = 0;
 
-        int option = optionsMenu();
-        handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+        // int option = optionsMenu();
+        // handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+        mainMenu();
     }
     else if (choice == 2)
     {
-        // Run interactive data entry
-        unsigned int *data = interactiveDataEntry();
-
-        // Extract data from the result array
-        unsigned int new_capacity = data[0];
-        unsigned int n = data[1];
-        unsigned int max_pallets = data[2];
-
-        // Extract arrays
-        unsigned int *new_pallets = &data[3];
-        unsigned int *weights = &data[3 + n];
-        unsigned int *profits = &data[3 + 2 * n];
-
-        // Forward directly to options menu
-        int option = optionsMenu();
-        handleMenuOption(option, new_pallets, weights, profits, n, new_capacity, max_pallets);
-
-        // Clean up allocated memory
-        delete[] data;
+        cout << "\nINTERACTIVE MODE INSTRUCTIONS:\n";
+        cout << "1. You will be prompted to enter the truck's maximum weight capacity.\n";
+        cout << "2. Next, enter the number of pallets you want to consider.\n";
+        cout << "3. Then, specify the maximum number of pallets allowed (enter 0 for no limit).\n";
+        cout << "4. For each pallet, enter its ID, weight, and profit in the format: palletID weight profit (with a space between)\n";
+        cout << "   Example:\n";
+        cout << "   1 23 45\n";
+        cout << "   2 37 72\n";
+        cout << "   3 42 60\n";
+        cout << "5. After entering all pallets, you will see a summary of your input and can proceed to select and run algorithms.\n";
+        cout << "\nReturning to main menu...\n";
+        this_thread::sleep_for(chrono::seconds(3));
+        unsigned int weights[1] = {0};
+        unsigned int profits[1] = {0};
+        unsigned int n = 0;
+        unsigned int max_pallets = 0;
+        // int option = optionsMenu();
+        // handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+        mainMenu();
     }
     else
     {
@@ -313,8 +297,9 @@ void optionShowInfoMenu(unsigned int pallets[], int capacity)
         unsigned int n = 0;
         unsigned int max_pallets = 0;
 
-        int option = optionsMenu();
-        handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
+        mainMenu();
+        // int option = optionsMenu();
+        // handleMenuOption(option, pallets, weights, profits, n, capacity, max_pallets);
     }
 }
 
@@ -421,6 +406,52 @@ void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
 
     // Run the algorithm
     GreedySol solution = knapsackGreedyRatio(profits, weights, n, capacity, max_pallets);
+
+    // Stop timer
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    // Output the results
+    OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+}
+
+void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
+                        unsigned int profits[], unsigned int n,
+                        unsigned int capacity, unsigned int max_pallets)
+{
+    std::cout << "\nRunning Greedy Algorithm (Biggest Profit Values)...\n";
+    std::cout << "Truck capacity: " << capacity << "\n";
+    std::cout << "Max pallets allowed: " << max_pallets << "\n";
+    std::cout << "Number of available pallets: " << n << "\n\n";
+
+    // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Run the algorithm
+    GreedySol solution = knapsackGreedyProfit(profits, weights, n, capacity, max_pallets);
+
+    // Stop timer
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    // Output the results
+    OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+}
+
+void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
+                         unsigned int profits[], unsigned int n,
+                         unsigned int capacity, unsigned int max_pallets)
+{
+    std::cout << "\nRunning Greedy Algorithm (Maximum of Both Approaches)...\n";
+    std::cout << "Truck capacity: " << capacity << "\n";
+    std::cout << "Max pallets allowed: " << max_pallets << "\n";
+    std::cout << "Number of available pallets: " << n << "\n\n";
+
+    // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Run the algorithm
+    GreedySol solution = knapsackGreedyMaximum(profits, weights, n, capacity, max_pallets);
 
     // Stop timer
     auto end = std::chrono::high_resolution_clock::now();
