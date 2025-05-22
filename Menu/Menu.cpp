@@ -134,7 +134,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
     }
     break;
     case 5:
-        optionLinearProgramming(pallets, weights, profits, n, capacity);
+        optionIntegerLinearProgramming(pallets, weights, profits, n, capacity);
         break;
     case 6:
         // optionCompareAllAlgorithms(pallets, capacity);
@@ -448,7 +448,7 @@ void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
     OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
 }
 
-void optionLinearProgramming(unsigned int pallets[], unsigned int weights[],
+void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights[],
                            unsigned int profits[], unsigned int n,
                            unsigned int capacity) {
     std::cout << "\nRunning Integer Linear Programming (PuLP)...\n";
@@ -507,7 +507,7 @@ void optionLinearProgramming(unsigned int pallets[], unsigned int weights[],
     }
 
     // Use the OutputLinearProgramming function to display results
-    OutputLinearProgramming(pallets, weights, profits, n, capacity, 
+    OutputIntegerLinearProgramming(pallets, weights, profits, n, capacity, 
                           totalProfit, totalWeight, selectedIndices,
                           duration.count() / 1000.0);
 }

@@ -84,7 +84,7 @@ void OutputGreedyApproximation(unsigned int pallets[], unsigned int weights[],
  * @param selectedIndices Vector of indices of selected pallets
  * @param executionTime Execution time in milliseconds
  */
-void OutputLinearProgramming(unsigned int pallets[], unsigned int weights[],
+void OutputIntegerLinearProgramming(unsigned int pallets[], unsigned int weights[],
                             unsigned int profits[], unsigned int n,
                             unsigned int capacity, int totalProfit, int totalWeight,
                             const std::vector<int>& selectedIndices, double executionTime);

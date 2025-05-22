@@ -151,7 +151,7 @@ void OutputGreedyApproximation(unsigned int pallets[], unsigned int weights[],
     std::cin.get();
 }
 
-void OutputLinearProgramming(unsigned int pallets[], unsigned int weights[],
+void OutputIntegerLinearProgramming(unsigned int pallets[], unsigned int weights[],
                             unsigned int profits[], unsigned int n,
                             unsigned int capacity, int totalProfit, int totalWeight,
                             const std::vector<int>& selectedIndices, double executionTime)
