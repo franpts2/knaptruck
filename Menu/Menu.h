@@ -102,6 +102,10 @@ void optionBacktracking(unsigned int pallets[], unsigned int weights[],
                      unsigned int profits[], unsigned int n,
                      unsigned int capacity);
 
+void optionLinearProgramming(unsigned int pallets[], unsigned int weights[],
+                        unsigned int profits[], unsigned int n,
+                        unsigned int capacity);
+
 /**
  * @brief Allows the user to interactively input pallet data
  * 

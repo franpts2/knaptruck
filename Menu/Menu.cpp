@@ -134,7 +134,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
     }
     break;
     case 5:
-        // optionLinearProgramming(pallets, capacity);
+        optionLinearProgramming(pallets, weights, profits, n, capacity);
         break;
     case 6:
         // optionCompareAllAlgorithms(pallets, capacity);
@@ -446,6 +446,94 @@ void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
 
     // Output the results
     OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+}
+
+void optionLinearProgramming(unsigned int pallets[], unsigned int weights[],
+                           unsigned int profits[], unsigned int n,
+                           unsigned int capacity) {
+    std::cout << "\nRunning Integer Linear Programming (PuLP)...\n";
+    std::cout << "Truck capacity: " << capacity << "\n";
+    std::cout << "Number of available pallets: " << n << "\n\n";
+
+    // Create input.txt for Python script
+    std::ofstream inputFile("input.txt");
+    inputFile << n << "\n";
+    inputFile << capacity << "\n";
+    for (unsigned int i = 0; i < n; i++) inputFile << weights[i] << " ";
+    inputFile << "\n";
+    for (unsigned int i = 0; i < n; i++) inputFile << profits[i] << " ";
+    inputFile.close();
+
+    // Run Python script
+    auto start = std::chrono::high_resolution_clock::now();
+    int ret = system("python ../Approaches/knapsack_solver.py input.txt output.txt");
+    if (ret != 0) {
+        std::cerr << "Failed to run ILP solver.\n";
+        return;
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    // Parse output.txt
+    std::ifstream outputFile("output.txt");
+    int totalProfit = 0, totalWeight = 0;
+    std::vector<int> selectedIndices;
+    std::string line;
+
+    if (outputFile.is_open()) {
+        // Read total profit
+        if (std::getline(outputFile, line)) {
+            totalProfit = std::stoi(line);
+        }
+
+        // Read total weight
+        if (std::getline(outputFile, line)) {
+            totalWeight = std::stoi(line);
+        }
+
+        // Third line contains the selected pallet indices
+        if (std::getline(outputFile, line)) {
+            std::istringstream iss(line);
+            int index;
+            while (iss >> index) {
+                // Add the index (it's 0-based in the output file)
+                selectedIndices.push_back(index);
+            }
+        }
+        outputFile.close();
+    } else {
+        std::cerr << "Unable to open output.txt file\n";
+        return;
+    }
+
+    // Display results in a format similar to other algorithms
+    std::cout << "\n=========== INTEGER LINEAR PROGRAMMING RESULTS ===========\n";
+    std::cout << "Total profit: " << totalProfit << "\n";
+    std::cout << "Total weight: " << totalWeight << " / " << capacity << "\n";
+    std::cout << "Pallets used: " << selectedIndices.size() << " / " << n << "\n";
+    std::cout << "Execution time: " << std::fixed << std::setprecision(3) << duration.count() / 1000.0 << " ms\n\n";
+
+    std::cout << "Selected pallets:\n";
+    std::cout << std::setw(10) << "Pallet ID"
+              << std::setw(10) << "Weight"
+              << std::setw(10) << "Profit" << "\n";
+    std::cout << "----------------------------------------\n";
+
+    for (int index : selectedIndices) {
+        // In the output file, the indices are 0-based
+        // However, in the original data, they are 1-based
+        // Adjusting the index to match the original data
+        std::cout << std::setw(10) << pallets[index] 
+                  << std::setw(10) << weights[index] 
+                  << std::setw(10) << profits[index] << "\n";
+    }
+
+    std::cout << "===========================================================\n";
+
+    // Option to return to menu
+    std::cout << "\nPress Enter to return to the algorithms menu...";
+    std::cin.ignore();
+    std::cin.get();
 }
 
 unsigned int *interactiveDataEntry()

@@ -16,3 +16,9 @@ add_executable(DA2425_PROJ2
         InputOutput/Output.cpp
         InputOutput/ProgressBar.cpp
 )
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Approaches/knapsack_solver.py
+    ${CMAKE_CURRENT_BINARY_DIR}/knapsack_solver.py
+    COPYONLY
+)
