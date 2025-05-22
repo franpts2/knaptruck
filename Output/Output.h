@@ -72,4 +72,21 @@ void OutputGreedyApproximation(unsigned int pallets[], unsigned int weights[],
                                unsigned int profits[], unsigned int n,
                                const GreedySol &solution, double executionTime);
 
+/**
+ * @brief Displays the integer linear programming solution
+ * @param pallets Array of pallet IDs
+ * @param weights Array of pallet weights
+ * @param profits Array of pallet profits
+ * @param n Number of pallets
+ * @param capacity Truck capacity
+ * @param totalProfit Total profit of the solution
+ * @param totalWeight Total weight of the solution
+ * @param selectedIndices Vector of indices of selected pallets
+ * @param executionTime Execution time in milliseconds
+ */
+void OutputLinearProgramming(unsigned int pallets[], unsigned int weights[],
+                            unsigned int profits[], unsigned int n,
+                            unsigned int capacity, int totalProfit, int totalWeight,
+                            const std::vector<int>& selectedIndices, double executionTime);
+
 #endif // OUTPUT_H

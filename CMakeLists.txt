@@ -12,9 +12,8 @@ add_executable(DA2425_PROJ2
         Approaches/Exhaustive.cpp
         Approaches/Backtracking.cpp
         Approaches/Greedy.cpp
-        InputOutput/Input.cpp
-        InputOutput/Output.cpp
-        InputOutput/ProgressBar.cpp
+        Output/Output.cpp
+        Output/ProgressBar.cpp
 )
 
 configure_file(

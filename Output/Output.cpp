@@ -150,3 +150,34 @@ void OutputGreedyApproximation(unsigned int pallets[], unsigned int weights[],
     std::cin.ignore();
     std::cin.get();
 }
+
+void OutputLinearProgramming(unsigned int pallets[], unsigned int weights[],
+                            unsigned int profits[], unsigned int n,
+                            unsigned int capacity, int totalProfit, int totalWeight,
+                            const std::vector<int>& selectedIndices, double executionTime)
+{
+    std::cout << "\n=========== INTEGER LINEAR PROGRAMMING RESULTS ===========\n";
+    std::cout << "Total profit: " << totalProfit << "\n";
+    std::cout << "Total weight: " << totalWeight << " / " << capacity << "\n";
+    std::cout << "Pallets used: " << selectedIndices.size() << " / " << n << "\n";
+    std::cout << "Execution time: " << std::fixed << std::setprecision(3) << executionTime << " ms\n\n";
+
+    std::cout << "Selected pallets:\n";
+    std::cout << std::setw(10) << "Pallet ID"
+              << std::setw(10) << "Weight"
+              << std::setw(10) << "Profit" << "\n";
+    std::cout << "----------------------------------------\n";
+
+    for (int index : selectedIndices) {
+        std::cout << std::setw(10) << pallets[index] 
+                  << std::setw(10) << weights[index] 
+                  << std::setw(10) << profits[index] << "\n";
+    }
+
+    std::cout << "===========================================================\n";
+
+    // Option to return to menu
+    std::cout << "\nPress Enter to return to the algorithms menu...";
+    std::cin.ignore();
+    std::cin.get();
+}

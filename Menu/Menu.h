@@ -9,7 +9,7 @@
 #include "../Approaches/Exhaustive.h"
 #include "../Approaches/DynamicProgramming.h"  // Adding include for DynamicProgramming
 #include "../Approaches/Backtracking.h"  // Adding include for Backtracking
-#include "../InputOutput/Output.h"
+#include "../Output/Output.h"
 
 
 void mainMenu();
