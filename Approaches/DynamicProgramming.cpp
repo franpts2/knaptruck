@@ -1,5 +1,5 @@
 #include "DynamicProgramming.h"
-#include "../InputOutput/ProgressBar.h"
+#include "../Output/ProgressBar.h"
 #include <vector>
 #include <iostream>
 

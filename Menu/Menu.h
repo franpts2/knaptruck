@@ -9,7 +9,7 @@
 #include "../Approaches/Exhaustive.h"
 #include "../Approaches/DynamicProgramming.h"  // Adding include for DynamicProgramming
 #include "../Approaches/Backtracking.h"  // Adding include for Backtracking
-#include "../InputOutput/Output.h"
+#include "../Output/Output.h"
 
 
 void mainMenu();
@@ -101,6 +101,10 @@ void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
 void optionBacktracking(unsigned int pallets[], unsigned int weights[],
                      unsigned int profits[], unsigned int n,
                      unsigned int capacity);
+
+void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights[],
+                        unsigned int profits[], unsigned int n,
+                        unsigned int capacity);
 
 /**
  * @brief Allows the user to interactively input pallet data

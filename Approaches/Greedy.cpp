@@ -4,7 +4,7 @@
  */
 
 #include "Greedy.h"
-#include "../InputOutput/ProgressBar.h"
+#include "../Output/ProgressBar.h"
 #include <vector>
 #include <algorithm>
 #include <iostream>
