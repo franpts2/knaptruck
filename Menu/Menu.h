@@ -133,4 +133,8 @@ void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
                          unsigned int profits[], unsigned int n,
                          unsigned int capacity);
 
+void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
+                               unsigned int profits[], unsigned int n,
+                               unsigned int capacity);
+
 #endif //MENU_H

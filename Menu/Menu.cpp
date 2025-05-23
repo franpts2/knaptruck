@@ -641,3 +641,83 @@ int approximationSubmenu()
 
     return choice;
 }
+
+void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
+                               unsigned int profits[], unsigned int n,
+                               unsigned int capacity)
+{
+    std::vector<std::string> algoNames;
+    algoNames.push_back("Exhaustive Search");
+    algoNames.push_back("Dynamic Programming");
+    algoNames.push_back("Backtracking");
+    algoNames.push_back("Greedy Ratio");
+    algoNames.push_back("Greedy Profit");
+    algoNames.push_back("Greedy Maximum");
+    algoNames.push_back("Integer LP");
+
+    std::vector<std::string> spaceComplexities;
+    spaceComplexities.push_back("O(2^n)");      // Exhaustive Search
+    spaceComplexities.push_back("O(nW)");       // Dynamic Programming
+    spaceComplexities.push_back("O(2^n)");      // Backtracking
+    spaceComplexities.push_back("O(n log n)");  // Greedy Ratio
+    spaceComplexities.push_back("O(n log n)");  // Greedy Profit
+    spaceComplexities.push_back("O(n log n)");  // Greedy Maximum
+    spaceComplexities.push_back("Depends");     // Integer LP
+
+    std::vector<double> runningTimes;
+
+    // 1. Exhaustive Search
+    auto start = std::chrono::high_resolution_clock::now();
+    BFSol bfSol = knapsackBF(profits, weights, n, capacity);
+    auto end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 2. Dynamic Programming
+    start = std::chrono::high_resolution_clock::now();
+    bool *usedItems = new bool[n]();
+    unsigned int dpProfit = knapsackDP(profits, weights, n, capacity, usedItems);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    delete[] usedItems;
+
+    // 3. Backtracking
+    start = std::chrono::high_resolution_clock::now();
+    BTSol btSol = knapsackBT(profits, weights, n, capacity);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 4. Greedy Ratio
+    start = std::chrono::high_resolution_clock::now();
+    GreedySol grSol = knapsackGreedyRatio(profits, weights, n, capacity);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 5. Greedy Profit
+    start = std::chrono::high_resolution_clock::now();
+    GreedySol gpSol = knapsackGreedyProfit(profits, weights, n, capacity);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 6. Greedy Maximum
+    start = std::chrono::high_resolution_clock::now();
+    GreedySol gmSol = knapsackGreedyMaximum(profits, weights, n, capacity);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 7. Integer Linear Programming (calls external Python script)
+    start = std::chrono::high_resolution_clock::now();
+    std::ofstream inputFile("input.txt");
+    inputFile << n << "\n";
+    inputFile << capacity << "\n";
+    for (unsigned int i = 0; i < n; i++) inputFile << weights[i] << " ";
+    inputFile << "\n";
+    for (unsigned int i = 0; i < n; i++) inputFile << profits[i] << " ";
+    inputFile.close();
+    int ret = system("python ../Approaches/knapsack_solver.py input.txt output.txt");
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities);
+}
+
+
