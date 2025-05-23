@@ -6,6 +6,7 @@
 #include <vector>
 #include <iomanip>                // For std::setw
 #include <limits>                 // For std::numeric_limits
+#include <cstdlib>                // For system()
 #include "../Approaches/Greedy.h" // Add Greedy.h include
 #include "../ReadData/read.h"
 
@@ -386,9 +387,8 @@ void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
                        unsigned int capacity)
 {
-    std::cout << "\nRunning Greedy Algorithm (Weight-to-Profit Ratio)...\n";
-    std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Number of available pallets: " << n << "\n\n";
+    // Suppress output by redirecting to /dev/null
+    system("./ratio_based_greedy > /dev/null 2>&1");
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
@@ -408,9 +408,8 @@ void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
                         unsigned int profits[], unsigned int n,
                         unsigned int capacity)
 {
-    std::cout << "\nRunning Greedy Algorithm (Biggest Profit Values)...\n";
-    std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Number of available pallets: " << n << "\n\n";
+    // Suppress output by redirecting to /dev/null
+    system("./profit_based_greedy > /dev/null 2>&1");
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
@@ -464,9 +463,9 @@ void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
     for (unsigned int i = 0; i < n; i++) inputFile << profits[i] << " ";
     inputFile.close();
 
-    // Run Python script
+    // Suppress error messages by redirecting to /dev/null
     auto start = std::chrono::high_resolution_clock::now();
-    int ret = system("python ../Approaches/knapsack_solver.py input.txt output.txt");
+    int ret = system("python ../Approaches/knapsack_solver.py > /dev/null 2>&1");
     if (ret != 0) {
         std::cerr << "Failed to run ILP solver.\n";
         return;
@@ -506,7 +505,7 @@ void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
         return;
     }
 
-    // Use the OutputLinearProgramming function to display results
+    // Use the OutputIntegerLinearProgramming function to display results
     OutputIntegerLinearProgramming(pallets, weights, profits, n, capacity, 
                           totalProfit, totalWeight, selectedIndices,
                           duration.count() / 1000.0);
@@ -713,11 +712,9 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     inputFile << "\n";
     for (unsigned int i = 0; i < n; i++) inputFile << profits[i] << " ";
     inputFile.close();
-    int ret = system("python ../Approaches/knapsack_solver.py input.txt output.txt");
+    int ret = system("python ../Approaches/knapsack_solver.py > /dev/null 2>&1");
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
     OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities);
 }
-
-
