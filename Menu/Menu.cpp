@@ -137,7 +137,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
         optionIntegerLinearProgramming(pallets, weights, profits, n, capacity);
         break;
     case 6:
-        // optionCompareAllAlgorithms(pallets, capacity);
+        optionCompareAllAlgorithms(pallets, weights, profits, n, capacity);
         break;
     case 7:
         cout << "\nReturning to the main menu...\n";
