@@ -687,13 +687,35 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
 
     // 4. Greedy Ratio
     start = std::chrono::high_resolution_clock::now();
-    GreedySol grSol = knapsackGreedyRatio(profits, weights, n, capacity);
+    {
+        // Redirect stdout and stderr to /dev/null
+        std::ofstream nullStream("/dev/null");
+        std::streambuf *originalCoutBuffer = std::cout.rdbuf(nullStream.rdbuf());
+        std::streambuf *originalCerrBuffer = std::cerr.rdbuf(nullStream.rdbuf());
+
+        GreedySol grSol = knapsackGreedyRatio(profits, weights, n, capacity);
+
+        // Restore stdout and stderr
+        std::cout.rdbuf(originalCoutBuffer);
+        std::cerr.rdbuf(originalCerrBuffer);
+    }
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
     // 5. Greedy Profit
     start = std::chrono::high_resolution_clock::now();
-    GreedySol gpSol = knapsackGreedyProfit(profits, weights, n, capacity);
+    {
+        // Redirect stdout and stderr to /dev/null
+        std::ofstream nullStream("/dev/null");
+        std::streambuf *originalCoutBuffer = std::cout.rdbuf(nullStream.rdbuf());
+        std::streambuf *originalCerrBuffer = std::cerr.rdbuf(nullStream.rdbuf());
+
+        GreedySol gpSol = knapsackGreedyProfit(profits, weights, n, capacity);
+
+        // Restore stdout and stderr
+        std::cout.rdbuf(originalCoutBuffer);
+        std::cerr.rdbuf(originalCerrBuffer);
+    }
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
@@ -718,3 +740,4 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
 
     OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities);
 }
+
