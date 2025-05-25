@@ -34,6 +34,8 @@ struct BTSol
  * @param curCount Current count of pallets
  * @param curItems Current selection of pallets
  * @param bestSolution Reference to the best solution found
+ * @note Time Complexity: O(2^n) worst case, but typically better than exhaustive search due to pruning
+ * @note Space Complexity: O(n) for recursion stack and storing the solution
  */
 void knapsackBTRec(unsigned int profits[], unsigned int weights[],
                    unsigned int n, unsigned int curIndex,
@@ -48,6 +50,8 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return BTSol containing optimal loading
+ * @note Time Complexity: O(2^n) worst case, but typically better than exhaustive search due to pruning
+ * @note Space Complexity: O(n) for recursion stack and storing the solution
  */
 BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
                  unsigned int n, unsigned int max_weight);

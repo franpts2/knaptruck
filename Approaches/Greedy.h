@@ -32,6 +32,8 @@ struct GreedySol
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the solution
+ * @note Time Complexity: O(n log n) for sorting + O(n) for selection = O(n log n)
+ * @note Space Complexity: O(n) for storing the ratios and solution
  */
 GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
                               unsigned int n, unsigned int max_weight);
@@ -43,6 +45,8 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the solution
+ * @note Time Complexity: O(n log n) for sorting + O(n) for selection = O(n log n)
+ * @note Space Complexity: O(n) for storing pairs and solution
  */
 GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
                                unsigned int n, unsigned int max_weight);
@@ -57,6 +61,8 @@ GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
  * @note When comparing solutions, the function prioritizes higher total profit.
  *       If profits are equal, it selects the solution with fewer pallets.
  *       If pallet counts are also equal, it chooses the solution with lower total weight.
+ * @note Time Complexity: O(n log n) for each greedy approach = O(n log n)
+ * @note Space Complexity: O(n) for storing solutions
  */
 GreedySol knapsackGreedyMaximum(unsigned int profits[], unsigned int weights[],
                                 unsigned int n, unsigned int max_weight);

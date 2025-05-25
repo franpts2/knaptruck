@@ -32,6 +32,8 @@ struct BFSol
  * @note When multiple solutions have the same profit, solutions with fewer
  *       pallets are preferred. If pallet counts are equal, solutions with
  *       pallets having lower indices are prioritized.
+ * @note Time Complexity: O(2^n) where n is the number of pallets
+ * @note Space Complexity: O(n) for storing the solution
  */
 BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
                  unsigned int n, unsigned int max_weight);

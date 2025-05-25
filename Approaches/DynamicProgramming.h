@@ -19,6 +19,8 @@
  * @note When multiple solutions have the same profit, solutions with fewer
  *       pallets are preferred. If pallet counts are equal, solutions with
  *       pallets having lower indices are prioritized.
+ * @note Time Complexity: O(n×W) where n is the number of pallets and W is the truck capacity
+ * @note Space Complexity: O(n×W) for the DP table
  */
 unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, bool usedItems[]);
 
