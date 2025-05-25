@@ -1,8 +1,3 @@
-/**
- * @file Greedy.cpp
- * @brief Greedy approximation algorithms for pallet loading
- */
-
 #include "Greedy.h"
 #include "../Output/ProgressBar.h"
 #include <vector>
@@ -10,15 +5,7 @@
 #include <iostream>
 #include <utility>
 
-/**
- * @brief Greedy approximation using weight-to-profit ratio
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param max_weight Maximum weight capacity of truck
- * @return GreedySol containing the solution
- * @note Tiebreaker: If profit-to-weight ratios are equal, pallets with lower indices are prioritized
- */
+
 GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
                               unsigned int n, unsigned int max_weight)
 {
@@ -107,15 +94,6 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
     return solution;
 }
 
-/**
- * @brief Greedy approximation using profit values
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param max_weight Maximum weight capacity of truck
- * @return GreedySol containing the solution
- * @note Tiebreaker: If profits are equal, pallets with lower indices are prioritized
- */
 GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
                                unsigned int n, unsigned int max_weight)
 {
@@ -194,14 +172,6 @@ GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
     return solution;
 }
 
-/**
- * @brief Runs both greedy approximations and returns the better solution
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param max_weight Maximum weight capacity of truck
- * @return GreedySol containing the better solution
- */
 GreedySol knapsackGreedyMaximum(unsigned int profits[], unsigned int weights[],
                                 unsigned int n, unsigned int max_weight)
 {
@@ -248,56 +218,3 @@ GreedySol knapsackGreedyMaximum(unsigned int profits[], unsigned int weights[],
     }
 }
 
-/**
- * @brief Runs both greedy approximations and returns the better solution
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param max_weight Maximum weight capacity of truck
- * @return GreedySol containing the better solution
- */
-GreedySol c(unsigned int profits[], unsigned int weights[],
-                                unsigned int n, unsigned int max_weight)
-{
-    std::cout << "Running Ratio-based Greedy algorithm...\n";
-    // Run the ratio-based greedy algorithm
-    GreedySol ratio_solution = knapsackGreedyRatio(profits, weights, n, max_weight);
-
-    std::cout << "\nRunning Profit-based Greedy algorithm...\n";
-    // Run the profit-based greedy algorithm
-    GreedySol profit_solution = knapsackGreedyProfit(profits, weights, n, max_weight);
-
-    // Compare the solutions and choose the better one
-    if (ratio_solution.total_profit > profit_solution.total_profit)
-    {
-        ratio_solution.approach_name = "Maximum (Weight-to-Profit Ratio Selected)";
-        return ratio_solution;
-    }
-    else if (profit_solution.total_profit > ratio_solution.total_profit)
-    {
-        profit_solution.approach_name = "Maximum (Biggest Profit Values Selected)";
-        return profit_solution;
-    }
-    // Profits are equal, check pallet count
-    if (ratio_solution.pallet_count < profit_solution.pallet_count)
-    {
-        ratio_solution.approach_name = "Maximum (Weight-to-Profit Ratio Selected)";
-        return ratio_solution;
-    }
-    else if (profit_solution.pallet_count < ratio_solution.pallet_count)
-    {
-        profit_solution.approach_name = "Maximum (Biggest Profit Values Selected)";
-        return profit_solution;
-    }
-    // Pallet counts are also equal, check total weight
-    if (ratio_solution.total_weight <= profit_solution.total_weight)
-    {
-        ratio_solution.approach_name = "Maximum (Weight-to-Profit Ratio Selected)";
-        return ratio_solution;
-    }
-    else
-    {
-        profit_solution.approach_name = "Maximum (Biggest Profit Values Selected)";
-        return profit_solution;
-    }
-}

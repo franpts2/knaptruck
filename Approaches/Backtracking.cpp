@@ -1,8 +1,3 @@
-/**
- * @file Backtracking.cpp
- * @brief Backtracking pallet loading implementation
- */
-
 #include "Backtracking.h"
 #include "../Output/ProgressBar.h"
 #include <vector>
@@ -18,19 +13,6 @@ static unsigned long long g_total_nodes = 0;
 static ProgressBar* g_progress = nullptr;
 static bool g_user_cancelled = false;
 
-/**
- * @brief Helper function for backtracking algorithm
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param curIndex Current index of pallet being considered
- * @param max_weight Maximum weight capacity of truck
- * @param curWeight Current accumulated weight
- * @param curProfit Current accumulated profit
- * @param curCount Current count of pallets
- * @param curItems Current selection of pallets
- * @param bestSolution Reference to the best solution found
- */
 void knapsackBTRec(unsigned int profits[], unsigned int weights[],
                   unsigned int n, unsigned int curIndex,
                   unsigned int max_weight, unsigned int curWeight, 
@@ -99,14 +81,6 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
     );
 }
 
-/**
- * @brief Backtracking pallet loading algorithm
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param max_weight Maximum weight capacity of truck
- * @return BTSol containing optimal loading
- */
 BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
                 unsigned int n, unsigned int max_weight) {
     

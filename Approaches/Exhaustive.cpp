@@ -1,8 +1,3 @@
-/**
- * @file Exhaustive.cpp
- * @brief Brute-force pallet loading implementation
- */
-
 #include "Exhaustive.h"
 #include "../Output/ProgressBar.h"
 #include <vector>
@@ -11,17 +6,7 @@
 #include <cmath>
 #include <iostream>
 
-/**
- * @brief Brute-force pallet loading algorithm
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param max_weight Maximum weight capacity of truck
- * @return BFSol containing optimal loading
- * @note When multiple solutions have the same profit, solutions with fewer
- *       pallets are preferred. If pallet counts are equal, solutions with
- *       pallets having lower indices are prioritized.
- */
+
 BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
                  unsigned int n, unsigned int max_weight)
 {

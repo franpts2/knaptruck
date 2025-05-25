@@ -8,12 +8,10 @@ unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned
     // Use dynamic memory allocation (heap) instead of stack allocation
     std::vector<std::vector<unsigned int>> table(n + 1, std::vector<unsigned int>(capacity + 1, 0));
 
-    // Additional tables for tiebreakers:
-    // 1. Count table: stores the number of pallets used for each solution
+    // Count table: stores the number of pallets used for each solution
     std::vector<std::vector<unsigned int>> countTable(n + 1, std::vector<unsigned int>(capacity + 1, 0));
 
-    // 2. IndexSum table: stores a score based on indices of pallets used (lower indices are preferred)
-    // We'll use a simple approach where we count the sum of used indices
+    // IndexSum table: stores a score based on indices of pallets used (lower indices are preferred)
     std::vector<std::vector<unsigned int>> indexSumTable(n + 1, std::vector<unsigned int>(capacity + 1, 0));
 
     // Initialize progress bar - total operations is roughly n*capacity

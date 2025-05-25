@@ -1,6 +1,6 @@
 /**
  * @file Greedy.h
- * @brief Header for greedy approximation algorithms for pallet loading
+ * @brief Header for greedy approximation algorithms for 0/1 Knapsack
  */
 
 #ifndef GREEDY_H
@@ -10,6 +10,11 @@
 
 /**
  * @brief Structure to hold greedy approximation solution
+ * @var GreedySol::total_profit Total profit of selected pallets
+ * @var GreedySol::total_weight Total weight of selected pallets
+ * @var GreedySol::pallet_count Number of pallets selected
+ * @var GreedySol::used_pallets Boolean vector indicating which pallets are used
+ * @var GreedySol::approach_name Name of the greedy approach used
  */
 struct GreedySol
 {
@@ -17,7 +22,7 @@ struct GreedySol
     unsigned int total_weight;
     unsigned int pallet_count;
     std::vector<bool> used_pallets;
-    std::string approach_name; // To track which greedy approach was used
+    std::string approach_name;
 };
 
 /**
@@ -27,7 +32,6 @@ struct GreedySol
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the solution
- * @note Tiebreaker: If profit-to-weight ratios are equal, pallets with lower indices are prioritized
  */
 GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
                               unsigned int n, unsigned int max_weight);
@@ -39,7 +43,6 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the solution
- * @note Tiebreaker: If profits are equal, pallets with lower indices are prioritized
  */
 GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
                                unsigned int n, unsigned int max_weight);
@@ -51,6 +54,9 @@ GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the better solution
+ * @note When comparing solutions, the function prioritizes higher total profit.
+ *       If profits are equal, it selects the solution with fewer pallets.
+ *       If pallet counts are also equal, it chooses the solution with lower total weight.
  */
 GreedySol knapsackGreedyMaximum(unsigned int profits[], unsigned int weights[],
                                 unsigned int n, unsigned int max_weight);
