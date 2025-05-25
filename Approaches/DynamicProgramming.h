@@ -1,3 +1,8 @@
+/**
+ * @file DynamicProgramming.h
+ * @brief Header for dynamic programming solution to the pallet loading problem
+ */
+
 #ifndef DYNAMICPROGRAMMING_H
 #define DYNAMICPROGRAMMING_H
 

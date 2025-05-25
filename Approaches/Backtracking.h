@@ -1,6 +1,6 @@
 /**
  * @file Backtracking.h
- * @brief Header for backtracking pallet loading implementation
+ * @brief Header for backtracking algorithm for 0/1 Knapsack
  */
 
 #ifndef BACKTRACKING_H
@@ -8,9 +8,14 @@
 #include <vector>
 
 /**
- * @brief Structure to hold pallet loading solution
+ * @brief Structure to hold pallet loading solution for backtracking approach
+ * @var BTSol::total_profit Total profit of selected pallets
+ * @var BTSol::total_weight Total weight of selected pallets
+ * @var BTSol::pallet_count Number of pallets selected
+ * @var BTSol::used_pallets Boolean vector indicating which pallets are used
  */
-struct BTSol {
+struct BTSol
+{
     unsigned int total_profit;
     unsigned int total_weight;
     unsigned int pallet_count;
@@ -31,10 +36,10 @@ struct BTSol {
  * @param bestSolution Reference to the best solution found
  */
 void knapsackBTRec(unsigned int profits[], unsigned int weights[],
-                  unsigned int n, unsigned int curIndex,
-                  unsigned int max_weight, unsigned int curWeight, 
-                  unsigned int curProfit, unsigned int curCount, 
-                  std::vector<bool> &curItems, BTSol &bestSolution);
+                   unsigned int n, unsigned int curIndex,
+                   unsigned int max_weight, unsigned int curWeight,
+                   unsigned int curProfit, unsigned int curCount,
+                   std::vector<bool> &curItems, BTSol &bestSolution);
 
 /**
  * @brief Backtracking pallet loading algorithm
@@ -45,6 +50,6 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
  * @return BTSol containing optimal loading
  */
 BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
-                unsigned int n, unsigned int max_weight);
+                 unsigned int n, unsigned int max_weight);
 
 #endif // BACKTRACKING_H

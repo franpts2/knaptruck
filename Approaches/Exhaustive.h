@@ -1,6 +1,6 @@
 /**
  * @file Exhaustive.h
- * @brief Header for brute-force pallet loading implementation
+ * @brief Header for brute-force approach for 0/1 Knapsack
  */
 
 #ifndef EXHAUSTIVE_H
@@ -8,7 +8,11 @@
 #include <vector>
 
 /**
- * @brief Structure to hold pallet loading solution
+ * @brief Structure to hold pallet loading solution for brute-force approach
+ * @var BFSol::total_profit Total profit of selected pallets
+ * @var BFSol::total_weight Total weight of selected pallets
+ * @var BFSol::pallet_count Number of pallets selected
+ * @var BFSol::used_pallets Boolean vector indicating which pallets are used
  */
 struct BFSol
 {

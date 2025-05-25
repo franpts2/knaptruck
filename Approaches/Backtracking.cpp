@@ -1,8 +1,3 @@
-/**
- * @file Backtracking.cpp
- * @brief Backtracking pallet loading implementation
- */
-
 #include "Backtracking.h"
 #include "../Output/ProgressBar.h"
 #include <vector>
@@ -12,51 +7,35 @@
 #include <limits>
 #include <iostream>
 
-// Global variables to track progress (used only in the backtracking algorithm)
+// variables to track progress (used only in backtracking)
 static unsigned long long g_nodes_visited = 0;
 static unsigned long long g_total_nodes = 0;
 static ProgressBar* g_progress = nullptr;
 static bool g_user_cancelled = false;
 
-/**
- * @brief Helper function for backtracking algorithm
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param curIndex Current index of pallet being considered
- * @param max_weight Maximum weight capacity of truck
- * @param curWeight Current accumulated weight
- * @param curProfit Current accumulated profit
- * @param curCount Current count of pallets
- * @param curItems Current selection of pallets
- * @param bestSolution Reference to the best solution found
- */
 void knapsackBTRec(unsigned int profits[], unsigned int weights[],
                   unsigned int n, unsigned int curIndex,
                   unsigned int max_weight, unsigned int curWeight, 
                   unsigned int curProfit, unsigned int curCount, 
                   std::vector<bool> &curItems, BTSol &bestSolution) {
     
-    // If user cancelled, stop recursion
     if (g_user_cancelled) {
         return;
     }
     
-    // Increment the number of nodes visited for progress tracking
     g_nodes_visited++;
     
-    // Check for cancellation
     if (g_nodes_visited % 10000 == 0 && g_progress != nullptr) {
-        // Update returns false if user pressed escape
+        // update returns false if user pressed escape
         if (!g_progress->update(g_nodes_visited)) {
             g_user_cancelled = true;
             return;
         }
     }
     
-    // Base case: we've processed all items
+
     if (curIndex == n) {
-        // Check if current solution is better than the best found so far
+     
         if (curProfit > bestSolution.total_profit || 
            (curProfit == bestSolution.total_profit && curCount < bestSolution.pallet_count) ||
            (curProfit == bestSolution.total_profit && curCount == bestSolution.pallet_count && 
@@ -70,7 +49,6 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
         return;
     }
     
-    // Try including the current pallet
     if (curWeight + weights[curIndex] <= max_weight) {
         curItems[curIndex] = true;
         knapsackBTRec(
@@ -83,10 +61,9 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
             curItems, 
             bestSolution
         );
-        curItems[curIndex] = false; // Backtrack
+        curItems[curIndex] = false; // backtrack
     }
     
-    // Try excluding the current pallet
     knapsackBTRec(
         profits, weights, n, 
         curIndex + 1, 
@@ -99,37 +76,27 @@ void knapsackBTRec(unsigned int profits[], unsigned int weights[],
     );
 }
 
-/**
- * @brief Backtracking pallet loading algorithm
- * @param profits Array of profit values for each pallet
- * @param weights Array of weight values for each pallet
- * @param n Number of pallets
- * @param max_weight Maximum weight capacity of truck
- * @return BTSol containing optimal loading
- */
 BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
                 unsigned int n, unsigned int max_weight) {
     
-    // Initialize the best solution
+
     BTSol bestSolution = {0, 0, 0, std::vector<bool>(n, false)};
-    
-    // Initialize the current items array
+ 
     std::vector<bool> curItems(n, false);
     
-    // Reset and initialize global progress tracking variables
+    // reset and initialize global progress tracking variables
     g_nodes_visited = 0;
     g_user_cancelled = false;
     
-    // Only for extremely large datasets (like dataset 6 with 4000+ pallets)
+    // only for extremely large datasets (like dataset 6 with 4000+ pallets)
     if (n > 1000) {
-        // Create a hidden progress bar for cancellation detection
+        // create a hidden progress bar for cancellation detection
         ProgressBar hiddenProgress(1, true);
         g_progress = &hiddenProgress;
         
-        // Show the coffee message
+        // coffee message :)
         hiddenProgress.showLargeDatasetMessage();
         
-        // Call the recursive function to start backtracking
         knapsackBTRec(
             profits, weights, n,
             0,
@@ -143,14 +110,12 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
             std::cout << "\nFinished! Hope you enjoyed your coffee! ☕" << std::endl;
         }
     } else {
-        // For normal datasets, use the standard estimation
+        // for normal datasets
         g_total_nodes = static_cast<unsigned long long>(std::pow(2, n)) * 2;
         
-        // Create a progress bar
         ProgressBar progress(g_total_nodes);
         g_progress = &progress;
         
-        // Call the recursive function to start backtracking
         knapsackBTRec(
             profits, weights, n,
             0,
@@ -160,21 +125,17 @@ BTSol knapsackBT(unsigned int profits[], unsigned int weights[],
             bestSolution
         );
         
-        // Finalize progress bar if it was shown
         if (!g_user_cancelled) {
             g_progress->complete();
         }
     }
     
-    // If user cancelled, return an empty solution
     if (g_user_cancelled) {
         std::cout << "\nOperation cancelled by user. Returning to menu." << std::endl;
         
-        // Clear the best solution to indicate cancellation
         bestSolution = {0, 0, 0, std::vector<bool>(n, false)};
     }
     
-    // Reset global pointer
     g_progress = nullptr;
     
     return bestSolution;
