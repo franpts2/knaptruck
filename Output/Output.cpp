@@ -190,7 +190,7 @@ void OutputCompareAllAlgorithms(const std::vector<std::string>& names,
     int chartWidth = 40;
     std::cout << "\nAlgorithm Performance Comparison:\n";
     std::cout << "-------------------------------------------------------------------------\n";
-    std::cout << "Algorithm           | Time (ms) | Profit | Space Complexity | Accuracy \n";
+    std::cout << "Algorithm           | Time (ms) | Profit | Space Complexity | Accuracy(%) \n";
     std::cout << "-------------------------------------------------------------------------\n";
     for (size_t i = 0; i < names.size(); ++i) {
         int barLen = maxTime > 0 ? static_cast<int>((times[i] / maxTime) * chartWidth) : 0;
@@ -201,15 +201,20 @@ void OutputCompareAllAlgorithms(const std::vector<std::string>& names,
             profitStr += " *"; // Mark best profit with an asterisk
         }
         
+        // Calculate accuracy percentage
+        double accuracyPercent = maxProfit > 0 ? 
+            static_cast<double>(profits[i]) / maxProfit * 100.0 : 0.0;
+        
         std::cout << std::left << std::setw(20) << names[i]
                   << "| " << std::setw(9) << std::fixed << std::setprecision(3) << times[i]
                   << "| " << std::setw(7) << profitStr
                   << "| " << std::setw(17) << spaceComplexities[i]
-                  << "| " << std::setw(13) << accuracyAlgorithms[i];
+                  << "| " << std::setw(10) << std::fixed << std::setprecision(1) << accuracyPercent;
         std::cout << "\n";
     }
     std::cout << "-------------------------------------------------------------------------\n";
     std::cout << "* Indicates optimal profit\n";
+    std::cout << "Accuracy: algorithm profit / optimal profit × 100\n";
     std::cout << "\nPress Enter to return to the algorithms menu...";
     std::cin.ignore();
     std::cin.get();
