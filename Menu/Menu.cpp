@@ -230,7 +230,7 @@ void optionShowInfoMenu()
     cout << "=============================================\n\n";
 
     cout << "Choose your input method:\n";
-    cout << "1. Batch Mode (file input)\n";
+    cout << "1. Predefined dataset\n";
     cout << "2. Interactive Mode (console input)\n";
     cout << "\nEnter your choice (1 or 2): ";
 
@@ -239,16 +239,12 @@ void optionShowInfoMenu()
 
     if (choice == 1)
     {
-        cout << "\nBATCH MODE INSTRUCTIONS:\n";
-        cout << "1. Create a text file with the following format:\n";
-        cout << "   First line: Truck capacity (integer)\n";
-        cout << "   Subsequent lines: Pallet weight and value pairs\n";
-        cout << "   Example:\n";
-        cout << "   150\n";
-        cout << "   23 45\n";
-        cout << "   37 72\n";
-        cout << "   42 60\n";
-        cout << "2. Run the program with: ./truck_packer input.txt\n";
+        cout << "\nPREDEFINED DATASET INSTRUCTIONS:\n";
+        cout << "1. Choose a dataset number (1-10):\n";
+        cout << "   - Datasets 1-4: Standard test datasets\n";
+        cout << "   - Datasets 5-10: Extra datasets with varied complexity\n";
+        cout << "2. Review the loaded dataset information (truck capacity, number of pallets, weights, profits).\n";
+        cout << "3. Select an algorithm to run on the selected dataset.\n";
 
         cout << "\nReturning to main menu...\n";
         this_thread::sleep_for(chrono::seconds(3));
