@@ -3,7 +3,7 @@ build
 .idea
 .vscode
 
-performance_report
+/performance_report
 
 # Prerequisites
 *.d
