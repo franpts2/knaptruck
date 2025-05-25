@@ -1,8 +1,3 @@
-/**
- * @file ProgressBar.cpp
- * @brief Progress bar implementation for long-running algorithms
- */
-
 #include "ProgressBar.h"
 #include <iostream>
 #include <iomanip>

@@ -1,8 +1,3 @@
-/**
- * @file Output.cpp
- * @brief Output handling for algorithm results
- */
-
 #include "Output.h"
 #include <iostream>
 #include <iomanip>

@@ -1,6 +1,5 @@
 #include "read.h"
 
-
 void readPallets(const std::string &filename,unsigned int pallets[], unsigned int weights[], unsigned int profits[]) {
     std::ifstream file(filename);
     if (!file.is_open()) {
