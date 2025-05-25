@@ -277,7 +277,7 @@ void optionShowInfoMenu()
         unsigned int weights[1] = {0};
         unsigned int profits[1] = {0};
         unsigned int n = 0;
-       
+
         mainMenu();
     }
     else
@@ -313,8 +313,18 @@ void optionExhaustiveSearch(unsigned int pallets[], unsigned int weights[],
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // Output the results
-    OutputExhaustiveSolution(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    // Output the results only if the operation wasn't cancelled
+    if (solution.total_profit > 0 || solution.pallet_count > 0)
+    {
+        OutputExhaustiveSolution(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    }
+    else
+    {
+        // Just wait for user to press Enter
+        std::cout << "\nPress Enter to return to the algorithms menu...";
+        std::cin.ignore();
+        std::cin.get();
+    }
 }
 
 void optionDynamicProgramming(unsigned int pallets[], unsigned int weights[],
@@ -378,8 +388,19 @@ void optionBacktracking(unsigned int pallets[], unsigned int weights[],
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // Use the OutputBacktracking function to display results
-    OutputBacktracking(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    // Output the results only if the operation wasn't cancelled
+    if (solution.total_profit > 0 || solution.pallet_count > 0)
+    {
+        // Use the OutputBacktracking function to display results
+        OutputBacktracking(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    }
+    else
+    {
+        // Just wait for user to press Enter
+        std::cout << "\nPress Enter to return to the algorithms menu...";
+        std::cin.ignore();
+        std::cin.get();
+    }
 }
 
 void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
@@ -400,8 +421,18 @@ void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // Output the results
-    OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    // Output the results only if the operation wasn't cancelled
+    if (solution.total_profit > 0 || solution.pallet_count > 0)
+    {
+        OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    }
+    else
+    {
+        // Just wait for user to press Enter
+        std::cout << "\nPress Enter to return to the algorithms menu...";
+        std::cin.ignore();
+        std::cin.get();
+    }
 }
 
 void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
@@ -422,8 +453,18 @@ void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // Output the results
-    OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    // Output the results only if the operation wasn't cancelled
+    if (solution.total_profit > 0 || solution.pallet_count > 0)
+    {
+        OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    }
+    else
+    {
+        // Just wait for user to press Enter
+        std::cout << "\nPress Enter to return to the algorithms menu...";
+        std::cin.ignore();
+        std::cin.get();
+    }
 }
 
 void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
@@ -444,13 +485,24 @@ void optionGreedyMaximum(unsigned int pallets[], unsigned int weights[],
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // Output the results
-    OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    // Output the results only if the operation wasn't cancelled
+    if (solution.total_profit > 0 || solution.pallet_count > 0)
+    {
+        OutputGreedyApproximation(pallets, weights, profits, n, solution, duration.count() / 1000.0);
+    }
+    else
+    {
+        // Just wait for user to press Enter
+        std::cout << "\nPress Enter to return to the algorithms menu...";
+        std::cin.ignore();
+        std::cin.get();
+    }
 }
 
 void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights[],
-                           unsigned int profits[], unsigned int n,
-                           unsigned int capacity) {
+                                    unsigned int profits[], unsigned int n,
+                                    unsigned int capacity)
+{
     std::cout << "\nRunning Integer Linear Programming (PuLP)...\n";
     std::cout << "Truck capacity: " << capacity << "\n";
     std::cout << "Number of available pallets: " << n << "\n\n";
@@ -459,15 +511,18 @@ void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
     std::ofstream inputFile("input.txt");
     inputFile << n << "\n";
     inputFile << capacity << "\n";
-    for (unsigned int i = 0; i < n; i++) inputFile << weights[i] << " ";
+    for (unsigned int i = 0; i < n; i++)
+        inputFile << weights[i] << " ";
     inputFile << "\n";
-    for (unsigned int i = 0; i < n; i++) inputFile << profits[i] << " ";
+    for (unsigned int i = 0; i < n; i++)
+        inputFile << profits[i] << " ";
     inputFile.close();
 
     // Run Python script
     auto start = std::chrono::high_resolution_clock::now();
     int ret = system("python ../Approaches/knapsack_solver.py input.txt output.txt");
-    if (ret != 0) {
+    if (ret != 0)
+    {
         std::cerr << "Failed to run ILP solver.\n";
         return;
     }
@@ -480,42 +535,60 @@ void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
     std::vector<int> selectedIndices;
     std::string line;
 
-    if (outputFile.is_open()) {
+    if (outputFile.is_open())
+    {
         // Read total profit
-        if (std::getline(outputFile, line)) {
+        if (std::getline(outputFile, line))
+        {
             totalProfit = std::stoi(line);
         }
 
         // Read total weight
-        if (std::getline(outputFile, line)) {
+        if (std::getline(outputFile, line))
+        {
             totalWeight = std::stoi(line);
         }
 
         // Third line contains the selected pallet indices
-        if (std::getline(outputFile, line)) {
+        if (std::getline(outputFile, line))
+        {
             std::istringstream iss(line);
             int index;
-            while (iss >> index) {
+            while (iss >> index)
+            {
                 // Add the index (it's 0-based in the output file)
                 selectedIndices.push_back(index);
             }
         }
         outputFile.close();
-    } else {
+    }
+    else
+    {
         std::cerr << "Unable to open output.txt file\n";
         return;
     }
 
-    // Use the OutputLinearProgramming function to display results
-    OutputIntegerLinearProgramming(pallets, weights, profits, n, capacity, 
-                          totalProfit, totalWeight, selectedIndices,
-                          duration.count() / 1000.0);
+    // Output the results only if we have valid results
+    if (totalProfit > 0 || !selectedIndices.empty())
+    {
+        // Use the OutputLinearProgramming function to display results
+        OutputIntegerLinearProgramming(pallets, weights, profits, n, capacity,
+                                       totalProfit, totalWeight, selectedIndices,
+                                       duration.count() / 1000.0);
+    }
+    else
+    {
+        // Just wait for user to press Enter
+        std::cout << "\nPress Enter to return to the algorithms menu...";
+        std::cin.ignore();
+        std::cin.get();
+    }
 }
 
 unsigned int *interactiveDataEntry()
 {
-    int inputCapacity, inputNumPallets; // Using signed int for initial input
-    int inputPalletID, inputWeight, inputProfit;         // Using signed int for pallet data
+    int inputCapacity, inputNumPallets;          // Using signed int for initial input
+    int inputPalletID, inputWeight, inputProfit; // Using signed int for pallet data
     unsigned int capacity, numPallets;
 
     cout << "\n=============================================\n";
@@ -543,7 +616,6 @@ unsigned int *interactiveDataEntry()
     }
     numPallets = static_cast<unsigned int>(inputNumPallets); // Safe conversion after validation
     cin.ignore(numeric_limits<streamsize>::max(), '\n');     // Clear input buffer after successful read
-
 
     // Allocate memory for the result array
     // Format: [capacity, numPallets, maxPallets, pallets..., weights..., profits...]
