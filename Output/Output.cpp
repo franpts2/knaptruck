@@ -33,7 +33,6 @@ void OutputExhaustiveSolution(unsigned int pallets[], unsigned int weights[],
 
     std::cout << "================================================\n";
 
-    // Option to return to menu
     std::cout << "\nPress Enter to return to the algorithms menu...";
     std::cin.ignore();
     std::cin.get();
@@ -69,7 +68,6 @@ void OutputDynamicProgramming(unsigned int pallets[], unsigned int weights[],
 
     std::cout << "=================================================\n";
 
-    // Option to return to menu
     std::cout << "\nPress Enter to return to the algorithms menu...";
     std::cin.ignore();
     std::cin.get();
@@ -103,7 +101,6 @@ void OutputBacktracking(unsigned int pallets[], unsigned int weights[],
 
     std::cout << "==========================================\n";
 
-    // Option to return to menu
     std::cout << "\nPress Enter to return to the algorithms menu...";
     std::cin.ignore();
     std::cin.get();
@@ -138,7 +135,6 @@ void OutputGreedyApproximation(unsigned int pallets[], unsigned int weights[],
 
     std::cout << "==========================================\n";
 
-    // Option to return to menu
     std::cout << "\nPress Enter to return to the algorithms menu...";
     std::cin.ignore();
     std::cin.get();
@@ -169,7 +165,6 @@ void OutputIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
 
     std::cout << "===========================================================\n";
 
-    // Option to return to menu
     std::cout << "\nPress Enter to return to the algorithms menu...";
     std::cin.ignore();
     std::cin.get();
@@ -190,13 +185,11 @@ void OutputCompareAllAlgorithms(const std::vector<std::string>& names,
     for (size_t i = 0; i < names.size(); ++i) {
         int barLen = maxTime > 0 ? static_cast<int>((times[i] / maxTime) * chartWidth) : 0;
         
-        // Highlight the best profit value
         std::string profitStr = std::to_string(profits[i]);
         if (profits[i] == maxProfit && maxProfit > 0) {
-            profitStr += " *"; // Mark best profit with an asterisk
+            profitStr += " *"; // mark best profit with an asterisk
         }
         
-        // Calculate accuracy percentage
         double accuracyPercent = maxProfit > 0 ? 
             static_cast<double>(profits[i]) / maxProfit * 100.0 : 0.0;
         

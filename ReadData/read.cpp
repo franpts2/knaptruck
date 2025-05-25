@@ -31,11 +31,11 @@ void readPallets(const std::string &filename,unsigned int pallets[], unsigned in
         }
         catch (const std::invalid_argument &e) {
             std::cerr << "Invalid data in line: " << line << std::endl;
-            continue; // Skip this line and continue with the next one
+            continue; 
         }
         catch (const std::out_of_range &e) {
             std::cerr << "Data out of range in line: " << line << std::endl;
-            continue; // Skip this line and continue with the next one
+            continue; 
         }
     }
 

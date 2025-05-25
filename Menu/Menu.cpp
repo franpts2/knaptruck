@@ -377,8 +377,6 @@ void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
                        unsigned int capacity)
 {
-    system("./ratio_based_greedy > /dev/null 2>&1");
-
     auto start = std::chrono::high_resolution_clock::now();
 
     GreedySol solution = knapsackGreedyRatio(profits, weights, n, capacity);
@@ -402,9 +400,6 @@ void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
                         unsigned int profits[], unsigned int n,
                         unsigned int capacity)
 {
-    // Suppress output by redirecting to /dev/null
-    system("./profit_based_greedy > /dev/null 2>&1");
-
     auto start = std::chrono::high_resolution_clock::now();
 
     GreedySol solution = knapsackGreedyProfit(profits, weights, n, capacity);
@@ -469,7 +464,6 @@ void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
         inputFile << profits[i] << " ";
     inputFile.close();
 
-    // suppress error messages by redirecting to /dev/null
     auto start = std::chrono::high_resolution_clock::now();
 
     // try running with python3

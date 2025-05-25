@@ -18,17 +18,15 @@ ProgressBar::ProgressBar(unsigned long long total, bool hidden) :
 bool ProgressBar::update(unsigned long long iteration) {
     current_iteration = iteration;
     
-    // In hidden mode, just check for cancellation
     if (hidden_mode) {
         return !checkCancellation();
     }
     
-    // Calculate the progress percentage
+    // calculate the progress percentage
     float progress = static_cast<float>(current_iteration) / total_iterations;
     int bar_position = static_cast<int>(progress * BAR_WIDTH);
     int percent = static_cast<int>(progress * 100);
     
-    // Print the progress bar
     std::cout << "\r[";
     for (int i = 0; i < BAR_WIDTH; ++i) {
         if (i < bar_position) std::cout << "=";
@@ -38,12 +36,9 @@ bool ProgressBar::update(unsigned long long iteration) {
     
     visible = true;
     
-    // Check if we should display the escape message
     showEscapeMessageIfNeeded();
     
-    // Check if escape key was pressed
     if (checkForEscapeKey()) {
-        // Indicate to stop the algorithm
         return false;
     }
     
@@ -56,17 +51,16 @@ void ProgressBar::complete() {
     }
     
     if (visible) {
-        // Update to 100%
+        // update to 100%
         std::cout << "\r[";
         for (int i = 0; i < BAR_WIDTH; ++i) {
             std::cout << "=";
         }
         std::cout << "] 100%" << std::flush;
         
-        // Wait for a second before clearing the progress bar
         std::this_thread::sleep_for(std::chrono::seconds(1));
         
-        // Clear the progress bar and any escape message
+        // clear the progress bar and any escape message
         std::cout << "\r" << std::string(BAR_WIDTH + 10, ' ') << "\r" << std::flush;
         if (escape_message_shown) {
             std::cout << std::string(60, ' ') << "\r" << std::flush;
@@ -82,16 +76,14 @@ bool ProgressBar::shouldShow(int timeThresholdMs) {
     auto now = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time).count();
     
-    // Only show the progress bar if the operation has been running for more than the threshold
+    // only show the progress bar if the operation has been running for more than the threshold
     return duration > timeThresholdMs;
 }
 
 bool ProgressBar::checkForEscapeKey() {
-    // Setup for non-blocking key check
     struct termios oldt, newt;
     int oldf;
     
-    // Save terminal settings
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ICANON | ECHO);
@@ -99,11 +91,11 @@ bool ProgressBar::checkForEscapeKey() {
     oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
     
-    // Check for the escape key (ASCII 27)
+    // check for the esc key
     int ch = getchar();
     bool escapePressed = (ch == 27);
     
-    // Restore terminal settings
+    // restore terminal settings
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     fcntl(STDIN_FILENO, F_SETFL, oldf);
     
@@ -111,7 +103,6 @@ bool ProgressBar::checkForEscapeKey() {
 }
 
 bool ProgressBar::showEscapeMessageIfNeeded() {
-    // Only show the message once
     if (escape_message_shown) {
         return true;
     }
@@ -119,7 +110,7 @@ bool ProgressBar::showEscapeMessageIfNeeded() {
     auto now = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
     
-    // Show message after a minute (60 seconds)
+    // show message after a minute
     if (duration > 60) {
         if (!hidden_mode) {
             std::cout << "\n\nThis sure is taking a lot of time... If you want to give up just press Esc!" << std::endl;
@@ -140,18 +131,15 @@ void ProgressBar::showLargeDatasetMessage(const std::string& message) {
 }
 
 bool ProgressBar::checkCancellation() {
-    // Check if enough time has passed to start monitoring for escape key
     auto now = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
     
-    // Show escape message after a minute if not already shown
     if (duration > 60 && !escape_message_shown) {
         if (hidden_mode) {
             showEscapeMessageIfNeeded();
         }
     }
     
-    // Only check for escape key after a minute to reduce overhead
     if (duration > 60 && checkForEscapeKey()) {
         return true;
     }
