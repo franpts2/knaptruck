@@ -6,6 +6,7 @@
 #include <vector>
 #include <iomanip>                // For std::setw
 #include <limits>                 // For std::numeric_limits
+#include <cstdlib>                // For system()
 #include "../Approaches/Greedy.h" // Add Greedy.h include
 #include "../ReadData/read.h"
 
@@ -137,7 +138,7 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
         optionIntegerLinearProgramming(pallets, weights, profits, n, capacity);
         break;
     case 6:
-        // optionCompareAllAlgorithms(pallets, capacity);
+        optionCompareAllAlgorithms(pallets, weights, profits, n, capacity);
         break;
     case 7:
         cout << "\nReturning to the main menu...\n";
@@ -403,9 +404,8 @@ void optionGreedyRatio(unsigned int pallets[], unsigned int weights[],
                        unsigned int profits[], unsigned int n,
                        unsigned int capacity)
 {
-    std::cout << "\nRunning Greedy Algorithm (Weight-to-Profit Ratio)...\n";
-    std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Number of available pallets: " << n << "\n\n";
+    // Suppress output by redirecting to /dev/null
+    system("./ratio_based_greedy > /dev/null 2>&1");
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
@@ -435,9 +435,8 @@ void optionGreedyProfit(unsigned int pallets[], unsigned int weights[],
                         unsigned int profits[], unsigned int n,
                         unsigned int capacity)
 {
-    std::cout << "\nRunning Greedy Algorithm (Biggest Profit Values)...\n";
-    std::cout << "Truck capacity: " << capacity << "\n";
-    std::cout << "Number of available pallets: " << n << "\n\n";
+    // Suppress output by redirecting to /dev/null
+    system("./profit_based_greedy > /dev/null 2>&1");
 
     // Start timer
     auto start = std::chrono::high_resolution_clock::now();
@@ -514,8 +513,9 @@ void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
         inputFile << profits[i] << " ";
     inputFile.close();
 
-    // Run Python script
+    // Suppress error messages by redirecting to /dev/null
     auto start = std::chrono::high_resolution_clock::now();
+
     // Try running with python3
     // First try with the script in the current directory, then try with the script in the Approaches directory
     int ret = system("python3 knapsack_solver.py input.txt output.txt || "
@@ -719,4 +719,114 @@ int approximationSubmenu()
     } while (choice < 1 || choice > 4);
 
     return choice;
+}
+
+void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
+                               unsigned int profits[], unsigned int n,
+                               unsigned int capacity)
+{
+    std::vector<std::string> algoNames;
+    algoNames.push_back("Exhaustive Search");
+    algoNames.push_back("Dynamic Programming");
+    algoNames.push_back("Backtracking");
+    algoNames.push_back("Greedy Ratio");
+    algoNames.push_back("Greedy Profit");
+    algoNames.push_back("Greedy Maximum");
+    algoNames.push_back("Integer LP");
+
+    std::vector<std::string> spaceComplexities;
+    spaceComplexities.push_back("O(2^n)");      // Exhaustive Search
+    spaceComplexities.push_back("O(nW)");       // Dynamic Programming
+    spaceComplexities.push_back("O(2^n)");      // Backtracking
+    spaceComplexities.push_back("O(n log n)");  // Greedy Ratio
+    spaceComplexities.push_back("O(n log n)");  // Greedy Profit
+    spaceComplexities.push_back("O(n log n)");  // Greedy Maximum
+    spaceComplexities.push_back("Depends");     // Integer LP
+
+    // Add the accuracy information
+    std::vector<std::string> accuracyAlgorithms;
+    accuracyAlgorithms.push_back("Optimal");      // Exhaustive Search
+    accuracyAlgorithms.push_back("Optimal");      // Dynamic Programming
+    accuracyAlgorithms.push_back("Optimal");      // Backtracking
+    accuracyAlgorithms.push_back("Not Optimal");  // Greedy Ratio
+    accuracyAlgorithms.push_back("Not Optimal");  // Greedy Profit
+    accuracyAlgorithms.push_back("Not Optimal");  // Greedy Maximum
+    accuracyAlgorithms.push_back("Optimal");      // Integer LP
+
+    std::vector<double> runningTimes;
+
+    // 1. Exhaustive Search
+    auto start = std::chrono::high_resolution_clock::now();
+    BFSol bfSol = knapsackBF(profits, weights, n, capacity);
+    auto end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 2. Dynamic Programming
+    start = std::chrono::high_resolution_clock::now();
+    bool *usedItems = new bool[n]();
+    unsigned int dpProfit = knapsackDP(profits, weights, n, capacity, usedItems);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    delete[] usedItems;
+
+    // 3. Backtracking
+    start = std::chrono::high_resolution_clock::now();
+    BTSol btSol = knapsackBT(profits, weights, n, capacity);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 4. Greedy Ratio
+    start = std::chrono::high_resolution_clock::now();
+    {
+        // Redirect stdout and stderr to /dev/null
+        std::ofstream nullStream("/dev/null");
+        std::streambuf *originalCoutBuffer = std::cout.rdbuf(nullStream.rdbuf());
+        std::streambuf *originalCerrBuffer = std::cerr.rdbuf(nullStream.rdbuf());
+
+        GreedySol grSol = knapsackGreedyRatio(profits, weights, n, capacity);
+
+        // Restore stdout and stderr
+        std::cout.rdbuf(originalCoutBuffer);
+        std::cerr.rdbuf(originalCerrBuffer);
+    }
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 5. Greedy Profit
+    start = std::chrono::high_resolution_clock::now();
+    {
+        // Redirect stdout and stderr to /dev/null
+        std::ofstream nullStream("/dev/null");
+        std::streambuf *originalCoutBuffer = std::cout.rdbuf(nullStream.rdbuf());
+        std::streambuf *originalCerrBuffer = std::cerr.rdbuf(nullStream.rdbuf());
+
+        GreedySol gpSol = knapsackGreedyProfit(profits, weights, n, capacity);
+
+        // Restore stdout and stderr
+        std::cout.rdbuf(originalCoutBuffer);
+        std::cerr.rdbuf(originalCerrBuffer);
+    }
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 6. Greedy Maximum
+    start = std::chrono::high_resolution_clock::now();
+    GreedySol gmSol = knapsackGreedyMaximum(profits, weights, n, capacity);
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    // 7. Integer Linear Programming (calls external Python script)
+    start = std::chrono::high_resolution_clock::now();
+    std::ofstream inputFile("input.txt");
+    inputFile << n << "\n";
+    inputFile << capacity << "\n";
+    for (unsigned int i = 0; i < n; i++) inputFile << weights[i] << " ";
+    inputFile << "\n";
+    for (unsigned int i = 0; i < n; i++) inputFile << profits[i] << " ";
+    inputFile.close();
+    int ret = system("python ../Approaches/knapsack_solver.py > /dev/null 2>&1");
+    end = std::chrono::high_resolution_clock::now();
+    runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
+    OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities, accuracyAlgorithms);
 }
