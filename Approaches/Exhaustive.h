@@ -1,5 +1,5 @@
 /**
-* @file Exhaustive.h
+ * @file Exhaustive.h
  * @brief Header for brute-force pallet loading implementation
  */
 
@@ -10,7 +10,8 @@
 /**
  * @brief Structure to hold pallet loading solution
  */
-struct BFSol {
+struct BFSol
+{
     unsigned int total_profit;
     unsigned int total_weight;
     unsigned int pallet_count;
@@ -24,8 +25,11 @@ struct BFSol {
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return BFSol containing optimal loading
+ * @note When multiple solutions have the same profit, solutions with fewer
+ *       pallets are preferred. If pallet counts are equal, solutions with
+ *       pallets having lower indices are prioritized.
  */
 BFSol knapsackBF(unsigned int profits[], unsigned int weights[],
-                                      unsigned int n, unsigned int max_weight);
+                 unsigned int n, unsigned int max_weight);
 
 #endif // EXHAUSTIVE_H

@@ -27,6 +27,7 @@ struct GreedySol
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the solution
+ * @note Tiebreaker: If profit-to-weight ratios are equal, pallets with lower indices are prioritized
  */
 GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
                               unsigned int n, unsigned int max_weight);
@@ -38,6 +39,7 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the solution
+ * @note Tiebreaker: If profits are equal, pallets with lower indices are prioritized
  */
 GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
                                unsigned int n, unsigned int max_weight);

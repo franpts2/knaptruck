@@ -16,8 +16,8 @@
  * @param weights Array of weight values for each pallet
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
- * @param max_pallets Maximum number of pallets allowed
  * @return GreedySol containing the solution
+ * @note Tiebreaker: If profit-to-weight ratios are equal, pallets with lower indices are prioritized
  */
 GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
                               unsigned int n, unsigned int max_weight)
@@ -47,11 +47,16 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
     }
 
     // Sort items by profit-to-weight ratio in descending order
+    // If ratios are equal, prioritize lower indices (tiebreaker)
     std::sort(items.begin(), items.end(),
               [](const std::pair<unsigned int, double> &a,
                  const std::pair<unsigned int, double> &b)
               {
-                  return a.second > b.second;
+                  // Primary sort by ratio (descending)
+                  if (a.second != b.second)
+                      return a.second > b.second;
+                  // Tiebreaker: prioritize lower indices
+                  return a.first < b.first;
               });
 
     // Initialize progress bar
@@ -109,6 +114,7 @@ GreedySol knapsackGreedyRatio(unsigned int profits[], unsigned int weights[],
  * @param n Number of pallets
  * @param max_weight Maximum weight capacity of truck
  * @return GreedySol containing the solution
+ * @note Tiebreaker: If profits are equal, pallets with lower indices are prioritized
  */
 GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
                                unsigned int n, unsigned int max_weight)
@@ -128,11 +134,16 @@ GreedySol knapsackGreedyProfit(unsigned int profits[], unsigned int weights[],
     }
 
     // Sort items by profit value in descending order
+    // If profits are equal, prioritize lower indices (tiebreaker)
     std::sort(items.begin(), items.end(),
               [](const std::pair<unsigned int, unsigned int> &a,
                  const std::pair<unsigned int, unsigned int> &b)
               {
-                  return a.second > b.second;
+                  // Primary sort by profit (descending)
+                  if (a.second != b.second)
+                      return a.second > b.second;
+                  // Tiebreaker: prioritize lower indices
+                  return a.first < b.first;
               });
 
     // Initialize progress bar

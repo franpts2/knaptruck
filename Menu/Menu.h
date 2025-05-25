@@ -56,7 +56,6 @@ void handleMenuOption(int option, unsigned int pallets[], unsigned int weights[]
  * @param capacity Truck's maximum weight capacity (maintains context)
  *
  * Shows:
- * - Batch mode instructions (file input)
  * - Interactive mode instructions (console input)
  * - Program usage examples
  */
