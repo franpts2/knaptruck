@@ -322,8 +322,220 @@ def generate_combined_report(df, output_dir):
     print(f"Report generated at: {html_path}")
     return html_path
 
+def filter_by_dataset(df, dataset_num):
+    """
+    Filter the dataframe to only include data for a specific dataset.
+    
+    Args:
+        df: DataFrame with performance data
+        dataset_num: Dataset number to filter by
+        
+    Returns:
+        Filtered DataFrame
+    """
+    # Convert dataset column to int to ensure proper comparison
+    df['dataset'] = df['dataset'].astype(int)
+    return df[df['dataset'] == dataset_num]
+
+def plot_single_dataset_comparison(df, dataset_num, output_dir):
+    """
+    Generate visualizations specifically for a single dataset.
+    
+    Args:
+        df: DataFrame with performance data
+        dataset_num: Dataset number to visualize
+        output_dir: Directory to save the output files
+    """
+    # Filter data for the selected dataset
+    dataset_df = filter_by_dataset(df, dataset_num)
+    
+    if len(dataset_df) == 0:
+        print(f"No data found for dataset {dataset_num}")
+        return None
+    
+    # Create dataset-specific directory
+    dataset_dir = os.path.join(output_dir, f"dataset_{dataset_num}")
+    os.makedirs(dataset_dir, exist_ok=True)
+    
+    # Bar chart of execution times
+    plt.figure(figsize=(14, 8))
+    dataset_df = dataset_df.sort_values(by='execution_time_ms')
+    ax = sns.barplot(x='algorithm', y='execution_time_ms', data=dataset_df, 
+                    palette=sns.color_palette("viridis", len(dataset_df)))
+    
+    plt.title(f'Execution Time by Algorithm for Dataset {dataset_num}', fontsize=16)
+    plt.xlabel('Algorithm', fontsize=14)
+    plt.ylabel('Execution Time (ms)', fontsize=14)
+    plt.xticks(rotation=45, ha='right')
+    
+    # Add values on top of each bar
+    for i, v in enumerate(dataset_df['execution_time_ms']):
+        ax.text(i, v + 0.1, f'{v:.2f}', ha='center', fontsize=10)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(dataset_dir, f'dataset_{dataset_num}_execution_time.png'), dpi=300)
+    plt.close()
+    
+    # Log scale version
+    plt.figure(figsize=(14, 8))
+    ax = sns.barplot(x='algorithm', y='execution_time_ms', data=dataset_df, 
+                    palette=sns.color_palette("viridis", len(dataset_df)))
+    plt.yscale('log')
+    plt.title(f'Execution Time by Algorithm for Dataset {dataset_num} (Log Scale)', fontsize=16)
+    plt.xlabel('Algorithm', fontsize=14)
+    plt.ylabel('Execution Time (ms) - Log Scale', fontsize=14)
+    plt.xticks(rotation=45, ha='right')
+    
+    # Add values on top of each bar
+    for i, v in enumerate(dataset_df['execution_time_ms']):
+        ax.text(i, v * 1.2, f'{v:.2f}', ha='center', fontsize=10)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(dataset_dir, f'dataset_{dataset_num}_execution_time_log.png'), dpi=300)
+    plt.close()
+    
+    # Profit comparison
+    plt.figure(figsize=(14, 8))
+    dataset_df = dataset_df.sort_values(by='profit', ascending=False)
+    ax = sns.barplot(x='algorithm', y='profit', data=dataset_df, 
+                    palette=sns.color_palette("viridis", len(dataset_df)))
+    
+    plt.title(f'Profit by Algorithm for Dataset {dataset_num}', fontsize=16)
+    plt.xlabel('Algorithm', fontsize=14)
+    plt.ylabel('Profit', fontsize=14)
+    plt.xticks(rotation=45, ha='right')
+    
+    # Add values on top of each bar
+    for i, v in enumerate(dataset_df['profit']):
+        ax.text(i, v * 1.01, f'{v:.1f}', ha='center', fontsize=10)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(dataset_dir, f'dataset_{dataset_num}_profit.png'), dpi=300)
+    plt.close()
+    
+    # Efficiency analysis (profit / time)
+    plt.figure(figsize=(14, 8))
+    dataset_df['efficiency'] = dataset_df['profit'] / dataset_df['execution_time_ms']
+    dataset_df = dataset_df.sort_values(by='efficiency', ascending=False)
+    ax = sns.barplot(x='algorithm', y='efficiency', data=dataset_df, 
+                    palette=sns.color_palette("viridis", len(dataset_df)))
+    
+    plt.title(f'Algorithm Efficiency for Dataset {dataset_num}', fontsize=16)
+    plt.xlabel('Algorithm', fontsize=14)
+    plt.ylabel('Efficiency (Profit/ms)', fontsize=14)
+    plt.xticks(rotation=45, ha='right')
+    
+    # Add values on top of each bar
+    for i, v in enumerate(dataset_df['efficiency']):
+        ax.text(i, v * 1.05, f'{v:.4f}', ha='center', fontsize=10)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(dataset_dir, f'dataset_{dataset_num}_efficiency.png'), dpi=300)
+    plt.close()
+    
+    # Create a simple HTML report for this dataset
+    html_path = os.path.join(dataset_dir, f'dataset_{dataset_num}_report.html')
+    
+    with open(html_path, 'w') as f:
+        f.write(f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Dataset {dataset_num} Performance Analysis</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; margin: 20px; }}
+                h1 {{ color: #2c3e50; text-align: center; }}
+                h2 {{ color: #34495e; margin-top: 30px; }}
+                .figure {{ margin: 30px 0; text-align: center; }}
+                .figure img {{ max-width: 100%; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
+                .caption {{ font-style: italic; margin-top: 10px; }}
+                table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
+                th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
+                th {{ background-color: #f2f2f2; }}
+                tr:nth-child(even) {{ background-color: #f9f9f9; }}
+            </style>
+        </head>
+        <body>
+            <h1>Dataset {dataset_num} Performance Analysis</h1>
+            
+            <h2>Summary Statistics</h2>
+            <p>This report presents the runtime performance analysis of different algorithms for dataset {dataset_num}.</p>
+            
+            <table>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Execution Time (ms)</th>
+                    <th>Profit</th>
+                    <th>Efficiency (Profit/ms)</th>
+                </tr>
+        """)
+        
+        # Add rows for each algorithm
+        for _, row in dataset_df.sort_values(by='execution_time_ms').iterrows():
+            f.write(f"""
+                <tr>
+                    <td>{row['algorithm']}</td>
+                    <td>{row['execution_time_ms']:.2f}</td>
+                    <td>{row['profit']:.1f}</td>
+                    <td>{row['efficiency']:.4f}</td>
+                </tr>
+            """)
+        
+        f.write("""
+            </table>
+            
+            <div class="figure">
+                <img src="dataset_{0}_execution_time.png" alt="Execution Time">
+                <div class="caption">Execution Time by Algorithm</div>
+            </div>
+            
+            <div class="figure">
+                <img src="dataset_{0}_execution_time_log.png" alt="Execution Time (Log Scale)">
+                <div class="caption">Execution Time by Algorithm (Log Scale)</div>
+            </div>
+            
+            <div class="figure">
+                <img src="dataset_{0}_profit.png" alt="Profit Comparison">
+                <div class="caption">Profit by Algorithm</div>
+            </div>
+            
+            <div class="figure">
+                <img src="dataset_{0}_efficiency.png" alt="Algorithm Efficiency">
+                <div class="caption">Algorithm Efficiency (Profit/ms)</div>
+            </div>
+            
+            <h2>Conclusion</h2>
+            <p>This analysis shows the performance characteristics of different knapsack algorithms on dataset {0}.
+            The optimal algorithm choice depends on the specific requirements, balancing execution time and solution quality.</p>
+            
+            <p>Generated on: {1}</p>
+        </body>
+        </html>
+        """.format(dataset_num, pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')))
+    
+    return html_path
+
 def main():
     """Main function."""
+    import argparse
+    
+    # Set up command line argument parsing
+    parser = argparse.ArgumentParser(
+        description='Generate runtime visualizations for knapsack algorithms'
+    )
+    parser.add_argument(
+        '-d', '--dataset', 
+        type=int, 
+        help='Dataset number to analyze (if omitted, analyzes all datasets)'
+    )
+    parser.add_argument(
+        '-f', '--file', 
+        type=str, 
+        help='Specific CSV file to use (if omitted, uses most recent CSV file)'
+    )
+    
+    args = parser.parse_args()
+    
     # Define paths
     project_root = Path(__file__).parent.parent
     output_dir = project_root / "performance_results"
@@ -331,36 +543,73 @@ def main():
     # Create output directory if it doesn't exist
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    # Look for CSV files in performance_results directory
-    csv_files = list(output_dir.glob("*.csv"))
+    # Determine which CSV file to use
+    if args.file:
+        csv_path = Path(args.file)
+        if not csv_path.exists():
+            print(f"Error: File {args.file} does not exist.")
+            return
+    else:
+        # Look for CSV files in performance_results directory
+        csv_files = list(output_dir.glob("*.csv"))
+        
+        if not csv_files:
+            print("No CSV files found in performance_results directory.")
+            print("Please run save_performance_data.py first to collect performance data.")
+            return
+        
+        # Use the most recent CSV file
+        csv_path = max(csv_files, key=os.path.getmtime)
     
-    if not csv_files:
-        print("No CSV files found in performance_results directory.")
-        print("Please run save_performance_data.py first to collect performance data.")
-        return
-    
-    # Use the most recent CSV file
-    latest_csv = max(csv_files, key=os.path.getmtime)
-    print(f"Using data from: {latest_csv}")
+    print(f"Using data from: {csv_path}")
     
     # Load the data
-    df = load_performance_data(latest_csv)
+    df = load_performance_data(csv_path)
     
-    # Generate plots
-    print("Generating plots...")
-    plot_execution_times_by_algorithm(df, output_dir)
-    plot_execution_times_by_dataset(df, output_dir)
-    plot_execution_time_heatmap(df, output_dir)
-    plot_algorithm_efficiency(df, output_dir)
-    plot_profit_comparison(df, output_dir)
-    
-    # Generate HTML report
-    html_path = generate_combined_report(df, output_dir)
-    
-    print("\nVisualization complete!")
-    print(f"All plots saved to: {output_dir}")
-    print(f"HTML report: {html_path}")
-    print("\nYou can open the HTML report in a web browser for a comprehensive view.")
+    # Check if we're analyzing a specific dataset or all datasets
+    if args.dataset:
+        print(f"Generating visualizations for dataset {args.dataset}...")
+        html_path = plot_single_dataset_comparison(df, args.dataset, output_dir)
+        
+        if html_path:
+            print(f"\nDataset {args.dataset} visualization complete!")
+            print(f"Report generated at: {html_path}")
+            print(f"All plots saved to: {os.path.dirname(html_path)}")
+            print("\nYou can open the HTML report in a web browser for a comprehensive view.")
+        else:
+            print(f"\nNo visualizations generated for dataset {args.dataset}.")
+    else:
+        # Generate plots for all datasets
+        print("Generating plots for all datasets...")
+        plot_execution_times_by_algorithm(df, output_dir)
+        plot_execution_times_by_dataset(df, output_dir)
+        plot_execution_time_heatmap(df, output_dir)
+        plot_algorithm_efficiency(df, output_dir)
+        plot_profit_comparison(df, output_dir)
+        
+        # Generate HTML report
+        html_path = generate_combined_report(df, output_dir)
+        
+        # Also generate individual dataset reports
+        datasets = df['dataset'].unique()
+        dataset_reports = []
+        
+        for dataset_num in datasets:
+            print(f"Generating visualizations for dataset {dataset_num}...")
+            dataset_report = plot_single_dataset_comparison(df, dataset_num, output_dir)
+            if dataset_report:
+                dataset_reports.append((dataset_num, dataset_report))
+        
+        print("\nVisualization complete!")
+        print(f"All plots saved to: {output_dir}")
+        print(f"Overall HTML report: {html_path}")
+        
+        if dataset_reports:
+            print("\nIndividual dataset reports:")
+            for dataset_num, report_path in dataset_reports:
+                print(f"  - Dataset {dataset_num}: {report_path}")
+        
+        print("\nYou can open the HTML reports in a web browser for a comprehensive view.")
 
 if __name__ == "__main__":
     main()
