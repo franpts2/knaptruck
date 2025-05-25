@@ -1,0 +1,111 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Dataset 1 Performance Analysis</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; text-align: center; }
+                h2 { color: #34495e; margin-top: 30px; }
+                .figure { margin: 30px 0; text-align: center; }
+                .figure img { max-width: 100%; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+                .caption { font-style: italic; margin-top: 10px; }
+                table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background-color: #f2f2f2; }
+                tr:nth-child(even) { background-color: #f9f9f9; }
+            </style>
+        </head>
+        <body>
+            <h1>Dataset 1 Performance Analysis</h1>
+            
+            <h2>Summary Statistics</h2>
+            <p>This report presents the runtime performance analysis of different algorithms for dataset 1.</p>
+            
+            <table>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Execution Time (ms)</th>
+                    <th>Profit</th>
+                    <th>Efficiency (Profit/ms)</th>
+                </tr>
+        
+                <tr>
+                    <td>Greedy Profit</td>
+                    <td>0.78</td>
+                    <td>595.0</td>
+                    <td>762.8205</td>
+                </tr>
+            
+                <tr>
+                    <td>Greedy Ratio</td>
+                    <td>0.86</td>
+                    <td>610.0</td>
+                    <td>709.3023</td>
+                </tr>
+            
+                <tr>
+                    <td>Greedy Maximum</td>
+                    <td>1.64</td>
+                    <td>610.0</td>
+                    <td>371.9512</td>
+                </tr>
+            
+                <tr>
+                    <td>Dynamic Programming</td>
+                    <td>2.45</td>
+                    <td>630.0</td>
+                    <td>257.1429</td>
+                </tr>
+            
+                <tr>
+                    <td>Backtracking</td>
+                    <td>3.12</td>
+                    <td>630.0</td>
+                    <td>201.9231</td>
+                </tr>
+            
+                <tr>
+                    <td>Exhaustive Search</td>
+                    <td>5.32</td>
+                    <td>630.0</td>
+                    <td>118.4211</td>
+                </tr>
+            
+                <tr>
+                    <td>Integer LP</td>
+                    <td>25.78</td>
+                    <td>630.0</td>
+                    <td>24.4375</td>
+                </tr>
+            
+            </table>
+            
+            <div class="figure">
+                <img src="dataset_1_execution_time.png" alt="Execution Time">
+                <div class="caption">Execution Time by Algorithm</div>
+            </div>
+            
+            <div class="figure">
+                <img src="dataset_1_execution_time_log.png" alt="Execution Time (Log Scale)">
+                <div class="caption">Execution Time by Algorithm (Log Scale)</div>
+            </div>
+            
+            <div class="figure">
+                <img src="dataset_1_profit.png" alt="Profit Comparison">
+                <div class="caption">Profit by Algorithm</div>
+            </div>
+            
+            <div class="figure">
+                <img src="dataset_1_efficiency.png" alt="Algorithm Efficiency">
+                <div class="caption">Algorithm Efficiency (Profit/ms)</div>
+            </div>
+            
+            <h2>Conclusion</h2>
+            <p>This analysis shows the performance characteristics of different knapsack algorithms on dataset 1.
+            The optimal algorithm choice depends on the specific requirements, balancing execution time and solution quality.</p>
+            
+            <p>Generated on: 2025-05-25 17:03:39</p>
+        </body>
+        </html>
+        
