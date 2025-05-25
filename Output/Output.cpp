@@ -186,20 +186,19 @@ void OutputCompareAllAlgorithms(const std::vector<std::string>& names, const std
     double maxTime = *std::max_element(times.begin(), times.end());
     int chartWidth = 40;
     std::cout << "\nAlgorithm Performance Comparison:\n";
-    std::cout << "-------------------------------------------------------------\n";
-    std::cout << "Algorithm           | Time (ms) | Space Complexity | Graphic\n";
-    std::cout << "-------------------------------------------------------------\n";
+    std::cout << "--------------------------------------------------------------\n";
+    std::cout << "Algorithm           | Time (ms) | Space Complexity | Accuracy \n";
+    std::cout << "--------------------------------------------------------------\n";
     for (size_t i = 0; i < names.size(); ++i) {
         int barLen = maxTime > 0 ? static_cast<int>((times[i] / maxTime) * chartWidth) : 0;
         std::cout << std::left << std::setw(20) << names[i]
                   << "| " << std::setw(9) << std::fixed << std::setprecision(3) << times[i]
                   << "| " << std::setw(17) << spaceComplexities[i]
-                  << "| " << std::setw(17) << accuracyAlgorithms[i]
+                  << "| " << std::setw(13) << accuracyAlgorithms[i]
                   << "| ";
-        for (int j = 0; j < barLen; ++j) std::cout << "#";
         std::cout << "\n";
     }
-    std::cout << "-------------------------------------------------------------\n";
+    std::cout << "--------------------------------------------------------------\n";
     std::cout << "\nPress Enter to return to the algorithms menu...";
     std::cin.ignore();
     std::cin.get();
