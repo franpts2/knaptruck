@@ -16,8 +16,7 @@ void OutputExhaustiveSolution(unsigned int pallets[], unsigned int weights[],
 {
     std::cout << "\n=========== EXHAUSTIVE SEARCH RESULTS ===========\n";
     std::cout << "Total profit: " << solution.total_profit << "\n";
-    std::cout << "Total weight: " << solution.total_weight << " / "
-              << (solution.total_weight > solution.total_profit ? "OVERLOAD!" : "OK") << "\n";
+    std::cout << "Total weight: " << solution.total_weight << "\n";
     std::cout << "Pallets used: " << solution.pallet_count << " / " << n << "\n";
     std::cout << "Execution time: " << std::fixed << std::setprecision(3) << executionTime << " ms\n\n";
 
@@ -122,8 +121,7 @@ void OutputGreedyApproximation(unsigned int pallets[], unsigned int weights[],
     std::cout << "\n========== GREEDY APPROXIMATION RESULTS ==========\n";
     std::cout << "Algorithm: " << solution.approach_name << "\n";
     std::cout << "Total profit: " << solution.total_profit << "\n";
-    std::cout << "Total weight: " << solution.total_weight << " / "
-              << (solution.total_weight > solution.total_profit ? "OVERLOAD!" : "OK") << "\n";
+    std::cout << "Total weight: " << solution.total_weight << "\n";
     std::cout << "Pallets used: " << solution.pallet_count << " / " << n << "\n";
     std::cout << "Execution time: " << std::fixed << std::setprecision(3) << executionTime << " ms\n\n";
 
