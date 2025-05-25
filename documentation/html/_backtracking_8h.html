@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Delivery Truck Pallet Packing Optimization: Approaches/Backtracking.cpp File Reference</title>
+<title>Delivery Truck Pallet Packing Optimization: Approaches/Backtracking.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_backtracking_8cpp.html',''); initResizable(true); });
+$(function(){initNavTree('_backtracking_8h.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -104,20 +104,23 @@ $(function(){initNavTree('_backtracking_8cpp.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">Backtracking.cpp File Reference</div></div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">Backtracking.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_backtracking_8h_source.html">Backtracking.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_progress_bar_8h_source.html">../Output/ProgressBar.h</a>&quot;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;climits&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-</div><table class="memberdecls">
+
+<p>Header for backtracking algorithm for 0/1 Knapsack.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;vector&gt;</code><br />
+</div>
+<p><a href="_backtracking_8h_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_b_t_sol.html">BTSol</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ab53f8374bfa1c35529bf727a0e646d7f" id="r_ab53f8374bfa1c35529bf727a0e646d7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab53f8374bfa1c35529bf727a0e646d7f">knapsackBTRec</a> (unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int curIndex, unsigned int max_weight, unsigned int curWeight, unsigned int curProfit, unsigned int curCount, std::vector&lt; bool &gt; &amp;curItems, <a class="el" href="struct_b_t_sol.html">BTSol</a> &amp;bestSolution)</td></tr>
@@ -126,19 +129,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a538b0d4ba4c23602f3142c8e9f9fcf9f" id="r_a538b0d4ba4c23602f3142c8e9f9fcf9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_b_t_sol.html">BTSol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a538b0d4ba4c23602f3142c8e9f9fcf9f">knapsackBT</a> (unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int max_weight)</td></tr>
 <tr class="memdesc:a538b0d4ba4c23602f3142c8e9f9fcf9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backtracking pallet loading algorithm.  <br /></td></tr>
 <tr class="separator:a538b0d4ba4c23602f3142c8e9f9fcf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a975f14628c350742d180ee31c633ffd1" id="r_a975f14628c350742d180ee31c633ffd1"><td class="memItemLeft" align="right" valign="top">static unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a975f14628c350742d180ee31c633ffd1">g_nodes_visited</a> = 0</td></tr>
-<tr class="separator:a975f14628c350742d180ee31c633ffd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32610097996d213d0da9646b7a11156b" id="r_a32610097996d213d0da9646b7a11156b"><td class="memItemLeft" align="right" valign="top">static unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32610097996d213d0da9646b7a11156b">g_total_nodes</a> = 0</td></tr>
-<tr class="separator:a32610097996d213d0da9646b7a11156b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ae7775812c2d3ea0518a4d855aec0a2" id="r_a1ae7775812c2d3ea0518a4d855aec0a2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_progress_bar.html">ProgressBar</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ae7775812c2d3ea0518a4d855aec0a2">g_progress</a> = nullptr</td></tr>
-<tr class="separator:a1ae7775812c2d3ea0518a4d855aec0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae76f3a47d5a80b824b4c44798718be65" id="r_ae76f3a47d5a80b824b4c44798718be65"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae76f3a47d5a80b824b4c44798718be65">g_user_cancelled</a> = false</td></tr>
-<tr class="separator:ae76f3a47d5a80b824b4c44798718be65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Header for backtracking algorithm for 0/1 Knapsack. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a538b0d4ba4c23602f3142c8e9f9fcf9f" name="a538b0d4ba4c23602f3142c8e9f9fcf9f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a538b0d4ba4c23602f3142c8e9f9fcf9f">&#9670;&#160;</a></span>knapsackBT()</h2>
 
@@ -179,6 +173,9 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_b_t_sol.html">BTSol</a> containing optimal loading </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Time Complexity: O(2^n) worst case, but typically better than exhaustive search due to pruning </dd>
+<dd>
+Space Complexity: O(n) for recursion stack and storing the solution </dd></dl>
 
 </div>
 </div>
@@ -257,95 +254,9 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a975f14628c350742d180ee31c633ffd1" name="a975f14628c350742d180ee31c633ffd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a975f14628c350742d180ee31c633ffd1">&#9670;&#160;</a></span>g_nodes_visited</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned long long g_nodes_visited = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1ae7775812c2d3ea0518a4d855aec0a2" name="a1ae7775812c2d3ea0518a4d855aec0a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ae7775812c2d3ea0518a4d855aec0a2">&#9670;&#160;</a></span>g_progress</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_progress_bar.html">ProgressBar</a>* g_progress = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a32610097996d213d0da9646b7a11156b" name="a32610097996d213d0da9646b7a11156b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32610097996d213d0da9646b7a11156b">&#9670;&#160;</a></span>g_total_nodes</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned long long g_total_nodes = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae76f3a47d5a80b824b4c44798718be65" name="ae76f3a47d5a80b824b4c44798718be65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae76f3a47d5a80b824b4c44798718be65">&#9670;&#160;</a></span>g_user_cancelled</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool g_user_cancelled = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<dl class="section note"><dt>Note</dt><dd>Time Complexity: O(2^n) worst case, but typically better than exhaustive search due to pruning </dd>
+<dd>
+Space Complexity: O(n) for recursion stack and storing the solution </dd></dl>
 
 </div>
 </div>
@@ -354,7 +265,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_95df1604948e2188e50e9dd6c6e894eb.html">Approaches</a></li><li class="navelem"><a class="el" href="_backtracking_8cpp.html">Backtracking.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_95df1604948e2188e50e9dd6c6e894eb.html">Approaches</a></li><li class="navelem"><a class="el" href="_backtracking_8h.html">Backtracking.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

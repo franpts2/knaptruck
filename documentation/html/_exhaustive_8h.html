@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Delivery Truck Pallet Packing Optimization: Approaches/Backtracking.h File Reference</title>
+<title>Delivery Truck Pallet Packing Optimization: Approaches/Exhaustive.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_backtracking_8h.html',''); initResizable(true); });
+$(function(){initNavTree('_exhaustive_8h.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -106,41 +106,38 @@ $(function(){initNavTree('_backtracking_8h.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">Backtracking.h File Reference</div></div>
+  <div class="headertitle"><div class="title">Exhaustive.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Header for backtracking algorithm for 0/1 Knapsack.  
+<p>Header for brute-force approach for 0/1 Knapsack.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;vector&gt;</code><br />
 </div>
-<p><a href="_backtracking_8h_source.html">Go to the source code of this file.</a></p>
+<p><a href="_exhaustive_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_b_t_sol.html">BTSol</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_b_f_sol.html">BFSol</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab53f8374bfa1c35529bf727a0e646d7f" id="r_ab53f8374bfa1c35529bf727a0e646d7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab53f8374bfa1c35529bf727a0e646d7f">knapsackBTRec</a> (unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int curIndex, unsigned int max_weight, unsigned int curWeight, unsigned int curProfit, unsigned int curCount, std::vector&lt; bool &gt; &amp;curItems, <a class="el" href="struct_b_t_sol.html">BTSol</a> &amp;bestSolution)</td></tr>
-<tr class="memdesc:ab53f8374bfa1c35529bf727a0e646d7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function for backtracking algorithm.  <br /></td></tr>
-<tr class="separator:ab53f8374bfa1c35529bf727a0e646d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a538b0d4ba4c23602f3142c8e9f9fcf9f" id="r_a538b0d4ba4c23602f3142c8e9f9fcf9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_b_t_sol.html">BTSol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a538b0d4ba4c23602f3142c8e9f9fcf9f">knapsackBT</a> (unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int max_weight)</td></tr>
-<tr class="memdesc:a538b0d4ba4c23602f3142c8e9f9fcf9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Backtracking pallet loading algorithm.  <br /></td></tr>
-<tr class="separator:a538b0d4ba4c23602f3142c8e9f9fcf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54bbf310e2c732092f4058b8f6ec31be" id="r_a54bbf310e2c732092f4058b8f6ec31be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_b_f_sol.html">BFSol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54bbf310e2c732092f4058b8f6ec31be">knapsackBF</a> (unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int max_weight)</td></tr>
+<tr class="memdesc:a54bbf310e2c732092f4058b8f6ec31be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brute-force pallet loading algorithm.  <br /></td></tr>
+<tr class="separator:a54bbf310e2c732092f4058b8f6ec31be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Header for backtracking algorithm for 0/1 Knapsack. </p>
+<div class="textblock"><p>Header for brute-force approach for 0/1 Knapsack. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a538b0d4ba4c23602f3142c8e9f9fcf9f" name="a538b0d4ba4c23602f3142c8e9f9fcf9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a538b0d4ba4c23602f3142c8e9f9fcf9f">&#9670;&#160;</a></span>knapsackBT()</h2>
+<a id="a54bbf310e2c732092f4058b8f6ec31be" name="a54bbf310e2c732092f4058b8f6ec31be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54bbf310e2c732092f4058b8f6ec31be">&#9670;&#160;</a></span>knapsackBF()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_b_t_sol.html">BTSol</a> knapsackBT </td>
+          <td class="memname"><a class="el" href="struct_b_f_sol.html">BFSol</a> knapsackBF </td>
           <td>(</td>
           <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>profits</em></span>[], </td>
         </tr>
@@ -162,7 +159,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Backtracking pallet loading algorithm. </p>
+<p>Brute-force pallet loading algorithm. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">profits</td><td>Array of profit values for each pallet </td></tr>
@@ -172,85 +169,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_b_t_sol.html">BTSol</a> containing optimal loading </dd></dl>
-
-</div>
-</div>
-<a id="ab53f8374bfa1c35529bf727a0e646d7f" name="ab53f8374bfa1c35529bf727a0e646d7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab53f8374bfa1c35529bf727a0e646d7f">&#9670;&#160;</a></span>knapsackBTRec()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void knapsackBTRec </td>
-          <td>(</td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>profits</em></span>[], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>weights</em></span>[], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>curIndex</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>max_weight</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>curWeight</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>curProfit</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>curCount</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; bool &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>curItems</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_b_t_sol.html">BTSol</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>bestSolution</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Helper function for backtracking algorithm. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">profits</td><td>Array of profit values for each pallet </td></tr>
-    <tr><td class="paramname">weights</td><td>Array of weight values for each pallet </td></tr>
-    <tr><td class="paramname">n</td><td>Number of pallets </td></tr>
-    <tr><td class="paramname">curIndex</td><td>Current index of pallet being considered </td></tr>
-    <tr><td class="paramname">max_weight</td><td>Maximum weight capacity of truck </td></tr>
-    <tr><td class="paramname">curWeight</td><td>Current accumulated weight </td></tr>
-    <tr><td class="paramname">curProfit</td><td>Current accumulated profit </td></tr>
-    <tr><td class="paramname">curCount</td><td>Current count of pallets </td></tr>
-    <tr><td class="paramname">curItems</td><td>Current selection of pallets </td></tr>
-    <tr><td class="paramname">bestSolution</td><td>Reference to the best solution found </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_b_f_sol.html">BFSol</a> containing optimal loading </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>When multiple solutions have the same profit, solutions with fewer pallets are preferred. If pallet counts are equal, solutions with pallets having lower indices are prioritized. </dd>
+<dd>
+Time Complexity: O(2^n) where n is the number of pallets </dd>
+<dd>
+Space Complexity: O(n) for storing the solution </dd></dl>
 
 </div>
 </div>
@@ -259,7 +183,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_95df1604948e2188e50e9dd6c6e894eb.html">Approaches</a></li><li class="navelem"><a class="el" href="_backtracking_8h.html">Backtracking.h</a></li>
+    <li class="navelem"><a class="el" href="dir_95df1604948e2188e50e9dd6c6e894eb.html">Approaches</a></li><li class="navelem"><a class="el" href="_exhaustive_8h.html">Exhaustive.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Delivery Truck Pallet Packing Optimization: Approaches/DynamicProgramming.h Source File</title>
+<title>Delivery Truck Pallet Packing Optimization: Approaches/Exhaustive.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -77,7 +77,7 @@ $(function() { codefold.init(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('_dynamic_programming_8h_source.html',''); initResizable(true); });
+$(function(){initNavTree('_exhaustive_8cpp.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -103,26 +103,80 @@ $(function(){initNavTree('_dynamic_programming_8h_source.html',''); initResizabl
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">DynamicProgramming.h</div></div>
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">Exhaustive.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="_dynamic_programming_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef DYNAMICPROGRAMMING_H</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define DYNAMICPROGRAMMING_H</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code hl_function" href="_dynamic_programming_8h.html#a51a7f62ac77067675424a3d2f967d7f9">knapsackDP</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> profits[], <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> weights[], <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> capacity, <span class="keywordtype">bool</span> usedItems[]);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif </span><span class="comment">// DYNAMICPROGRAMMING_H</span></div>
-<div class="ttc" id="a_dynamic_programming_8h_html_a51a7f62ac77067675424a3d2f967d7f9"><div class="ttname"><a href="_dynamic_programming_8h.html#a51a7f62ac77067675424a3d2f967d7f9">knapsackDP</a></div><div class="ttdeci">unsigned int knapsackDP(unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int capacity, bool usedItems[])</div><div class="ttdoc">Dynamic programming solution for the 0/1 Knapsack problem.</div><div class="ttdef"><b>Definition</b> DynamicProgramming.cpp:6</div></div>
-</div><!-- fragment --></div><!-- contents -->
+<div class="textblock"><code>#include &quot;<a class="el" href="_exhaustive_8h_source.html">Exhaustive.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_progress_bar_8h_source.html">../Output/ProgressBar.h</a>&quot;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;climits&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a54bbf310e2c732092f4058b8f6ec31be" id="r_a54bbf310e2c732092f4058b8f6ec31be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_b_f_sol.html">BFSol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54bbf310e2c732092f4058b8f6ec31be">knapsackBF</a> (unsigned int profits[], unsigned int weights[], unsigned int n, unsigned int max_weight)</td></tr>
+<tr class="memdesc:a54bbf310e2c732092f4058b8f6ec31be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Brute-force pallet loading algorithm.  <br /></td></tr>
+<tr class="separator:a54bbf310e2c732092f4058b8f6ec31be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a54bbf310e2c732092f4058b8f6ec31be" name="a54bbf310e2c732092f4058b8f6ec31be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54bbf310e2c732092f4058b8f6ec31be">&#9670;&#160;</a></span>knapsackBF()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_b_f_sol.html">BFSol</a> knapsackBF </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>profits</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>weights</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>max_weight</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Brute-force pallet loading algorithm. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">profits</td><td>Array of profit values for each pallet </td></tr>
+    <tr><td class="paramname">weights</td><td>Array of weight values for each pallet </td></tr>
+    <tr><td class="paramname">n</td><td>Number of pallets </td></tr>
+    <tr><td class="paramname">max_weight</td><td>Maximum weight capacity of truck </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_b_f_sol.html">BFSol</a> containing optimal loading </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>When multiple solutions have the same profit, solutions with fewer pallets are preferred. If pallet counts are equal, solutions with pallets having lower indices are prioritized. </dd>
+<dd>
+Time Complexity: O(2^n) where n is the number of pallets </dd>
+<dd>
+Space Complexity: O(n) for storing the solution </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_95df1604948e2188e50e9dd6c6e894eb.html">Approaches</a></li><li class="navelem"><a class="el" href="_dynamic_programming_8h.html">DynamicProgramming.h</a></li>
+    <li class="navelem"><a class="el" href="dir_95df1604948e2188e50e9dd6c6e894eb.html">Approaches</a></li><li class="navelem"><a class="el" href="_exhaustive_8cpp.html">Exhaustive.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

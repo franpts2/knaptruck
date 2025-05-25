@@ -177,7 +177,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_greedy_sol.html">GreedySol</a> containing the better solution </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>When comparing solutions, the function prioritizes higher total profit. If profits are equal, it selects the solution with fewer pallets. If pallet counts are also equal, it chooses the solution with lower total weight. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>When comparing solutions, the function prioritizes higher total profit. If profits are equal, it selects the solution with fewer pallets. If pallet counts are also equal, it chooses the solution with lower total weight. </dd>
+<dd>
+Time Complexity: O(n log n) for each greedy approach = O(n log n) </dd>
+<dd>
+Space Complexity: O(n) for storing solutions </dd></dl>
 
 </div>
 </div>
@@ -221,6 +225,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_greedy_sol.html">GreedySol</a> containing the solution </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Time Complexity: O(n log n) for sorting + O(n) for selection = O(n log n) </dd>
+<dd>
+Space Complexity: O(n) for storing pairs and solution </dd></dl>
 
 </div>
 </div>
@@ -264,6 +271,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_greedy_sol.html">GreedySol</a> containing the solution </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Time Complexity: O(n log n) for sorting + O(n) for selection = O(n log n) </dd>
+<dd>
+Space Complexity: O(n) for storing the ratios and solution </dd></dl>
 
 </div>
 </div>
