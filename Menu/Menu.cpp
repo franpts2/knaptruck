@@ -520,10 +520,21 @@ void optionIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
 
     // Run Python script
     auto start = std::chrono::high_resolution_clock::now();
-    int ret = system("python ../Approaches/knapsack_solver.py input.txt output.txt");
+    // Try running with python3
+    // First try with the script in the current directory, then try with the script in the Approaches directory
+    int ret = system("python3 knapsack_solver.py input.txt output.txt || "
+                    "python3 ../Approaches/knapsack_solver.py input.txt output.txt");
     if (ret != 0)
     {
         std::cerr << "Failed to run ILP solver.\n";
+        std::cerr << "Make sure you have Python 3 and PuLP installed globally.\n";
+        std::cerr << "Try running this command in your terminal:\n";
+        std::cerr << "  pip3 install pulp\n";
+        std::cerr << "  # or on some systems:\n";
+        std::cerr << "  pip install pulp\n\n";
+        std::cerr << "Press Enter to return to the algorithms menu...\n";
+        std::cin.ignore();
+        std::cin.get();
         return;
     }
     auto end = std::chrono::high_resolution_clock::now();
