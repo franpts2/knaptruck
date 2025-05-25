@@ -182,7 +182,7 @@ void OutputIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
     std::cin.get();
 }
 
-void OutputCompareAllAlgorithms(const std::vector<std::string>& names, const std::vector<double>& times, const std::vector<std::string>& spaceComplexities) {
+void OutputCompareAllAlgorithms(const std::vector<std::string>& names, const std::vector<double>& times, const std::vector<std::string>& spaceComplexities, const std::vector<std::string>& accuracyAlgorithms) {
     double maxTime = *std::max_element(times.begin(), times.end());
     int chartWidth = 40;
     std::cout << "\nAlgorithm Performance Comparison:\n";
@@ -194,6 +194,7 @@ void OutputCompareAllAlgorithms(const std::vector<std::string>& names, const std
         std::cout << std::left << std::setw(20) << names[i]
                   << "| " << std::setw(9) << std::fixed << std::setprecision(3) << times[i]
                   << "| " << std::setw(17) << spaceComplexities[i]
+                  << "| " << std::setw(17) << accuracyAlgorithms[i]
                   << "| ";
         for (int j = 0; j < barLen; ++j) std::cout << "#";
         std::cout << "\n";

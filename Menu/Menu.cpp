@@ -663,6 +663,15 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     spaceComplexities.push_back("O(n log n)");  // Greedy Maximum
     spaceComplexities.push_back("Depends");     // Integer LP
 
+    std::vector<std::string> accuracyAlgorithms;
+    spaceComplexities.push_back("Optimal");      // Exhaustive Search
+    spaceComplexities.push_back("Optimal");       // Dynamic Programming
+    spaceComplexities.push_back("Optimal");      // Backtracking
+    spaceComplexities.push_back("Not Optimal");  // Greedy Ratio
+    spaceComplexities.push_back("Not Optimal");  // Greedy Profit
+    spaceComplexities.push_back("Not Optimal");  // Greedy Maximum
+    spaceComplexities.push_back("Optimal");     // Integer LP
+
     std::vector<double> runningTimes;
 
     // 1. Exhaustive Search
@@ -738,6 +747,6 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-    OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities);
+    OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities, accuracyAlgorithms);
 }
 

@@ -88,6 +88,6 @@ void OutputIntegerLinearProgramming(unsigned int pallets[], unsigned int weights
                             unsigned int profits[], unsigned int n,
                             unsigned int capacity, int totalProfit, int totalWeight,
                             const std::vector<int>& selectedIndices, double executionTime);
-void OutputCompareAllAlgorithms(const std::vector<std::string>& names, const std::vector<double>& times, const std::vector<std::string>& spaceComplexities);
 
+void OutputCompareAllAlgorithms(const std::vector<std::string>& names, const std::vector<double>& times, const std::vector<std::string>& spaceComplexities, const std::vector<std::string>& accuracyAlgorithms);
 #endif // OUTPUT_H
