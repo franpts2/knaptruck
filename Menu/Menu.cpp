@@ -754,12 +754,14 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     accuracyAlgorithms.push_back("Optimal");      // Integer LP
 
     std::vector<double> runningTimes;
+    std::vector<unsigned int> finalProfits;  // New vector to store profit values
 
     // 1. Exhaustive Search
     auto start = std::chrono::high_resolution_clock::now();
     BFSol bfSol = knapsackBF(profits, weights, n, capacity);
     auto end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    finalProfits.push_back(bfSol.total_profit);  // Store profit
 
     // 2. Dynamic Programming
     start = std::chrono::high_resolution_clock::now();
@@ -767,6 +769,7 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     unsigned int dpProfit = knapsackDP(profits, weights, n, capacity, usedItems);
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    finalProfits.push_back(dpProfit);  // Store profit
     delete[] usedItems;
 
     // 3. Backtracking
@@ -774,16 +777,18 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     BTSol btSol = knapsackBT(profits, weights, n, capacity);
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    finalProfits.push_back(btSol.total_profit);  // Store profit
 
     // 4. Greedy Ratio
     start = std::chrono::high_resolution_clock::now();
+    GreedySol grSol;
     {
         // Redirect stdout and stderr to /dev/null
         std::ofstream nullStream("/dev/null");
         std::streambuf *originalCoutBuffer = std::cout.rdbuf(nullStream.rdbuf());
         std::streambuf *originalCerrBuffer = std::cerr.rdbuf(nullStream.rdbuf());
 
-        GreedySol grSol = knapsackGreedyRatio(profits, weights, n, capacity);
+        grSol = knapsackGreedyRatio(profits, weights, n, capacity);
 
         // Restore stdout and stderr
         std::cout.rdbuf(originalCoutBuffer);
@@ -791,16 +796,18 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     }
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    finalProfits.push_back(grSol.total_profit);  // Store profit
 
     // 5. Greedy Profit
     start = std::chrono::high_resolution_clock::now();
+    GreedySol gpSol;
     {
         // Redirect stdout and stderr to /dev/null
         std::ofstream nullStream("/dev/null");
         std::streambuf *originalCoutBuffer = std::cout.rdbuf(nullStream.rdbuf());
         std::streambuf *originalCerrBuffer = std::cerr.rdbuf(nullStream.rdbuf());
 
-        GreedySol gpSol = knapsackGreedyProfit(profits, weights, n, capacity);
+        gpSol = knapsackGreedyProfit(profits, weights, n, capacity);
 
         // Restore stdout and stderr
         std::cout.rdbuf(originalCoutBuffer);
@@ -808,12 +815,14 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     }
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    finalProfits.push_back(gpSol.total_profit);  // Store profit
 
     // 6. Greedy Maximum
     start = std::chrono::high_resolution_clock::now();
     GreedySol gmSol = knapsackGreedyMaximum(profits, weights, n, capacity);
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    finalProfits.push_back(gmSol.total_profit);  // Store profit
 
     // 7. Integer Linear Programming (calls external Python script)
     start = std::chrono::high_resolution_clock::now();
@@ -824,9 +833,23 @@ void optionCompareAllAlgorithms(unsigned int pallets[], unsigned int weights[],
     inputFile << "\n";
     for (unsigned int i = 0; i < n; i++) inputFile << profits[i] << " ";
     inputFile.close();
-    int ret = system("python ../Approaches/knapsack_solver.py > /dev/null 2>&1");
+    int ret = system("python ../Approaches/knapsack_solver.py input.txt output.txt > /dev/null 2>&1");
+    
+    // Read the profit from output.txt file
+    unsigned int ilpProfit = 0;
+    std::ifstream outputFile("output.txt");
+    if (outputFile.is_open()) {
+        std::string line;
+        if (std::getline(outputFile, line)) {
+            ilpProfit = std::stoi(line);
+        }
+        outputFile.close();
+    }
+    
     end = std::chrono::high_resolution_clock::now();
     runningTimes.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+    finalProfits.push_back(ilpProfit);  // Store profit
 
-    OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities, accuracyAlgorithms);
+    OutputCompareAllAlgorithms(algoNames, runningTimes, spaceComplexities, accuracyAlgorithms, finalProfits);
 }
+
