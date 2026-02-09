@@ -1,4 +1,4 @@
-# Delivery Truck Pallet Packing Optimization
+# KnapTruck - Delivery Truck Pallet Packing Optimization
 
 This repository contains implementations and experiments for solving a packing/knapsack-style problem (truck and pallets) using several algorithmic approaches. The project is implemented primarily in C++ with helper Python scripts and includes multiple algorithmic strategies for comparison.
 
